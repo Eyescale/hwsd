@@ -1,4 +1,6 @@
 
+# Copyright (c) 2011-2012 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
+
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(gpusd)
 
@@ -8,6 +10,7 @@ list(APPEND CMAKE_PREFIX_PATH ${SystemDrive}:/cygwin/bin)
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "1")
+
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
 enable_testing()
