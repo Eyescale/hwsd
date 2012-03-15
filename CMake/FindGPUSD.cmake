@@ -137,59 +137,38 @@ if(GPUSD_FIND_VERSION AND GPUSD_VERSION)
   endif()
 endif()
 
-# Source include
+# include
 set(GPUSD_INCLUDE_DIRS ${_gpusd_INCLUDE_DIR})
-if("${_gpusd_INCLUDE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}/gpu-sd/libs")
-  set(GPUSD_LOCAL TRUE CACHE BOOL "Local GPU-SD source code")
-  list(APPEND GPUSD_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/gpu-sd/libs)
-endif()
 
 # components
 set(_gpusd_COMPONENTS cgl glx wgl dns_sd)
 
-if(GPUSD_LOCAL)
-  set(GPUSD_core_LIBRARY gpusd CACHE STRING "GPUSD core library CMake target"
-    FORCE)
-  set(GPUSD_LIBRARIES ${GPUSD_core_LIBRARY})
-  set(GPUSD_COMPONENTS core) # reset in epic_fail
-  foreach(_gpusd_COMPONENT ${_gpusd_COMPONENTS})
-    if(TARGET gpusd_${_gpusd_COMPONENT})
-      set(_gpusd_lib GPUSD_${_gpusd_COMPONENT}_LIBRARY)
-      set(GPUSD_${_gpusd_COMPONENT}_FOUND TRUE)
-      set(${_gpusd_lib} gpusd_${_gpusd_COMPONENT} CACHE STRING
-        "GPUSD ${_gpusd_COMPONENT} library CMake target" FORCE)
-      list(APPEND GPUSD_LIBRARIES ${${_gpusd_lib}})
-      list(APPEND GPUSD_COMPONENTS ${_gpusd_COMPONENT})
-    endif()
-  endforeach()
-else()
-  #  core
-  find_library(GPUSD_core_LIBRARY gpusd
+#  core
+find_library(GPUSD_core_LIBRARY gpusd
+  HINTS ${CMAKE_SOURCE_DIR}/gpusd/${CMAKE_BUILD_TYPE}/install
+  $ENV{GPUSD_ROOT} ${GPUSD_ROOT} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+  PATH_SUFFIXES lib PATHS /usr /usr/local /opt/local /opt)
+set(GPUSD_LIBRARIES ${GPUSD_core_LIBRARY})
+set(GPUSD_COMPONENTS core) # reset in epic_fail
+
+#  others
+foreach(_gpusd_COMPONENT ${_gpusd_COMPONENTS})
+  set(_gpusd_lib GPUSD_${_gpusd_COMPONENT}_LIBRARY)
+  find_library(${_gpusd_lib} gpusd_${_gpusd_COMPONENT}
     HINTS ${CMAKE_SOURCE_DIR}/gpusd/${CMAKE_BUILD_TYPE}/install
     $ENV{GPUSD_ROOT} ${GPUSD_ROOT} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     PATH_SUFFIXES lib PATHS /usr /usr/local /opt/local /opt)
-  set(GPUSD_LIBRARIES ${GPUSD_core_LIBRARY})
-  set(GPUSD_COMPONENTS core) # reset in epic_fail
 
-  #  others
-  foreach(_gpusd_COMPONENT ${_gpusd_COMPONENTS})
-    set(_gpusd_lib GPUSD_${_gpusd_COMPONENT}_LIBRARY)
-    find_library(${_gpusd_lib} gpusd_${_gpusd_COMPONENT}
-      HINTS ${CMAKE_SOURCE_DIR}/gpusd/${CMAKE_BUILD_TYPE}/install
-      $ENV{GPUSD_ROOT} ${GPUSD_ROOT} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-      PATH_SUFFIXES lib PATHS /usr /usr/local /opt/local /opt)
-
-    if(${_gpusd_lib} MATCHES "${_gpusd_lib}-NOTFOUND")
-      if(GPUSD_FIND_COMPONENTS MATCHES ${_gpusd_COMPONENT})
-        message(${_gpusd_version_output_type} "${_gpusd_lib} not found")
-      endif()
-    else()
-      set(GPUSD_${_gpusd_COMPONENT}_FOUND TRUE)
-      list(APPEND GPUSD_LIBRARIES ${${_gpusd_lib}})
-      list(APPEND GPUSD_COMPONENTS ${_gpusd_COMPONENT})
+  if(${_gpusd_lib} MATCHES "${_gpusd_lib}-NOTFOUND")
+    if(GPUSD_FIND_COMPONENTS MATCHES ${_gpusd_COMPONENT})
+      message(${_gpusd_version_output_type} "${_gpusd_lib} not found")
     endif()
-  endforeach()
-endif()
+  else()
+    set(GPUSD_${_gpusd_COMPONENT}_FOUND TRUE)
+    list(APPEND GPUSD_LIBRARIES ${${_gpusd_lib}})
+    list(APPEND GPUSD_COMPONENTS ${_gpusd_COMPONENT})
+  endif()
+endforeach()
 
 # Inform the users with an error message based on what version they
 # have vs. what version was required.
