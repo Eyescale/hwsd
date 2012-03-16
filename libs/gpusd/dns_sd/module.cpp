@@ -209,11 +209,13 @@ GPUInfos Module::discoverGPUs_() const
     hosts.push_back( name );
     hosts.push_back( name + ".local." );
 
+#  ifndef _MSC_VER
     if( getdomainname( domainname, 256 ) == 0 )
     {
         hosts.push_back( name + dot + domainname );
         hosts.push_back( name + dot + domainname + dot );
     }
+#  endif
 #endif
 
     const GPUInfosIter localEnd = infos[1].end();
