@@ -16,9 +16,11 @@ else()
 endif()
 
 if(APPLE)
-  set(CPACK_PACKAGE_VENDOR "www.eyescale.ch") # PackageMaker doesn't like http://
+  # PackageMaker doesn't like http://
+  set(CPACK_PACKAGE_VENDOR "www.eyescale.ch")
 else()
-  set(CPACK_PACKAGE_VENDOR "http://www.eyescale.ch") # deb lintian insists on URL
+  # deb lintian insists on URL
+  set(CPACK_PACKAGE_VENDOR "http://www.eyescale.ch")
 endif()
 
 set(CPACK_PACKAGE_CONTACT "Stefan Eilemann <eile@eyescale.ch>")

@@ -1,10 +1,8 @@
-GPU-SD - a daemon and library for the discovery and announcement of
-graphics processing units using ZeroConf.
+GPU-SD - a daemon and library for the discovery and announcement of graphics processing units using ZeroConf.
 
-The GPU-SD libraries are licensed under the LGPL and the applications
-under the GPL, unless noted otherwise. See files doc/LGPL.txt and
-doc/GPL.txt for the full license.
-Copyright (C) 2011, Stefan Eilemann <eile@eyescale.ch>
+The GPU-SD libraries are licensed under the LGPL and the applications under the GPL, unless noted otherwise. See files doc/LGPL.txt anddoc/GPL.txt for the full license.
+
+Copyright (C) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
 
 ---------------------------------------------------------------------------
 
