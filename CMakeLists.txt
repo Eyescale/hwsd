@@ -61,6 +61,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+  set(LINUX 1)
   add_definitions(-fPIC) # 64bit Linux wants this
 endif()
 
