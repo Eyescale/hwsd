@@ -19,7 +19,7 @@ set(INCLUDE include/gpusd/glx)
 
 source_group(\\ FILES CMakeLists.txt ${HEADERS} ${SOURCES})
 add_library(${LIBRARY} SHARED ${HEADERS} ${SOURCES})
-target_link_libraries(${LIBRARY} ${OPENGL_LIBRARIES} ${X11_LIBRARIES} gpusd)
+target_link_libraries(${LIBRARY} ${OPENGL_gl_LIBRARY} ${X11_LIBRARIES} gpusd)
 set_target_properties(${LIBRARY} PROPERTIES VERSION ${VERSION}
   SOVERSION ${VERSION_MAJOR} PUBLIC_HEADER "${HEADERS}"
   COMPILE_DEFINITIONS "GPUSD_SHARED")
