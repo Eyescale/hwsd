@@ -1,8 +1,8 @@
 
-configure_file("version.in.h" "${CMAKE_CURRENT_BINARY_DIR}/version.h" @ONLY)
+configure_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/gpusd/version.h" @ONLY)
 
 set(HEADERS
-  "${CMAKE_CURRENT_BINARY_DIR}/version.h"
+  "${OUTPUT_INCLUDE_DIR}/gpusd/version.h"
   api.h
   filter.h
   module.h
