@@ -106,6 +106,9 @@ static void createTXTRecord( TXTRecordRef& record, const GPUInfos& gpus,
             setTXTRecordValue( record, index, "Width", info.pvp[2] );
             setTXTRecordValue( record, index, "Height", info.pvp[3] );
         }
+
+        if( info.flags != 0 )
+            setTXTRecordValue( record, index, "Flags", info.flags );
     }
 }
 

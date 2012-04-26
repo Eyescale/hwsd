@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch> 
+/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch> 
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -31,10 +31,19 @@ namespace gpusd
         /** A non-enumerated port or device. @version 1.0 */
         static const unsigned defaultValue = UINT_MAX;
 
+        /** GLX extension present. @version 1.1.2 */
+        static const unsigned FLAG_GLX = 0x1;
+
+        /** Process runs under VirtualGL. @version 1.1.2 */
+        static const unsigned FLAG_VIRTUALGL = 0x2;
+
+        /** VirtualGL redirect GPU. @version 1.1.2 */
+        static const unsigned FLAG_VIRTUALGL_DISPLAY = 0x4;
+
         /** Default constructor pointing to the default display. @version 1.0 */
         GPUInfo()
                 : type( 0 ), port( defaultValue ), device( defaultValue )
-                , session( "local" )
+                , session( "local" ), flags( 0 )
             { invalidatePVP(); }
 
         /**
@@ -48,7 +57,7 @@ namespace gpusd
          */
         GPUInfo( const std::string& name )
                 : type( 0 ), port( defaultValue ), device( defaultValue )
-                , session( "local" )
+                , session( "local" ), flags( 0 )
             {
                 invalidatePVP();
                 strncpy( reinterpret_cast< char* >( &type ), name.c_str(), 4 );
@@ -105,7 +114,9 @@ namespace gpusd
         std::string hostname; //!< remote system  hostname, empty for local GPUs
         std::string session; //!< session name: local, default or custom string
 
-        char dummy[32]; //!< Buffer for binary-compatible additions
+        unsigned flags; //!< bitmask of additional GPU capabilities
+        unsigned unused; //!< @internal
+        char dummy[24]; //!< Buffer for binary-compatible additions
     };
 
     inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )
@@ -123,6 +134,11 @@ namespace gpusd
         if( info.pvp[2] >0 && info.pvp[3] > 0 )
             os << "viewport [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
                << info.pvp[2] << ' ' << info.pvp[3] << ']' << std::endl;
+        if( info.flags != 0 )
+            os << "flags    " << (info.flags&GPUInfo::FLAG_GLX ? "GLX " : "")
+               << (info.flags&GPUInfo::FLAG_VIRTUALGL ? "VirtualGL" : "")
+               << (info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY ? "Display" : "")
+               << std::endl;
         return os;
     }
 }

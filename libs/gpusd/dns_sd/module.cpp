@@ -124,6 +124,7 @@ static void resolveCallback( DNSServiceRef service, DNSServiceFlags flags,
         getTXTRecordValue( txtLen, txt, gpu + "Y", info.pvp[1] );
         getTXTRecordValue( txtLen, txt, gpu + "Width", info.pvp[2] );
         getTXTRecordValue( txtLen, txt, gpu + "Height", info.pvp[3] );
+        getTXTRecordValue( txtLen, txt, gpu + "Flags", info.flags );
         result->push_back( info );
     }
 }

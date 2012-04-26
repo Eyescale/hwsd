@@ -55,6 +55,29 @@ static bool getGPUInfo_( Display* display, GPUInfo& info )
     info.pvp[2] = DisplayWidth(  display, DefaultScreen( display ));
     info.pvp[3] = DisplayHeight( display, DefaultScreen( display ));
     
+    int major, event, error;
+    if( XQueryExtension( display, "GLX", &major, &event, &error ))
+    {
+        info.flags |= GPUInfo::FLAG_GLX;
+
+        const char* vendor = glXGetClientString( display, GLX_VENDOR );
+        if( vendor && std::string( vendor ) == "VirtualGL" )
+        {
+            info.flags |= GPUInfo::FLAG_VIRTUALGL;
+            const char* vglDisplay = getenv( "VGL_DISPLAY" );
+            if( vglDisplay )
+            {
+                if( std::string( vglDisplay ) == DisplayString( display ))
+                    info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
+            }
+            else
+            {
+                if( std::string( DisplayString( display )) == ":0.0" )
+                    info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
+            }
+        }
+    }
+
     return true;
 }
 
@@ -95,8 +118,7 @@ GPUInfos Module::discoverGPUs_() const
         const std::string display( displayEnv );
         if( queryDisplay_( display, defaultInfo ))
         {
-            if( display[0] != ':' && 
-                display[0] != '/' /* OS X launchd DISPLAY */ )
+            if( display[0] != ':' && display[0] != '/' /* OS X launchd */ )
             {
                 defaultInfo.port = GPUInfo::defaultValue;
                 defaultInfo.device = GPUInfo::defaultValue;

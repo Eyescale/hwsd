@@ -22,6 +22,13 @@ available are:
 - WGL: Local discovery of WGL_NV_gpu_affinity, WGL_AMD_gpu_association
   or Windows displays (Windows only)
 
+### VirtualGL
+
+When an application is run through vglrun, gpu-sd detects this and
+reports data on the local, redirect GPU instead of the remote GPU. This
+is only implemented for GLX so far
+([more info](https://github.com/Eyescale/Equalizer/issues/67)).
+
 ## Daemon
 
 The daemon uses all available local modules to query local GPUs and
