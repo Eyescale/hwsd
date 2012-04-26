@@ -4,6 +4,18 @@
 BUILD ?= debug
 CMAKE ?= cmake
 
+ifeq ($(wildcard Makefile), Makefile)
+all:
+	@$(MAKE) -f Makefile $(MAKECMDGOALS)
+
+clean:
+	@$(MAKE) -f Makefile $(MAKECMDGOALS)
+
+.DEFAULT:
+	@$(MAKE) -f Makefile $(MAKECMDGOALS)
+
+else
+
 all: $(BUILD)
 clobber:
 	rm -rf debug release
@@ -35,3 +47,5 @@ package: release/Makefile
 
 tests: debug/Makefile
 	@$(MAKE) -C debug tests
+
+endif
