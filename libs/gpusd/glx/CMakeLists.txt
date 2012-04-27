@@ -14,6 +14,11 @@ find_package(OpenGL REQUIRED)
 find_package(X11 REQUIRED)
 include_directories(SYSTEM ${X11_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} /usr/X11R6/include)
 
+if(APPLE) # reset OpenGL to X11 version
+  get_filename_component(X11DIR "${X11_X11_LIB}" PATH)
+  set(OPENGL_gl_LIBRARY ${X11DIR}/libGL.dylib)
+endif()
+
 set(LIBRARY gpusd_glx)
 set(INCLUDE include/gpusd/glx)
 
