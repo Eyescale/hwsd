@@ -38,7 +38,8 @@ Module* instance = 0;
 
 static bool getGPUInfo_( Display* display, GPUInfo& info )
 {
-    if( !display )
+    int major, event, error;
+    if( !display || !XQueryExtension( display, "GLX", &major, &event, &error ))
         return false;
 
     std::string displayString = DisplayString( display );
@@ -55,27 +56,14 @@ static bool getGPUInfo_( Display* display, GPUInfo& info )
     info.pvp[2] = DisplayWidth(  display, DefaultScreen( display ));
     info.pvp[3] = DisplayHeight( display, DefaultScreen( display ));
     
-    int major, event, error;
-    if( XQueryExtension( display, "GLX", &major, &event, &error ))
+    const char* vendor = glXGetClientString( display, GLX_VENDOR );
+    if( vendor && std::string( vendor ) == "VirtualGL" )
     {
-        info.flags |= GPUInfo::FLAG_GLX;
-
-        const char* vendor = glXGetClientString( display, GLX_VENDOR );
-        if( vendor && std::string( vendor ) == "VirtualGL" )
-        {
-            info.flags |= GPUInfo::FLAG_VIRTUALGL;
-            const char* vglDisplay = getenv( "VGL_DISPLAY" );
-            if( vglDisplay )
-            {
-                if( std::string( vglDisplay ) == DisplayString( display ))
-                    info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
-            }
-            else
-            {
-                if( std::string( DisplayString( display )) == ":0.0" )
-                    info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
-            }
-        }
+        info.flags |= GPUInfo::FLAG_VIRTUALGL;
+        const char* vglDisplay = getenv( "VGL_DISPLAY" );
+        const std::string vglDisplayStr( vglDisplay ? vglDisplay : ":0.0" );
+        if( vglDisplayStr == DisplayString( display ))
+            info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
     }
 
     return true;

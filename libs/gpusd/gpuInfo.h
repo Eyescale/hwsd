@@ -31,14 +31,11 @@ namespace gpusd
         /** A non-enumerated port or device. @version 1.0 */
         static const unsigned defaultValue = UINT_MAX;
 
-        /** GLX extension present. @version 1.1.2 */
-        static const unsigned FLAG_GLX = 0x1;
-
         /** Process runs under VirtualGL. @version 1.1.2 */
-        static const unsigned FLAG_VIRTUALGL = 0x2;
+        static const unsigned FLAG_VIRTUALGL = 0x1;
 
         /** VirtualGL redirect GPU. @version 1.1.2 */
-        static const unsigned FLAG_VIRTUALGL_DISPLAY = 0x4;
+        static const unsigned FLAG_VIRTUALGL_DISPLAY = 0x2;
 
         /** Default constructor pointing to the default display. @version 1.0 */
         GPUInfo()
@@ -135,7 +132,7 @@ namespace gpusd
             os << "viewport [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
                << info.pvp[2] << ' ' << info.pvp[3] << ']' << std::endl;
         if( info.flags != 0 )
-            os << "flags    " << (info.flags&GPUInfo::FLAG_GLX ? "GLX " : "")
+            os << "flags    "
                << (info.flags&GPUInfo::FLAG_VIRTUALGL ? "VirtualGL" : "")
                << (info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY ? "Display" : "")
                << std::endl;
