@@ -245,8 +245,8 @@ BOOL CALLBACK EnumDispProc( HMONITOR hMon, HDC dcMon, RECT* pRcMon,
     info.device = unsigned( result->size( ));
     info.pvp[0] = mi.rcMonitor.left;
     info.pvp[1] = mi.rcMonitor.top;
-    info.pvp[2] = mi.rcMonitor.left + mi.rcMonitor.right;
-    info.pvp[3] = mi.rcMonitor.top + mi.rcMonitor.bottom;    
+    info.pvp[2] = mi.rcMonitor.right - mi.rcMonitor.left;
+    info.pvp[3] = mi.rcMonitor.bottom - mi.rcMonitor.top;    
     result->push_back( info );
 
     return TRUE;
