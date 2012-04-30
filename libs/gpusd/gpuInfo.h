@@ -82,11 +82,7 @@ namespace gpusd
         /** @return true if both infos are not identical. @version 1.0 */
         bool operator != ( const GPUInfo& rhs ) const 
             { 
-                return ( type != rhs.type || hostname != rhs.hostname ||
-                         session != rhs.session || port != rhs.port ||
-                         device != rhs.device || 
-                         pvp[0] != rhs.pvp[0] || pvp[1] != rhs.pvp[1] ||
-                         pvp[2] != rhs.pvp[2] || pvp[3] != rhs.pvp[3] );
+                return !(*this == rhs );
             }
 
         /** @return the type name string of this information. @version 1.0 */
