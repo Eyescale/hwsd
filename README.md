@@ -24,9 +24,10 @@ available are:
 
 ### VirtualGL
 
-When an application is run through vglrun, gpu-sd detects this and
-reports data on the local, redirect GPU instead of the remote GPU. This
-is only implemented for GLX so far
+When an application is run through VirtualGL, gpu-sd detects this and
+sets the FLAG\_VIRTUALGL on all local GPUs, and additionally
+FLAG\_VIRTUALGL\_DISPLAY on the GPU used by VirtualGL for
+redirection. This is only implemented for GLX so far
 ([more info](https://github.com/Eyescale/Equalizer/issues/67)).
 
 ## Daemon
@@ -47,6 +48,7 @@ used by the daemon:
 * GPU&lt;integer&gt; Height=&lt;integer&gt;
 * GPU&lt;integer&gt; X=&lt;integer&gt;
 * GPU&lt;integer&gt; Y=&lt;integer&gt;
+* GPU&lt;integer&gt; Flags=&lt;integer&gt; // optional flags (see gpuInfo.h)
 
 ## Downloads
 
