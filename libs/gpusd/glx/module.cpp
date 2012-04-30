@@ -67,7 +67,6 @@ static bool getGPUInfo_( Display* display, GPUInfo& info )
         xDisplay << DisplayString( display );
         if( xDisplay.str() == ":0" )
             xDisplay << "." << DefaultScreen( display );
-        std::cout << xDisplay.str() << std::endl;
 
         if( vglDisplayStr == xDisplay.str( ))
             info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
