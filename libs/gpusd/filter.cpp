@@ -41,8 +41,7 @@ public:
 Filter::Filter() : impl_( new detail::Filter ) {}
 Filter::~Filter() { delete impl_; }
 
-bool Filter::operator() ( const GPUInfos& current,
-                          const GPUInfo& candidate )
+bool Filter::operator() ( const GPUInfos& current, const GPUInfo& candidate )
 {
     for( FiltersCIter i = impl_->next_.begin(); i!=impl_->next_.end(); ++i)
     {
@@ -70,8 +69,13 @@ FilterPtr Filter::operator |= ( FilterPtr rhs )
 bool DuplicateFilter::operator() ( const GPUInfos& current,
                                    const GPUInfo& candidate )
 {
-    if( std::find( current.begin(), current.end(), candidate ) == current.end())
+    GPUInfosCIter i = std::find( current.begin(), current.end(), candidate );
+    if( i == current.end())
         return Filter::operator()( current, candidate );
+
+    // TODO: break API in 2.0, making current non-const?
+    GPUInfo& info = const_cast< GPUInfo& >( *i );
+    info.flags |= candidate.flags; // merge flags from dropped info
     return false;
 }
 
