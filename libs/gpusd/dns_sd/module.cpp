@@ -170,15 +170,19 @@ GPUInfos Module::discoverGPUs_() const
 {
     DNSServiceRef service;
 
-    GPUInfos candidates[2];
+    GPUInfos infos[2];
     uint32_t interfaces[2] = { 0, kDNSServiceInterfaceIndexLocalOnly };
+#ifdef __APPLE__
     for( unsigned i = 0; i < 2; ++i )
+#else
+    for( unsigned i = 0; i < 1; ++i ) // avahi: unsupported local only browsing
+#endif
     {
         const DNSServiceErrorType error = DNSServiceBrowse( &service, 0,
                                                             interfaces[i],
                                                             "_gpu-sd._tcp", "",
                                      (DNSServiceBrowseReply)browseCallback,
-                                                            &candidates[i] );
+                                                            &infos[i] );
         if( error == kDNSServiceErr_NoError )
         {
             while( handleEvent( service ))
@@ -190,16 +194,39 @@ GPUInfos Module::discoverGPUs_() const
     }
 
     // set localhost records to localhost
-    for( GPUInfosIter i = candidates[0].begin(); i != candidates[0].end(); ++i )
+    std::vector< std::string > hosts;
+
+#ifndef __APPLE__ // local host name heuristics for avahi (#8)
+    char hostname[256] = {0};
+    char domainname[256] = {0};
+
+    gethostname( hostname, 256 );
+
+    const std::string name = hostname;
+    const std::string dot = ".";
+    hosts.push_back( name );
+    hosts.push_back( name + ".local." );
+
+    if( getdomainname( domainname, 256 ) == 0 )
+    {
+        hosts.push_back( name + dot + domainname );
+        hosts.push_back( name + dot + domainname + dot );
+    }
+#endif
+
+    const GPUInfosIter localEnd = infos[1].end();
+    const std::vector< std::string >::iterator hostsEnd = hosts.end();
+
+    for( GPUInfosIter i = infos[0].begin(); i != infos[0].end(); ++i )
     {
         GPUInfo& info = *i;
-        if( std::find( candidates[1].begin(), candidates[1].end(), info ) !=
-            candidates[1].end( ))
+        if( std::find( infos[1].begin(), localEnd, info ) != localEnd ||
+            std::find( hosts.begin(), hostsEnd, info.hostname ) != hostsEnd )
         {
             info.hostname.clear();
         }
     }
-    return candidates[0];
+    return infos[0];
 }
 
 }
