@@ -39,8 +39,10 @@ add_subdirectory(apps)
 add_subdirectory(libs)
 add_subdirectory(doc)
 
-install(FILES CMake/FindGPUSD.cmake DESTINATION ${CMAKE_MODULE_INSTALL_PATH}
-        COMPONENT dev)
+install(FILES CMake/Findgpusd.cmake
+  DESTINATION ${CMAKE_MODULE_INSTALL_PATH} COMPONENT dev)
+install(FILES CMake/FindLibraryPackage.cmake
+  DESTINATION ${CMAKE_MODULE_INSTALL_PATH}/Findgpusd COMPONENT dev)
 
 include(CTest)
 include(CPackConfig)
