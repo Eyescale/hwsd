@@ -129,7 +129,7 @@ void handleEvents( DNSServiceRef serviceRef )
             DNSServiceErrorType error = kDNSServiceErr_NoError;
             if( FD_ISSET( fd, &fdSet ))
                 error = DNSServiceProcessResult( serviceRef );
-            if( error )
+            if( error != kDNSServiceErr_NoError )
                 return;
         }
         else
@@ -237,7 +237,7 @@ int main (int argc, char * argv[])
     createTXTRecord( record, gpus, session, hostname );
 
     DNSServiceErrorType error = registerService( record );
-    std::cout << "DNSServiceDiscovery returned: " << error << std::endl;
+    std::cout <<  "DNSServiceRegister returned: " << error << std::endl;
 
     TXTRecordDeallocate( &record );
     return EXIT_SUCCESS;
