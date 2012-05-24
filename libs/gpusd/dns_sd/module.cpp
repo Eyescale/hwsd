@@ -53,7 +53,7 @@ void Module::use()
 
 GPUInfos Module::discoverGPUs_() const
 {
-    servus::Service service( "_gpu-sd._tcp", 4242 );
+    servus::Service service( "_gpu-sd._tcp" );
 
     GPUInfos infos[2];
     servus::Interface interfaces[2] = { servus::IF_ALL, servus::IF_LOCAL };

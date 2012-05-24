@@ -152,9 +152,9 @@ int main (int argc, char * argv[])
         return EXIT_FAILURE;
     }
 
-    servus::Service service( "_gpu-sd._tcp", 4242 );
+    servus::Service service( "_gpu-sd._tcp" );
     setKeys( service, gpus, session, hostname );
-    if( !service.announce( ))
+    if( !service.announce( 4242 ))
     {
         std::cerr << "Service announcement failed" << std::endl;
         return EXIT_FAILURE;
