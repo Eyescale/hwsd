@@ -1,5 +1,5 @@
 
-if(NOT DNSSD_FOUND)
+if(NOT SERVUS_FOUND)
   return()
 endif()
 
@@ -11,7 +11,7 @@ set(SOURCES
   module.cpp
 )
 
-include_directories(${DNSSD_INCLUDE_DIRS})
+include_directories(${SERVUS_INCLUDE_DIRS})
 
 set(LIBRARY gpusd_dns_sd)
 set(INCLUDE include/gpusd/dns_sd)
@@ -19,9 +19,9 @@ set(INCLUDE include/gpusd/dns_sd)
 source_group(\\ FILES CMakeLists.txt ${HEADERS} ${SOURCES})
 add_library(${LIBRARY} SHARED ${HEADERS} ${SOURCES})
 if(WIN32)
-  target_link_libraries(${LIBRARY} ${DNSSD_LIBRARIES} gpusd ws2_32)
+  target_link_libraries(${LIBRARY} ${SERVUS_LIBRARIES} gpusd ws2_32)
 else()
-  target_link_libraries(${LIBRARY} ${DNSSD_LIBRARIES} gpusd)
+  target_link_libraries(${LIBRARY} ${SERVUS_LIBRARIES} gpusd)
 endif()
 set_target_properties(${LIBRARY} PROPERTIES VERSION ${VERSION}
   SOVERSION ${VERSION_MAJOR} PUBLIC_HEADER "${HEADERS}"

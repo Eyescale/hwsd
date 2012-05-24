@@ -1,6 +1,6 @@
 
 /*
-  Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch>
+  Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
 
   This file is part of the GPU-SD daemon.
 
@@ -40,7 +40,6 @@
 
 using gpusd::GPUInfo;
 using gpusd::GPUInfos;
-using boost::lexical_cast;
 
 static void setKey( servus::Service& service, const size_t gpuIndex,
                     const std::string& name, const unsigned value )
@@ -59,7 +58,10 @@ static void setKeys( servus::Service& service, const GPUInfos& gpus,
 {
     service.set( "Session", session );
     service.set( "Hostname", hostname );
-    service.set( "GPU Count", lexical_cast< std::string >( gpus.size( )));
+
+    std::ostringstream out;
+    out << gpus.size();
+    service.set( "GPU Count", out.str( ));
 
     for( GPUInfos::const_iterator i = gpus.begin(); i != gpus.end(); ++i )
     {
@@ -67,7 +69,7 @@ static void setKeys( servus::Service& service, const GPUInfos& gpus,
         const size_t index = i - gpus.begin();
 
         // GPU<integer> Type=GLX | WGL | WGLn | CGL
-        std::ostringstream out;
+        out.str("");
         out << "GPU" << index << " Type";
         service.set( out.str(), info.getName( ));
 
