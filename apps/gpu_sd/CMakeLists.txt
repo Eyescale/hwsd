@@ -1,5 +1,5 @@
 
-if(NOT DNSSD_FOUND)
+if(NOT SERVUS_FOUND)
   return()
 endif()
 
@@ -7,8 +7,8 @@ set(HEADERS)
 set(SOURCES
   gpu_sd.cpp)
 
-include_directories(${DNSSD_INCLUDE_DIRS})
-set(LINK_LIBRARIES ${DNSSD_LIBRARIES} gpusd)
+include_directories(${SERVUS_INCLUDE_DIRS})
+set(LINK_LIBRARIES ${SERVUS_LIBRARIES} gpusd)
 
 if(APPLE)
   add_definitions(-DGPUSD_CGL)

@@ -29,6 +29,8 @@
 #  include <gpusd/wgl/module.h>
 #endif
 
+#include <servus/servus.h>
+
 #ifdef GPUSD_BOOST
 #  include <boost/program_options/options_description.hpp>
 #  include <boost/program_options/parsers.hpp>
@@ -36,23 +38,12 @@
    namespace arg = boost::program_options;
 #endif
 
-#ifndef _WIN32
-#  include <arpa/inet.h>
-#  include <unistd.h>
-#endif
-#include <dns_sd.h>
-#include <cerrno>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <sstream>
-
 using gpusd::GPUInfo;
 using gpusd::GPUInfos;
+using boost::lexical_cast;
 
-static void setTXTRecordValue( TXTRecordRef& record, const size_t gpuIndex,
-                               const std::string& name, const unsigned value )
+static void setKey( servus::Service& service, const size_t gpuIndex,
+                    const std::string& name, const unsigned value )
 {
     std::ostringstream out;
     out << "GPU" << gpuIndex << " " << name;
@@ -60,25 +51,15 @@ static void setTXTRecordValue( TXTRecordRef& record, const size_t gpuIndex,
 
     out.str("");
     out << value;
-    TXTRecordSetValue( &record, string.c_str(), uint8_t( out.str().length( )),
-                       out.str().c_str( ));
+    service.set( string, out.str( ));
 }
 
-static void createTXTRecord( TXTRecordRef& record, const GPUInfos& gpus, 
-                             const std::string& session,
-                             const std::string& hostname )
+static void setKeys( servus::Service& service, const GPUInfos& gpus, 
+                     const std::string& session, const std::string& hostname )
 {
-    TXTRecordSetValue( &record, "Session", uint8_t( session.length( )),
-                       session.c_str( ));
-    if( !hostname.empty( ))
-        TXTRecordSetValue( &record, "Hostname", uint8_t( hostname.length( )),
-                           hostname.c_str( ));
-
-    // GPU Count=<integer>
-    std::ostringstream out;
-    out << gpus.size();
-    TXTRecordSetValue( &record, "GPU Count", uint8_t( out.str().length( )),
-                       out.str().c_str( ));
+    service.set( "Session", session );
+    service.set( "Hostname", hostname );
+    service.set( "GPU Count", lexical_cast< std::string >( gpus.size( )));
 
     for( GPUInfos::const_iterator i = gpus.begin(); i != gpus.end(); ++i )
     {
@@ -86,92 +67,29 @@ static void createTXTRecord( TXTRecordRef& record, const GPUInfos& gpus,
         const size_t index = i - gpus.begin();
 
         // GPU<integer> Type=GLX | WGL | WGLn | CGL
-        out.str("");
+        std::ostringstream out;
         out << "GPU" << index << " Type";
-        TXTRecordSetValue( &record, out.str().c_str(),
-                           4, info.getName().c_str( ));
+        service.set( out.str(), info.getName( ));
 
         if( info.port != GPUInfo::defaultValue )
             // GPU<integer> Port=<integer> // X11 display number, 0 otherwise
-            setTXTRecordValue( record, index, "Port", info.port );
+            setKey( service, index, "Port", info.port );
 
         if( info.device != GPUInfo::defaultValue )
             // GPU<integer> Device=<integer> // X11 display number, 0 otherwise
-            setTXTRecordValue( record, index, "Device", info.device );
+            setKey( service, index, "Device", info.device );
 
         if( info.pvp[2] > 0 && info.pvp[3] > 0 )
         {
-            setTXTRecordValue( record, index, "X", info.pvp[0] );
-            setTXTRecordValue( record, index, "Y", info.pvp[1] );
-            setTXTRecordValue( record, index, "Width", info.pvp[2] );
-            setTXTRecordValue( record, index, "Height", info.pvp[3] );
+            setKey( service, index, "X", info.pvp[0] );
+            setKey( service, index, "Y", info.pvp[1] );
+            setKey( service, index, "Width", info.pvp[2] );
+            setKey( service, index, "Height", info.pvp[3] );
         }
 
         if( info.flags != 0 )
-            setTXTRecordValue( record, index, "Flags", info.flags );
+            setKey( service, index, "Flags", info.flags );
     }
-}
-
-void handleEvents( DNSServiceRef serviceRef )
-{
-    const int fd = DNSServiceRefSockFD( serviceRef );
-    const int nfds = fd + 1;
-
-    while( true )
-    {
-        fd_set fdSet;
-        FD_ZERO( &fdSet );
-        FD_SET( fd, &fdSet );
-
-        const int result = select( nfds, &fdSet, 0, 0, 0 );
-        if( result > 0 )
-        {
-            DNSServiceErrorType error = kDNSServiceErr_NoError;
-            if( FD_ISSET( fd, &fdSet ))
-                error = DNSServiceProcessResult( serviceRef );
-            if( error != kDNSServiceErr_NoError )
-                return;
-        }
-        else
-        {
-            std::cerr << "Select error: " << strerror( errno ) << " (" << errno
-                      << ")" << std::endl;
-            if( errno != EINTR )
-                return;
-        }
-    }
-}
-
-static void registerCB( DNSServiceRef service, DNSServiceFlags flags,
-                        DNSServiceErrorType error, const char* name,
-                        const char* type, const char* domain,
-                        void* context )
-{
-    if( error != kDNSServiceErr_NoError)
-        std::cerr << "Register callback error: " << error << std::endl;
-    else
-        std::cout << "Registered " << name << "." << type << "." << domain
-                  << std::endl;
-}
-
-static DNSServiceErrorType registerService( const TXTRecordRef& record )
-{
-    DNSServiceRef serviceRef = 0;
-    const DNSServiceErrorType error =
-        DNSServiceRegister( &serviceRef, 0 /* flags */, 0 /* all interfaces */,
-                            0 /* service name */, "_gpu-sd._tcp",
-                            0 /* default domains */, 0 /* hostname */,
-                            htons( 4242 ) /* port */,
-                            TXTRecordGetLength( &record ),
-                            TXTRecordGetBytesPtr( &record ),
-                            (DNSServiceRegisterReply)registerCB,
-                            0 /* context */ );
-    if( error == kDNSServiceErr_NoError )
-    {
-        handleEvents( serviceRef );
-        DNSServiceRefDeallocate( serviceRef );
-    }
-    return error;
 }
 
 int main (int argc, char * argv[])
@@ -232,13 +150,15 @@ int main (int argc, char * argv[])
         return EXIT_FAILURE;
     }
 
-    TXTRecordRef record;
-    TXTRecordCreate( &record, 0, 0 );
-    createTXTRecord( record, gpus, session, hostname );
+    servus::Service service( "_gpu-sd._tcp", 4242 );
+    setKeys( service, gpus, session, hostname );
+    if( !service.announce( ))
+    {
+        std::cerr << "Service announcement failed" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    DNSServiceErrorType error = registerService( record );
-    std::cout <<  "DNSServiceRegister returned: " << error << std::endl;
-
-    TXTRecordDeallocate( &record );
+    std::cout << "Press <Enter> to quit" << std::endl;
+    getchar();
     return EXIT_SUCCESS;
 }
