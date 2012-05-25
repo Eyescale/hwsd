@@ -31,6 +31,8 @@
 
 #include <servus/servus.h>
 
+#include <sstream>
+
 #ifdef GPUSD_BOOST
 #  include <boost/program_options/options_description.hpp>
 #  include <boost/program_options/parsers.hpp>
