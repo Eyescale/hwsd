@@ -3,5 +3,5 @@ release
 build
 valgrind.out
 ___*
-CMakeLists.txt.user
+CMakeLists.txt.user*
 Makefile

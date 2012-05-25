@@ -31,6 +31,7 @@
 
 #include <servus/servus.h>
 
+#include <cstdio>
 #include <sstream>
 
 #ifdef GPUSD_BOOST
