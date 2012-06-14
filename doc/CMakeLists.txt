@@ -4,6 +4,7 @@
 if(DOXYGEN_FOUND)
   configure_file(doxyfooter.html ${CMAKE_CURRENT_BINARY_DIR}/doxyfooter.html
     @ONLY)
+  configure_file(gpu-sd_w.png @CMAKE_BINARY_DIR@/doc/html @ONLY)
 endif()
 
 install(FILES AUTHORS  ../LICENSE.txt LGPL.txt GPL.txt
