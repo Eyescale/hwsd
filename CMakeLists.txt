@@ -11,7 +11,7 @@ set(VERSION_MINOR "3")
 set(VERSION_PATCH "5")
 
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
-set(RELEASE_VERSION 100) # OFF or 'M00' ABI version
+set(RELEASE_VERSION 1) # OFF or ABI version
 
 include(Common)
 include(DoxygenSetup)
