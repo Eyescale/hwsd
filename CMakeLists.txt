@@ -7,21 +7,23 @@ project(gpusd)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
 set(VERSION_MAJOR "1")
-set(VERSION_MINOR "1")
-set(VERSION_PATCH "2")
+set(VERSION_MINOR "3")
+set(VERSION_PATCH "5")
 
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
-set(RELEASE_VERSION OFF) # OFF or 'M00' ABI version
+set(RELEASE_VERSION 100) # OFF or 'M00' ABI version
 
 include(Common)
+include(DoxygenSetup)
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 
 find_package(Boost COMPONENTS program_options) 
-find_package(Servus 0.9)
+find_package(Servus 1.3.5)
 
 if(APPLE)
   set(GPUSD_OSX_VERSION 10.6)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=${GPUSD_OSX_VERSION}" )
+  set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -mmacosx-version-min=${GPUSD_OSX_VERSION}" )
 
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
   LIST(REMOVE_ITEM CMAKE_SYSTEM_LIBRARY_PATH /opt/local/lib)
@@ -38,6 +40,7 @@ endif(APPLE)
 add_subdirectory(apps)
 add_subdirectory(libs)
 add_subdirectory(doc)
+include(DoxygenRule) # must be after all targets
 
 install(FILES CMake/Findgpusd.cmake
   DESTINATION ${CMAKE_MODULE_INSTALL_PATH} COMPONENT dev)
