@@ -1,5 +1,5 @@
 
-if(NOT SERVUS_FOUND)
+if(NOT LUNCHBOX_USE_DNSSD)
   return()
 endif()
 
@@ -7,8 +7,8 @@ set(HEADERS)
 set(SOURCES
   gpu_sd.cpp)
 
-include_directories(${SERVUS_INCLUDE_DIRS})
-set(LINK_LIBRARIES ${SERVUS_LIBRARIES} gpusd)
+include_directories(${LUNCHBOX_INCLUDE_DIRS})
+set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} gpusd)
 
 if(APPLE)
   add_definitions(-DGPUSD_CGL)

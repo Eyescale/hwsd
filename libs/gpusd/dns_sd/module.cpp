@@ -18,7 +18,7 @@
 #include "module.h"
 
 #include <gpusd/gpuInfo.h>
-#include <servus/servus.h>
+#include <lunchbox/servus.h>
 #include <algorithm>
 #include <sstream>
 
@@ -33,7 +33,7 @@ namespace
 Module* instance = 0;
 
 template< class T >
-bool getValue( const servus::Service& service, const std::string& host,
+bool getValue( const lunchbox::Servus& service, const std::string& host,
                const std::string& key, T& value)
 {
     const std::string& data = service.get( host, key );
@@ -54,14 +54,15 @@ void Module::use()
 
 GPUInfos Module::discoverGPUs_() const
 {
-    servus::Service service( "_gpu-sd._tcp" );
+    lunchbox::Servus service( "_gpu-sd._tcp" );
 
     GPUInfos infos[2];
-    servus::Interface interfaces[2] = { servus::IF_ALL, servus::IF_LOCAL };
+    lunchbox::Servus::Interface interfaces[2] = { lunchbox::Servus::IF_ALL,
+                                                  lunchbox::Servus::IF_LOCAL };
     for( unsigned i = 0; i < 2; ++i )
     {
-        const servus::Strings& hosts = service.discover( interfaces[i], 500 );
-        for( servus::StringsCIter j = hosts.begin(); j != hosts.end(); ++j )
+        const lunchbox::Strings& hosts = service.discover( interfaces[i], 500 );
+        for( lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j )
         {
             const std::string& host = *j;
             unsigned nGPUs = 0;

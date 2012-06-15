@@ -18,7 +18,7 @@ include(DoxygenSetup)
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 
 find_package(Boost COMPONENTS program_options) 
-find_package(Servus 1.3.5)
+find_package(Lunchbox 1.3.5)
 
 if(APPLE)
   set(GPUSD_OSX_VERSION 10.6)

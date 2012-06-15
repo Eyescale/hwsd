@@ -1,4 +1,5 @@
-if(NOT DNSSD_FOUND)
+
+if(NOT LUNCHBOX_USE_DNSSD)
   return()
 endif()
 

@@ -29,7 +29,7 @@
 #  include <gpusd/wgl/module.h>
 #endif
 
-#include <servus/servus.h>
+#include <lunchbox/servus.h>
 
 #include <cstdio>
 #include <sstream>
@@ -44,7 +44,7 @@
 using gpusd::GPUInfo;
 using gpusd::GPUInfos;
 
-static void setKey( servus::Service& service, const size_t gpuIndex,
+static void setKey( lunchbox::Servus& service, const size_t gpuIndex,
                     const std::string& name, const unsigned value )
 {
     std::ostringstream out;
@@ -56,7 +56,7 @@ static void setKey( servus::Service& service, const size_t gpuIndex,
     service.set( string, out.str( ));
 }
 
-static void setKeys( servus::Service& service, const GPUInfos& gpus, 
+static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus, 
                      const std::string& session, const std::string& hostname )
 {
     service.set( "Session", session );
@@ -155,7 +155,7 @@ int main (int argc, char * argv[])
         return EXIT_FAILURE;
     }
 
-    servus::Service service( "_gpu-sd._tcp" );
+    lunchbox::Servus service( "_gpu-sd._tcp" );
     setKeys( service, gpus, session, hostname );
     if( !service.announce( 4242, "" ))
     {
