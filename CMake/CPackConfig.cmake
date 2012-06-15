@@ -6,6 +6,7 @@
 #configure_file(${CMAKE_SOURCE_DIR}/CMake/Equalizer.in.spec 
 #              ${CMAKE_SOURCE_DIR}/CMake/Equalizer.spec @ONLY)
 
+set(CPACK_PROJECT_NAME gpu-sd) # historical...
 set(CPACK_PACKAGE_VENDOR "www.eyescale.ch")
 set(CPACK_PACKAGE_CONTACT "Stefan Eilemann <eile@eyescale.ch>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Local and remote GPU discovery")
@@ -13,8 +14,6 @@ set(CPACK_DEBIAN_BUILD_DEPENDS libgl1-mesa-dev libx11-dev
   libavahi-compat-libdnssd-dev libboost-program-options-dev
   ${SERVUS_DEB_BUILD_DEPENDENCIES})
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libavahi-compat-libdnssd1, libboost-program-options-dev, ${SERVUS_DEB_DEPENDENCIES}")
-
-include(CommonCPack)
 
 # components
 set(CPACK_COMPONENTS_ALL dev runtime tools daemon)
@@ -38,3 +37,5 @@ set(CPACK_COMPONENT_TOOLS_DISPLAY_NAME "GPU-SD helper applications")
 set(CPACK_COMPONENT_TOOLS_DESCRIPTION
   "GPU-SD Helper applications")
 set(CPACK_COMPONENT_TOOLS_DEPENDS runtime)
+
+include(CommonCPack)
