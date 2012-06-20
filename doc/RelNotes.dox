@@ -96,6 +96,11 @@ platforms and build environments are tested:
 - <b>Windows:</b> 7 (Visual Studio 2008, i386, x64)
 - <b>Mac OS X:</b> 10.7 (Makefile, i386, x64)
 
+@subsection Window System Support
+- <b>GLX:</b> Full support for all documented features
+- <b>WGL:</b> Full support for all documented features
+- <b>CGL:</b> Full support for all documented features
+
 @subsection Documentation Documentation
 
 @subsection Support Support
