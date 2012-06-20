@@ -14,6 +14,7 @@ set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 set(RELEASE_VERSION 1) # OFF or ABI version
 
 include(Common)
+include(GitTargets)
 include(DoxygenSetup)
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 
