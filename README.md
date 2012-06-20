@@ -52,6 +52,13 @@ used by the daemon:
 
 ## Downloads
 
+Version 1.4-beta
+[release notes](http://eyescale.github.com/gpusd-1.3.5/index.html):
+
+* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.3.5.tar.gz)
+* Binaries:
+  [![Ubuntu](http://www.equalizergraphics.com/images/ubuntu.png)](https://launchpad.net/%7Eeilemann/+archive/equalizer/)
+
 Version 1.0.3
 [release notes](http://www.equalizergraphics.com/gpu-sd/API-1.0.3):
 
@@ -62,35 +69,6 @@ Version 1.0.3
   [![Windows 32 bit](http://www.equalizergraphics.com/images/windows32.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.3-win32.exe)
   [![Windows 64 bit](http://www.equalizergraphics.com/images/windows64.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.3-win64.exe)
 
-Version 1.0.2
-[release notes](http://www.equalizergraphics.com/gpu-sd/API-1.0.2):
-
-* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.2.tar.gz)
-* Binaries:
-  [![OS X](http://www.equalizergraphics.com/images/mac.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.2-Darwin.dmg)
-  [![Ubuntu](http://www.equalizergraphics.com/images/ubuntu.png)](https://launchpad.net/%7Eeilemann/+archive/equalizer/)
-  [![Windows 32 bit](http://www.equalizergraphics.com/images/windows32.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.2-win32.exe)
-  [![Windows 64 bit](http://www.equalizergraphics.com/images/windows64.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.2-win64.exe)
-
-Version 1.0.1
-[release notes](http://www.equalizergraphics.com/gpu-sd/API-1.0.1):
-
-* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.1.tar.gz)
-* Binaries:
-  [![OS X](http://www.equalizergraphics.com/images/mac.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.1-Darwin.dmg)
-  [![Ubuntu](http://www.equalizergraphics.com/images/ubuntu.png)](https://launchpad.net/%7Eeilemann/+archive/equalizer/)
-  [![Windows 32 bit](http://www.equalizergraphics.com/images/windows32.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.1-win32.exe)
-  [![Windows 64 bit](http://www.equalizergraphics.com/images/windows64.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.1-win64.exe)
-
-Version 1.0
-[release notes](http://www.equalizergraphics.com/gpu-sd/API-1.0):
-
-* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.tar.gz)
-* Binaries:
-  [![OS X](http://www.equalizergraphics.com/images/mac.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.0-Darwin.dmg)
-  [![Ubuntu](http://www.equalizergraphics.com/images/ubuntu.png)](https://launchpad.net/%7Eeilemann/+archive/equalizer/)
-  [![Windows 32 bit](http://www.equalizergraphics.com/images/windows32.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.0-win32.exe)
-  [![Windows 64 bit](http://www.equalizergraphics.com/images/windows64.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd1-1.0.0-win64.exe)
 
 ## Compilation
 
