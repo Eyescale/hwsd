@@ -32,6 +32,7 @@
 #include <lunchbox/servus.h>
 
 #include <cstdio>
+#include <cstdlib>
 #include <sstream>
 
 #ifdef GPUSD_BOOST
