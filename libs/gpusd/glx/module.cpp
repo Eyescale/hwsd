@@ -1,15 +1,15 @@
 
-/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch> 
+/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
  * by the Free Software Foundation.
- *  
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -33,8 +33,7 @@ namespace glx
 {
 namespace
 {
-
-Module* instance = 0;
+static Module* instance = 0;
 
 static bool getGPUInfo_( Display* display, GPUInfo& info )
 {
@@ -55,7 +54,7 @@ static bool getGPUInfo_( Display* display, GPUInfo& info )
     info.pvp[1] = 0;
     info.pvp[2] = DisplayWidth(  display, DefaultScreen( display ));
     info.pvp[3] = DisplayHeight( display, DefaultScreen( display ));
-    
+
     const char* vendor = glXGetClientString( display, GLX_VENDOR );
     if( vendor && std::string( vendor ) == "VirtualGL" )
     {
@@ -101,6 +100,12 @@ void Module::use()
         instance = new Module;
 }
 
+void Module::dispose()
+{
+    delete instance;
+    instance = 0;
+}
+
 GPUInfos Module::discoverGPUs_() const
 {
     GPUInfos result;
@@ -128,7 +133,7 @@ GPUInfos Module::discoverGPUs_() const
         {
             std::stringstream stream;
             stream <<  ':' << i << '.' << j;
-                
+
             GPUInfo info( "GLX" );
             if( queryDisplay_( stream.str(), info ))
             {

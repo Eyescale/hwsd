@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch> 
+/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch> 
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -30,6 +30,9 @@ namespace dns_sd
     public:
         /** Instantiate an AGL discovery module for the process. */
         static GPUSD_API void use();
+
+        /** Unload the AGL discovery module for the process. */
+        static GPUSD_API void dispose();
 
     protected:
         virtual GPUInfos discoverGPUs_() const;

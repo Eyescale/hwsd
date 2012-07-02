@@ -41,7 +41,7 @@ GPU-SD 1.4 beta is a feature release and contains the following features,
 
 @subsection Enhancements Enhancements
 
-No enhancements.
+- Allow disposal for loaded modules
 
 @subsection Optimizations Optimizations
 
