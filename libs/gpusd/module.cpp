@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch> 
+/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch> 
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -22,8 +22,9 @@ namespace gpusd
 {
 namespace
 {
-Module* stack_ = 0;
+static Module* stack_ = 0;
 }
+
 namespace detail
 {
 class Module
@@ -57,7 +58,7 @@ Module::Module()
 
 Module::~Module()
 {
-    Module* previous = stack_;
+    Module* previous = 0;
     for( Module* module = stack_; module; module = module->impl_->next_ )
     {
         if( module == this )
@@ -66,7 +67,7 @@ Module::~Module()
                 previous->impl_->next_ = impl_->next_;
             else
                 stack_ = impl_->next_;
-            return;
+            break;
         }
         previous = module;
     }

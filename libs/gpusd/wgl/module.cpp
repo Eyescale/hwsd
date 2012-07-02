@@ -1,15 +1,16 @@
 
-/* Copyright (c) 2011, Daniel Nachbaur <danielnachbaur@gmail.com> 
+/* Copyright (c) 2011, Daniel Nachbaur <danielnachbaur@gmail.com>
+ *               2012, Stefan.Eilemann@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
  * by the Free Software Foundation.
- *  
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -30,16 +31,15 @@ namespace wgl
 {
 namespace
 {
-
-Module* instance = 0;
+static Module* instance = 0;
 
 DECLARE_HANDLE(HGPUNV);
 typedef struct _GPU_DEVICE {
-  DWORD cb; 
-  CHAR DeviceName[32]; 
-  CHAR DeviceString[128]; 
-  DWORD Flags; 
-  RECT rcVirtualScreen; 
+  DWORD cb;
+  CHAR DeviceName[32];
+  CHAR DeviceString[128];
+  DWORD Flags;
+  RECT rcVirtualScreen;
 } GPU_DEVICE, *PGPU_DEVICE;
 
 typedef const char* (WINAPI * PFNWGLGETEXTENSIONSSTRINGARBPROC) (HDC hdc);
@@ -75,22 +75,22 @@ bool _initGLFuncs()
 
     HINSTANCE instance = GetModuleHandle( 0 );
     WNDCLASS  wc       = { 0 };
-    wc.lpfnWndProc   = DefWindowProc;    
-    wc.hInstance     = instance; 
+    wc.lpfnWndProc   = DefWindowProc;
+    wc.hInstance     = instance;
     wc.hIcon         = LoadIcon( 0, IDI_WINLOGO );
     wc.hCursor       = LoadCursor( 0, IDC_ARROW );
-    wc.lpszClassName = classStr.c_str();       
+    wc.lpszClassName = classStr.c_str();
 
     if( !RegisterClass( &wc ))
     {
-        std::cerr << "Can't register temporary window class: " 
+        std::cerr << "Can't register temporary window class: "
                   << getErrorString() << std::endl;
         return false;
     }
 
     // window
     DWORD windowStyleEx = WS_EX_APPWINDOW;
-    DWORD windowStyle = WS_CLIPSIBLINGS | WS_CLIPCHILDREN | 
+    DWORD windowStyle = WS_CLIPSIBLINGS | WS_CLIPCHILDREN |
                         WS_OVERLAPPEDWINDOW;
 
     HWND hWnd = CreateWindowEx( windowStyleEx,
@@ -125,7 +125,7 @@ bool _initGLFuncs()
 
     if( !SetPixelFormat( dc, pf, &pfd ))
     {
-        std::cerr << "Can't set pixel format: " 
+        std::cerr << "Can't set pixel format: "
                   << getErrorString() << std::endl;
         ReleaseDC( hWnd, dc );
         DestroyWindow( hWnd );
@@ -137,7 +137,7 @@ bool _initGLFuncs()
     HGLRC context = wglCreateContext( dc );
     if( !context )
     {
-        std::cerr << "Can't create temporary OpenGL context: " 
+        std::cerr << "Can't create temporary OpenGL context: "
             << getErrorString() << std::endl;
         ReleaseDC( hWnd, dc );
         DestroyWindow( hWnd );
@@ -199,7 +199,7 @@ void _affinityDiscover( GPUInfos& result )
             info.pvp[0] = rect.left;
             info.pvp[1]= rect.top;
             info.pvp[2] = rect.right  - rect.left;
-            info.pvp[3] = rect.bottom - rect.top; 
+            info.pvp[3] = rect.bottom - rect.top;
         }
         else
         {
@@ -235,18 +235,18 @@ BOOL CALLBACK EnumDispProc( HMONITOR hMon, HDC dcMon, RECT* pRcMon,
                             LPARAM lParam )
 {
     GPUInfos* result = reinterpret_cast<GPUInfos*>( lParam );
-    
+
     MONITORINFO mi;
     mi.cbSize = sizeof(mi);
     if( !GetMonitorInfo( hMon, &mi ))
         return TRUE;    // continue enumeration
-    
+
     GPUInfo info( "WGL" );
     info.device = unsigned( result->size( ));
     info.pvp[0] = mi.rcMonitor.left;
     info.pvp[1] = mi.rcMonitor.top;
     info.pvp[2] = mi.rcMonitor.right - mi.rcMonitor.left;
-    info.pvp[3] = mi.rcMonitor.bottom - mi.rcMonitor.top;    
+    info.pvp[3] = mi.rcMonitor.bottom - mi.rcMonitor.top;
     result->push_back( info );
 
     return TRUE;
@@ -266,6 +266,12 @@ void Module::use()
         instance = new Module;
 }
 
+void Module::dispose()
+{
+    delete instance;
+    instance = 0;
+}
+
 GPUInfos Module::discoverGPUs_() const
 {
     GPUInfos result;
@@ -279,9 +285,9 @@ GPUInfos Module::discoverGPUs_() const
         _affinityDiscover( result );
         return result;
     }
-    
+
     _displayDiscover( result );
-    
+
     // does not find GPUs with attached display
     if( wglGetGPUIDsAMD_ )
         _associationDiscover( result );

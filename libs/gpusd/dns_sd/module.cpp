@@ -30,7 +30,7 @@ namespace dns_sd
 {
 namespace
 {
-Module* instance = 0;
+static Module* instance = 0;
 
 template< class T >
 bool getValue( const lunchbox::Servus& service, const std::string& host,
@@ -50,6 +50,12 @@ void Module::use()
 {
     if( !instance )
         instance = new Module;
+}
+
+void Module::dispose()
+{
+    delete instance;
+    instance = 0;
 }
 
 GPUInfos Module::discoverGPUs_() const
