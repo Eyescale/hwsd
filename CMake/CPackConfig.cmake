@@ -11,9 +11,8 @@ set(CPACK_PACKAGE_VENDOR "www.eyescale.ch")
 set(CPACK_PACKAGE_CONTACT "Stefan Eilemann <eile@eyescale.ch>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Local and remote GPU discovery")
 set(CPACK_DEBIAN_BUILD_DEPENDS libgl1-mesa-dev libx11-dev
-  libavahi-compat-libdnssd-dev libboost-program-options-dev
-  ${LUNCHBOX_DEB_BUILD_DEPENDENCIES})
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libavahi-compat-libdnssd1, libboost-program-options-dev, ${LUNCHBOX_DEB_DEPENDENCIES}")
+  libboost-program-options-dev ${LUNCHBOX_DEB_BUILD_DEPENDENCIES})
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libboost-program-options-dev, ${LUNCHBOX_DEB_DEPENDENCIES}")
 
 # components
 set(CPACK_COMPONENTS_ALL dev runtime tools daemon)
