@@ -7,9 +7,9 @@ Welcome to GPU-SD, a daemon and library for the discovery and announcement of
 graphics processing units using ZeroConf. GPU-SD enables auto-configuration of
 ad-hoc GPU clusters and multi-GPU machines.
 
-GPU-SD 1.4 beta is a feature release for version 1.0. It can be retrieved by
+GPU-SD 1.4 is a feature release for version 1.0. It can be retrieved by
 downloading the
-<a href="http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.3.5.tar.gz">source
+<a href="http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.4.0.tar.gz">source
   code</a> or one of the
 <a href="http://www.equalizergraphics.com/gpu-sd/downloads.html">binary
   distributions</a>.
@@ -29,7 +29,7 @@ GPU-SD provides the following features to enable GPU discovery:
 
 @section New New in this release
 
-GPU-SD 1.4 beta is a feature release and contains the following features,
+GPU-SD 1.4 is a feature release and contains the following features,
   enhancements, bug fixes and documentation changes over the 1.0 release:
 
 @subsection NewFeatures New Features
@@ -68,7 +68,7 @@ No updates.
 
 @subsection Bugs Bug Fixes
 
-GPU-SD 1.4 beta includes various bugfixes over the 1.0 release, including the
+GPU-SD 1.4 includes various bugfixes over the 1.0 release, including the
 following:
 
 - WGL: Fix pixel viewport calculation in multi-monitor setups
