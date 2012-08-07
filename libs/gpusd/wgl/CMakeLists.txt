@@ -10,9 +10,6 @@ set(SOURCES
   module.cpp
 )
 
-find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIR})
-
 set(LIBRARY gpusd_wgl)
 set(INCLUDE include/gpusd/wgl)
 

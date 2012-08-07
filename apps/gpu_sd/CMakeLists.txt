@@ -4,8 +4,7 @@ if(NOT LUNCHBOX_USE_DNSSD)
 endif()
 
 set(HEADERS)
-set(SOURCES
-  gpu_sd.cpp)
+set(SOURCES gpu_sd.cpp)
 
 include_directories(${LUNCHBOX_INCLUDE_DIRS})
 set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} gpusd)
@@ -25,7 +24,6 @@ endif()
 
 if(Boost_FOUND)
   add_definitions(-DGPUSD_BOOST)
-  include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
   list(APPEND LINK_LIBRARIES ${Boost_PROGRAM_OPTIONS_LIBRARY})
 else()
   message(STATUS "boost::program_options missing, command line options not available")

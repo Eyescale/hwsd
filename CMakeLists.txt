@@ -16,10 +16,6 @@ set(RELEASE_VERSION OFF) # OFF or ABI version
 include(Common)
 include(GitTargets)
 include(DoxygenSetup)
-include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
-
-find_package(Boost COMPONENTS program_options) 
-find_package(Lunchbox 1.3.5)
 
 if(APPLE)
   set(GPUSD_OSX_VERSION 10.6)
@@ -27,17 +23,18 @@ if(APPLE)
     "${CMAKE_CXX_FLAGS} -mmacosx-version-min=${GPUSD_OSX_VERSION}" )
 
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
-  LIST(REMOVE_ITEM CMAKE_SYSTEM_LIBRARY_PATH /opt/local/lib)
-  LIST(REMOVE_ITEM CMAKE_SYSTEM_PREFIX_PATH /opt/local)
+  list(REMOVE_ITEM CMAKE_SYSTEM_LIBRARY_PATH /opt/local/lib)
+  list(REMOVE_ITEM CMAKE_SYSTEM_PREFIX_PATH /opt/local)
 endif()
 
-find_package(X11)
+include(FindPackages)
 
 if(APPLE)
-  LIST(APPEND CMAKE_SYSTEM_LIBRARY_PATH /opt/local/lib)
-  LIST(APPEND CMAKE_SYSTEM_PREFIX_PATH /opt/local)
+  list(APPEND CMAKE_SYSTEM_LIBRARY_PATH /opt/local/lib)
+  list(APPEND CMAKE_SYSTEM_PREFIX_PATH /opt/local)
 endif(APPLE)
 
+include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 add_subdirectory(apps)
 add_subdirectory(libs)
 add_subdirectory(doc)

@@ -11,8 +11,6 @@ set(SOURCES
 )
 
 find_library(CARBON_LIBRARY Carbon)
-find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIR})
 
 set(LIBRARY gpusd_cgl)
 set(INCLUDE include/gpusd/cgl)
