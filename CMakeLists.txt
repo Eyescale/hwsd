@@ -15,7 +15,6 @@ set(RELEASE_VERSION OFF) # OFF or ABI version
 
 include(Common)
 include(GitTargets)
-include(DoxygenSetup)
 
 if(APPLE)
   set(GPUSD_OSX_VERSION 10.6)
@@ -38,12 +37,12 @@ include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 add_subdirectory(apps)
 add_subdirectory(libs)
 add_subdirectory(doc)
-include(DoxygenRule) # must be after all targets
 
 install(FILES CMake/Findgpusd.cmake
   DESTINATION ${CMAKE_MODULE_INSTALL_PATH} COMPONENT dev)
 install(FILES CMake/FindLibraryPackage.cmake
   DESTINATION ${CMAKE_MODULE_INSTALL_PATH}/Findgpusd COMPONENT dev)
 
+include(DoxygenRule)
 include(CTest)
 include(CPackConfig)
