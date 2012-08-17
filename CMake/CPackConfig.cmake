@@ -14,6 +14,9 @@ set(CPACK_DEBIAN_BUILD_DEPENDS libgl1-mesa-dev libx11-dev
   libboost-program-options-dev ${LUNCHBOX_DEB_BUILD_DEPENDENCIES})
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libboost-program-options-dev, ${LUNCHBOX_DEB_DEPENDENCIES}")
 
+set(CPACK_MACPORTS_CATEGORY graphics)
+set(CPACK_MACPORTS_DEPENDS boost Lunchbox)
+
 # components
 set(CPACK_COMPONENTS_ALL dev runtime tools daemon)
 
