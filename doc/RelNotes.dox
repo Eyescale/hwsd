@@ -71,6 +71,12 @@ No updates.
 GPU-SD 1.4 includes various bugfixes over the 1.0 release, including the
 following:
 
+Version 1.4.1:
+
+- Set install_name on Darwin dylibs
+
+Version 1.4.0:
+
 - WGL: Fix pixel viewport calculation in multi-monitor setups
 
 @subsection KnownBugs Known Bugs
