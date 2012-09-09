@@ -52,10 +52,10 @@ used by the daemon:
 
 ## Downloads
 
-Version 1.4-beta
-[release notes](http://eyescale.github.com/gpusd-1.3.5/index.html):
+Version 1.4
+[release notes](http://eyescale.github.com/gpusd-1.4.0/index.html):
 
-* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.3.5.tar.gz)
+* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpusd-1.4.0.tar.gz)
 * Binaries:
   [![Ubuntu](http://www.equalizergraphics.com/images/ubuntu.png)](https://launchpad.net/%7Eeilemann/+archive/equalizer/)
 
@@ -109,4 +109,4 @@ to discard information. The following filters are provided:
 
 * [Unimplemented Features](https://github.com/Eyescale/gpusd/issues?labels=Feature)
 * [Known Bugs](https://github.com/Eyescale/gpusd/issues?labels=Bug)
-* [New Features in GPU-SD 1.2](https://github.com/Eyescale/gpusd/issues?state=closed&milestone=1)
+* [New Features in GPU-SD 1.4](https://github.com/Eyescale/gpusd/issues?state=closed&milestone=1)
