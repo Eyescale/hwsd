@@ -34,9 +34,9 @@ GPU-SD 1.4 is a feature release and contains the following features,
 
 @subsection NewFeatures New Features
 
-- <a href="https://github.com/Eyescale/gpu-sd/issues/7">Support for VirtualGL
+- <a href="https://github.com/Eyescale/gpusd/issues/7">Support for VirtualGL
   detection</a>
-- <a href="https://github.com/Eyescale/gpu-sd/issues/6">Hostname command line
+- <a href="https://github.com/Eyescale/gpusd/issues/6">Hostname command line
   parameter for gpu_sd daemon</a>
 
 @subsection Enhancements Enhancements
@@ -82,7 +82,7 @@ Version 1.4.0:
 @subsection KnownBugs Known Bugs
 
 The following bugs were known at release time. Please file
-a <a href="https://github.com/Eyescale/gpu-sd/issues">Bug Report</a> if you find
+a <a href="https://github.com/Eyescale/gpusd/issues">Bug Report</a> if you find
 any other issue with this release.
 
 No known bugs.

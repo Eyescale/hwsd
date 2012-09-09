@@ -7,7 +7,7 @@ graphics processing units using ZeroConf. It enables auto-configuration
 of ad-hoc GPU clusters and multi-GPU machines.
 
 The source code is hosted on
-[github](https://github.com/Eyescale/gpu-sd) and documented [here](http://www.equalizergraphics.com/gpu-sd/API/).
+[github](https://github.com/Eyescale/gpusd) and documented [here](http://www.equalizergraphics.com/gpu-sd/API/).
 
 ## Modules
 
@@ -107,6 +107,6 @@ to discard information. The following filters are provided:
 
 ## Further Links
 
-* [Unimplemented Features](https://github.com/Eyescale/gpu-sd/issues?labels=Feature)
-* [Known Bugs](https://github.com/Eyescale/gpu-sd/issues?labels=Bug)
-* [New Features in GPU-SD 1.2](https://github.com/Eyescale/gpu-sd/issues?state=closed&milestone=1)
+* [Unimplemented Features](https://github.com/Eyescale/gpusd/issues?labels=Feature)
+* [Known Bugs](https://github.com/Eyescale/gpusd/issues?labels=Bug)
+* [New Features in GPU-SD 1.2](https://github.com/Eyescale/gpusd/issues?state=closed&milestone=1)
