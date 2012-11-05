@@ -22,16 +22,10 @@ if(APPLE)
     "${CMAKE_CXX_FLAGS} -mmacosx-version-min=${GPUSD_OSX_VERSION}" )
 
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
-  list(REMOVE_ITEM CMAKE_SYSTEM_LIBRARY_PATH /opt/local/lib)
-  list(REMOVE_ITEM CMAKE_SYSTEM_PREFIX_PATH /opt/local)
+  list(INSERT CMAKE_PREFIX_PATH 0 /usr/X11R6)
 endif()
 
 include(FindPackages)
-
-if(APPLE)
-  list(APPEND CMAKE_SYSTEM_LIBRARY_PATH /opt/local/lib)
-  list(APPEND CMAKE_SYSTEM_PREFIX_PATH /opt/local)
-endif(APPLE)
 
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 add_subdirectory(apps)
