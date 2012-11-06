@@ -23,10 +23,10 @@ if(WIN32)
 endif()
 
 if(Boost_FOUND)
-  add_definitions(-DGPUSD_BOOST)
   list(APPEND LINK_LIBRARIES ${Boost_PROGRAM_OPTIONS_LIBRARY})
 else()
-  message(STATUS "boost::program_options missing, command line options not available")
+  message(STATUS
+    "boost::program_options missing, command line options not available")
 endif()
 
 source_group(\\ FILES ${SOURCES} ${HEADERS})

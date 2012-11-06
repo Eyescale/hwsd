@@ -29,13 +29,13 @@
 #  include <gpusd/wgl/module.h>
 #endif
 
-#include <lunchbox/servus.h>
+#include <lunchbox/lunchbox.h>
 
 #include <cstdio>
 #include <cstdlib>
 #include <sstream>
 
-#ifdef GPUSD_BOOST
+#ifdef GPUSD_USE_BOOST
 #  include <boost/program_options/options_description.hpp>
 #  include <boost/program_options/parsers.hpp>
 #  include <boost/program_options/variables_map.hpp>
@@ -57,7 +57,7 @@ static void setKey( lunchbox::Servus& service, const size_t gpuIndex,
     service.set( string, out.str( ));
 }
 
-static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus, 
+static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
                      const std::string& session, const std::string& hostname )
 {
     service.set( "Session", session );
@@ -100,28 +100,17 @@ static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
 
 int main (int argc, char * argv[])
 {
-#ifdef GPUSD_CGL
-    gpusd::cgl::Module::use();
-#endif
-#ifdef GPUSD_GLX
-    gpusd::glx::Module::use();
-#endif
-#ifdef GPUSD_WGL
-    gpusd::wgl::Module::use();
-#endif
-
     std::string session( "default" );
     std::string hostname;
 
-#ifdef GPUSD_BOOST
+#ifdef GPUSD_USE_BOOST
     arg::variables_map vm;
     arg::options_description desc("GPU service discovery daemon");
     desc.add_options()
         ("help", "output this help message")
         ("session,s", arg::value< std::string >(), "set session name")
         ("hostname,h", arg::value< std::string >(), "set hostname")
-        ;
-
+        ("daemon,d", "run as daemon");
 
     try
     {
@@ -139,14 +128,38 @@ int main (int argc, char * argv[])
         return EXIT_SUCCESS;
     }
 
-    if( vm.count( "session" )) 
+    if( vm.count( "session" ))
         session = vm["session"].as< std::string >();
-    if( vm.count( "hostname" )) 
+    if( vm.count( "hostname" ))
         hostname = vm["hostname"].as< std::string >();
+
+    const bool daemon = vm.count( "daemon" ) > 0;
 #else
     if( argc > 1 )
         std::cerr << "Ignoring command line options, compiled without "
                   << "boost::program_options support" << std::endl;
+    const bool daemon = false;
+#endif
+
+    if( daemon )
+    {
+#if LUNCHBOX_VERSION_GT(1, 5, 0)
+        if( lunchbox::Log::setOutput( "gpusd.log" ))
+            lunchbox::daemonize();
+#else
+        LBWARN << "Ignoring daemon request, need Lunchbox >= 1.5.1, got "
+               << lunchbox::Version::getString() << std::endl;
+#endif
+    }
+
+#ifdef GPUSD_CGL
+    gpusd::cgl::Module::use();
+#endif
+#ifdef GPUSD_GLX
+    gpusd::glx::Module::use();
+#endif
+#ifdef GPUSD_WGL
+    gpusd::wgl::Module::use();
 #endif
 
     const GPUInfos gpus = gpusd::Module::discoverGPUs();
@@ -163,6 +176,9 @@ int main (int argc, char * argv[])
         std::cerr << "Service announcement failed" << std::endl;
         return EXIT_FAILURE;
     }
+
+    while( daemon )
+        lunchbox::sleep( 0xFFFFFFFFu );
 
     std::cout << "Press <Enter> to quit" << std::endl;
     getchar();
