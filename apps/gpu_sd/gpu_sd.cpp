@@ -141,17 +141,6 @@ int main (int argc, char * argv[])
     const bool daemon = false;
 #endif
 
-    if( daemon )
-    {
-#if LUNCHBOX_VERSION_GT(1, 5, 0)
-        if( lunchbox::Log::setOutput( "gpusd.log" ))
-            lunchbox::daemonize();
-#else
-        LBWARN << "Ignoring daemon request, need Lunchbox >= 1.5.1, got "
-               << lunchbox::Version::getString() << std::endl;
-#endif
-    }
-
 #ifdef GPUSD_CGL
     gpusd::cgl::Module::use();
 #endif
@@ -177,8 +166,18 @@ int main (int argc, char * argv[])
         return EXIT_FAILURE;
     }
 
-    while( daemon )
-        lunchbox::sleep( 0xFFFFFFFFu );
+    if( daemon )
+    {
+#if LUNCHBOX_VERSION_GT(1, 5, 0)
+        if( lunchbox::Log::setOutput( "gpusd.log" ))
+            lunchbox::daemonize();
+#else
+        LBWARN << "Ignoring daemon request, need Lunchbox >= 1.5.1, got "
+               << lunchbox::Version::getString() << std::endl;
+#endif
+        for( ;; )
+            lunchbox::sleep( 0xFFFFFFFFu );
+    }
 
     std::cout << "Press <Enter> to quit" << std::endl;
     getchar();
