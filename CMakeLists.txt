@@ -15,10 +15,9 @@ set(RELEASE_VERSION 1) # OFF or ABI version
 
 include(Common)
 include(GitTargets)
-include(DoxygenSetup)
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 
-find_package(Boost COMPONENTS program_options) 
+find_package(Boost COMPONENTS program_options)
 find_package(Lunchbox 1.3.5)
 
 if(APPLE)
