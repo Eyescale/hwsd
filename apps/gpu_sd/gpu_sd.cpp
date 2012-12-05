@@ -19,6 +19,7 @@
 
 #include <gpusd/gpuInfo.h>
 #include <gpusd/module.h>
+#include <gpusd/version.h>
 #ifdef GPUSD_CGL
 #  include <gpusd/cgl/module.h>
 #endif
@@ -98,33 +99,45 @@ static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
     }
 }
 
-int main (int argc, char * argv[])
+int main( const int argc, const char* argv[] )
 {
     std::string session( "default" );
     std::string hostname;
+    unsigned short port = 4242;
 
 #ifdef GPUSD_USE_BOOST
+    const std::string applicationName = "GPU service discovery daemon";
     arg::variables_map vm;
-    arg::options_description desc("GPU service discovery daemon");
+    arg::options_description desc( applicationName );
     desc.add_options()
-        ("help", "output this help message")
-        ("session,s", arg::value< std::string >(), "set session name")
-        ("hostname,h", arg::value< std::string >(), "set hostname")
-        ("daemon,d", "run as daemon");
+        ( "help", "output this help message" )
+        ( "version,v", "print version" )
+        ( "session,s", arg::value< std::string >()->default_value( session ),
+          "set session name" )
+        ( "hostname,h", arg::value< std::string >(), "set hostname")
+        ( "port,p", arg::value< unsigned short >()->default_value( port ),
+          "set listening port" )
+        ( "daemon,d", "run as daemon" );
 
     try
     {
         arg::store( arg::parse_command_line( argc, argv, desc ), vm );
         arg::notify( vm );
     }
-    catch(...)
+    catch( ... )
     {
         std::cout << desc << std::endl;
-        return EXIT_SUCCESS;
+        return EXIT_FAILURE;
     }
     if( vm.count( "help" ))
     {
         std::cout << desc << std::endl;
+        return EXIT_SUCCESS;
+    }
+    if( vm.count( "version" ))
+    {
+        std::cout << applicationName << " " << gpusd::Version::getString()
+                  << "\n" << std::endl;
         return EXIT_SUCCESS;
     }
 
@@ -132,6 +145,8 @@ int main (int argc, char * argv[])
         session = vm["session"].as< std::string >();
     if( vm.count( "hostname" ))
         hostname = vm["hostname"].as< std::string >();
+    if( vm.count( "port" ))
+        port = vm["port"].as< unsigned short >();
 
     const bool daemon = vm.count( "daemon" ) > 0;
 #else
@@ -151,7 +166,7 @@ int main (int argc, char * argv[])
     gpusd::wgl::Module::use();
 #endif
 
-    const GPUInfos gpus = gpusd::Module::discoverGPUs();
+    const GPUInfos& gpus = gpusd::Module::discoverGPUs();
     if( gpus.empty( ))
     {
         std::cerr << "No GPUs found, quitting" << std::endl;
@@ -160,7 +175,7 @@ int main (int argc, char * argv[])
 
     lunchbox::Servus service( "_gpu-sd._tcp" );
     setKeys( service, gpus, session, hostname );
-    if( !service.announce( 4242, "" ))
+    if( !service.announce( port, "" ))
     {
         std::cerr << "Service announcement failed" << std::endl;
         return EXIT_FAILURE;
