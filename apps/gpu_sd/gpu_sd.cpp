@@ -68,7 +68,7 @@ static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
     out << gpus.size();
     service.set( "GPU Count", out.str( ));
 
-    for( GPUInfos::const_iterator i = gpus.begin(); i != gpus.end(); ++i )
+    for( gpusd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
     {
         const GPUInfo& info = *i;
         const size_t index = i - gpus.begin();
@@ -114,7 +114,7 @@ int main( const int argc, const char* argv[] )
         ( "version,v", "print version" )
         ( "session,s", arg::value< std::string >()->default_value( session ),
           "set session name" )
-        ( "hostname,h", arg::value< std::string >(), "set hostname")
+        ( "hostname,h", arg::value< std::string >(), "set hostname" )
         ( "port,p", arg::value< unsigned short >()->default_value( port ),
           "set listening port" )
         ( "daemon,d", "run as daemon" );
