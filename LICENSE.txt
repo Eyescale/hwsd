@@ -1,6 +1,6 @@
-GPU-SD - a daemon and library for the discovery and announcement of graphics processing units using ZeroConf.
+HW-SD - a daemon and library for the discovery and announcement of hardware resources using ZeroConf.
 
-The GPU-SD libraries are licensed under the LGPL and the applications under the GPL, unless noted otherwise. See files doc/LGPL.txt anddoc/GPL.txt for the full license.
+The HW-SD libraries are licensed under the LGPL and the applications under the GPL, unless noted otherwise. See files doc/LGPL.txt anddoc/GPL.txt for the full license.
 
 Copyright (C) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
 
@@ -14,8 +14,8 @@ You should have received a copy of the GNU Lesser General Public License along w
 
 ---------------------------------------------------------------------------
 
-The GPU-SD applications are free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+The HW-SD applications are free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-GPU-SD is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+HW-SD is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with GPU-SD. If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License along with HW-SD. If not, see <http://www.gnu.org/licenses/>.

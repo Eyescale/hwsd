@@ -2,32 +2,32 @@
 /*
   Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
 
-  This file is part of the GPU-SD daemon.
+  This file is part of the HW-SD daemon.
 
-  The GPU-SD daemon is free software: you can redistribute it and/or modify it
+  The HW-SD daemon is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the Free
   Software Foundation, either version 3 of the License, or (at your option) any
   later version.
 
-  GPU-SD is distributed in the hope that it will be useful, but WITHOUT ANY
+  HW-SD is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with GPU-SD. If not, see <http://www.gnu.org/licenses/>.
+  along with HW-SD. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <hwsd/version.h>
 #include <hwsd/gpuInfo.h>
 #include <hwsd/module.h>
 
-#ifdef GPUSD_CGL
+#ifdef HWSD_GPU_CGL
 #  include <hwsd/gpu/cgl/module.h>
 #endif
-#ifdef GPUSD_GLX
+#ifdef HWSD_GPU_GLX
 #  include <hwsd/gpu/glx/module.h>
 #endif
-#ifdef GPUSD_WGL
+#ifdef HWSD_GPU_WGL
 #  include <hwsd/gpu/wgl/module.h>
 #endif
 
@@ -152,13 +152,13 @@ int main( const int argc, const char* argv[] )
     const bool daemon = false;
 #endif
 
-#ifdef GPUSD_CGL
+#ifdef HWSD_GPU_CGL
     hwsd::gpu::cgl::Module::use();
 #endif
-#ifdef GPUSD_GLX
+#ifdef HWSD_GPU_GLX
     hwsd::gpu::glx::Module::use();
 #endif
-#ifdef GPUSD_WGL
+#ifdef HWSD_GPU_WGL
     hwsd::gpu::wgl::Module::use();
 #endif
 

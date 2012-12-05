@@ -2,19 +2,19 @@
 /*
   Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch>
 
-  This file is part of the GPU-SD discovery tool.
+  This file is part of the HW-SD discovery tool.
 
-  The GPU-SD discovery tool is free software: you can redistribute it and/or
+  The HW-SD discovery tool is free software: you can redistribute it and/or
   modify it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  GPU-SD is distributed in the hope that it will be useful, but WITHOUT ANY
+  HW-SD is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with GPU-SD. If not, see <http://www.gnu.org/licenses/>.
+  along with HW-SD. If not, see <http://www.gnu.org/licenses/>.
 */
 
 

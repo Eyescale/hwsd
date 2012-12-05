@@ -18,14 +18,16 @@
 
 #include "module.h"
 
-#include <gpusd/gpuInfo.h>
+#include <hwsd/gpuInfo.h>
 #include <sstream>
 
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
 #include <GL/gl.h>
 
-namespace gpusd
+namespace hwsd
+{
+namespace gpu
 {
 namespace wgl
 {
@@ -295,5 +297,6 @@ GPUInfos Module::discoverGPUs_() const
     return result;
 }
 
+}
 }
 }

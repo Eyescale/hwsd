@@ -2,29 +2,29 @@
 
 [TOC]
 
-GPU-SD is a library and daemon for the discovery and announcement of
-graphics processing units using ZeroConf. It enables auto-configuration
+HW-SD is a library and daemon for the discovery and announcement of
+hardware resources using ZeroConf. It enables auto-configuration
 of ad-hoc GPU clusters and multi-GPU machines.
 
 The source code is hosted on
-[github](https://github.com/Eyescale/gpusd) and documented [here](http://www.equalizergraphics.com/gpu-sd/API/).
+[github](https://github.com/Eyescale/hwsd) and documented [here](TBD).
 
 ## Modules
 
-The GPU-SD library uses modules which implement discovery using
+The HW-SD library uses modules which implement discovery using
 different protocols. Each module is a separate library, which can be
 selectively linked by applications, limiting dependencies. Currently
 available are:
 
-- DNS_SD: Remote ZeroConf (Bonjour) discovery for GPUs announced by the daemon
-- CGL: Local discovery of Carbon displays (Mac OS X only)
-- GLX: Local discovery of X11 servers and screens
-- WGL: Local discovery of WGL_NV_gpu_affinity, WGL_AMD_gpu_association
+- GPU_DNS_SD: Remote ZeroConf (Bonjour) discovery for GPUs announced by the daemon
+- GPU_CGL: Local discovery of Carbon displays (Mac OS X only)
+- GPU_GLX: Local discovery of X11 servers and screens
+- GPU_WGL: Local discovery of WGL_NV_gpu_affinity, WGL_AMD_gpu_association
   or Windows displays (Windows only)
 
 ### VirtualGL
 
-When an application is run through VirtualGL, gpu-sd detects this and
+When an application is run through VirtualGL, hwsd detects this and
 sets the FLAG\_VIRTUALGL on all local GPUs, and additionally
 FLAG\_VIRTUALGL\_DISPLAY on the GPU used by VirtualGL for
 redirection. This is only implemented for GLX so far
@@ -52,24 +52,6 @@ used by the daemon:
 
 ## Downloads
 
-Version 1.4
-[release notes](http://eyescale.github.com/gpusd-1.4.0/index.html):
-
-* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpusd-1.4.0.tar.gz)
-* Binaries:
-  [![Ubuntu](http://www.equalizergraphics.com/images/ubuntu.png)](https://launchpad.net/%7Eeilemann/+archive/equalizer/)
-
-Version 1.0.3
-[release notes](http://www.equalizergraphics.com/gpu-sd/API-1.0.3):
-
-* Source: [tar.gz](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.3.tar.gz)
-* Binaries:
-  [![OS X](http://www.equalizergraphics.com/images/mac.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.3-Darwin.dmg)
-  [![Ubuntu](http://www.equalizergraphics.com/images/ubuntu.png)](https://launchpad.net/%7Eeilemann/+archive/equalizer/)
-  [![Windows 32 bit](http://www.equalizergraphics.com/images/windows32.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.3-win32.exe)
-  [![Windows 64 bit](http://www.equalizergraphics.com/images/windows64.png)](http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.0.3-win64.exe)
-
-
 ## Compilation
 
 The build system is using CMake, with a default Makefile to trigger
@@ -77,7 +59,7 @@ CMake and compilation. Typing 'make' should suffice. A ZeroConf
 implementation is required for the dns_sd module and the daemon. On Mac
 OS X it is part of the operating system, on Linux AVAHI is tested ('sudo
 apt-get install libavahi-compat-libdnssd-dev' on Ubuntu). If no ZeroConf
-implementation is found, GPU-SD is only compiled with local discovery
+implementation is found, HW-SD is only compiled with local discovery
 modules.
 
 ## Usage
@@ -87,9 +69,9 @@ libraries, instantiation the modules in the code and then quering the
 instantiated modules. The following will find all remote and the local
 GPUs on Windows:
 
-    gpusd::wgl::Module::use();
-    gpusd::dns_sd::Module::use();
-    const gpusd::GPUInfos& infos = gpusd::Module::discoverGPUs();
+    hwsd::gpu::wgl::Module::use();
+    hwsd::gpu::dns_sd::Module::use();
+    const hwsd::GPUInfos& infos = hwsd::Module::discoverGPUs();
 
 Filters are chainable functors which can be passed to the query function
 to discard information. The following filters are provided:
@@ -100,13 +82,12 @@ to discard information. The following filters are provided:
   enabling both the cgl and glx module on Mac OS X.
 * SessionFilter discards all GPUs not belonging to a given session
 
-## Projects using GPU-SD
+## Projects using HW-SD
 
 * [Equalizer](http://www.equalizergraphics.com) parallel rendering
   framework. ([source](https://github.com/Eyescale/Equalizer/blob/master/libs/eq/server/config/resources.cpp#L61))
 
 ## Further Links
 
-* [Unimplemented Features](https://github.com/Eyescale/gpusd/issues?labels=Feature)
-* [Known Bugs](https://github.com/Eyescale/gpusd/issues?labels=Bug)
-* [New Features in GPU-SD 1.4](https://github.com/Eyescale/gpusd/issues?state=closed&milestone=1)
+* [Unimplemented Features](https://github.com/Eyescale/hwsd/issues?labels=Feature)
+* [Known Bugs](https://github.com/Eyescale/hwsd/issues?labels=Bug)

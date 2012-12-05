@@ -15,8 +15,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GPUSD_GLX_MODULE_H
-#define GPUSD_GLX_MODULE_H
+#ifndef HWSD_GPU_GLX_MODULE_H
+#define HWSD_GPU_GLX_MODULE_H
 
 #include <hwsd/module.h> // base class
 
@@ -52,4 +52,4 @@ namespace glx
 }
 }
 }
-#endif // GPUSD_GLX_MODULE_H
+#endif // HWSD_GPU_GLX_MODULE_H
