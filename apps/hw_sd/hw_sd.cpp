@@ -18,8 +18,8 @@
 */
 
 #include <hwsd/version.h>
-#include <hwsd/gpu/gpuInfo.h>
-#include <hwsd/gpu/module.h>
+#include <hwsd/gpuInfo.h>
+#include <hwsd/module.h>
 
 #ifdef GPUSD_CGL
 #  include <hwsd/gpu/cgl/module.h>
@@ -44,8 +44,8 @@
    namespace arg = boost::program_options;
 #endif
 
-using hwsd::gpu::GPUInfo;
-using hwsd::gpu::GPUInfos;
+using hwsd::GPUInfo;
+using hwsd::GPUInfos;
 
 static void setKey( lunchbox::Servus& service, const size_t gpuIndex,
                     const std::string& name, const unsigned value )
@@ -69,7 +69,7 @@ static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
     out << gpus.size();
     service.set( "GPU Count", out.str( ));
 
-    for( hwsd::gpu::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
+    for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
     {
         const GPUInfo& info = *i;
         const size_t index = i - gpus.begin();
@@ -162,7 +162,7 @@ int main( const int argc, const char* argv[] )
     hwsd::gpu::wgl::Module::use();
 #endif
 
-    const GPUInfos& gpus = hwsd::gpu::Module::discoverGPUs();
+    const GPUInfos& gpus = hwsd::Module::discoverGPUs();
     if( gpus.empty( ))
     {
         std::cerr << "No GPUs found, quitting" << std::endl;

@@ -20,8 +20,6 @@
 
 namespace hwsd
 {
-namespace gpu
-{
 namespace
 {
 static Module* stack_ = 0;
@@ -35,7 +33,7 @@ public:
     Module() : next_( 0 ) {}
     ~Module() {}
 
-    gpu::Module* next_;
+    hwsd::Module* next_;
 };
 }
 
@@ -92,5 +90,4 @@ GPUInfos Module::discoverGPUs( FilterPtr filter )
     return result;
 }
 
-}
 }

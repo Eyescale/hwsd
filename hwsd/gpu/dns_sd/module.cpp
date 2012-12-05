@@ -17,7 +17,7 @@
 
 #include "module.h"
 
-#include "../gpuInfo.h"
+#include <hwsd/gpuInfo.h>
 #include <lunchbox/servus.h>
 #include <algorithm>
 #include <sstream>

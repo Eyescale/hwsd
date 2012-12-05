@@ -15,8 +15,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GPUSD_GPUINFO_H
-#define GPUSD_GPUINFO_H
+#ifndef HWSD_GPUINFO_H
+#define HWSD_GPUINFO_H
 
 #include <climits>
 #include <cstring>
@@ -24,8 +24,6 @@
 #include <string>
 
 namespace hwsd
-{
-namespace gpu
 {
     /** A structure containing GPU-specific information. */
     struct GPUInfo
@@ -137,6 +135,5 @@ namespace gpu
         return os;
     }
 }
-}
 
-#endif // GPUSD_GPUINFO_H
+#endif // HWSD_GPUINFO_H

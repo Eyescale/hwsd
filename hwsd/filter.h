@@ -15,17 +15,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GPUSD_FILTER_H
-#define GPUSD_FILTER_H
+#ifndef HWSD_FILTER_H
+#define HWSD_FILTER_H
 
 #include <hwsd/api.h>
-#include <hwsd/gpu/types.h>
+#include <hwsd/types.h>
 
 #include <string>
 
 namespace hwsd
-{
-namespace gpu
 {
 namespace detail
 {
@@ -71,7 +69,7 @@ namespace detail
          * @version 1.0
          */
         HWSD_API virtual bool operator() ( const GPUInfos& current,
-                                            const GPUInfo& candidate );
+                                           const GPUInfo& candidate );
     private:
         detail::Filter* const impl_;
     };
@@ -87,7 +85,7 @@ namespace detail
          * @version 1.0
          */
         HWSD_API virtual bool operator() ( const GPUInfos& current,
-                                            const GPUInfo& candidate );
+                                           const GPUInfo& candidate );
     };
 
     /** Filter overlapping duplicates with different GPU types. */
@@ -102,7 +100,7 @@ namespace detail
          * @version 1.0
          */
         HWSD_API virtual bool operator() ( const GPUInfos& current,
-                                            const GPUInfo& candidate );
+                                           const GPUInfo& candidate );
     };
 
     /** Filters for a specific session. */
@@ -114,10 +112,9 @@ namespace detail
 
         /** @return true if the candidate has the given session. @version 1.0 */
         HWSD_API virtual bool operator() ( const GPUInfos& current,
-                                            const GPUInfo& candidate );
+                                           const GPUInfo& candidate );
     private:
         detail::SessionFilter* const impl_;
     };
 }
-}
-#endif // GPUSD_FILTER_H
+#endif // HWSD_FILTER_H

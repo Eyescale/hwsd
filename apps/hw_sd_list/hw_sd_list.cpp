@@ -18,14 +18,14 @@
 */
 
 
-#include <hwsd/gpu/gpuInfo.h>
+#include <hwsd/gpuInfo.h>
 #include <hwsd/gpu/dns_sd/module.h>
 
 int main (int argc, const char * argv[])
 {
     hwsd::gpu::dns_sd::Module::use();
-    const hwsd::gpu::GPUInfos gpus = hwsd::gpu::Module::discoverGPUs();
-    for( hwsd::gpu::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
+    const hwsd::GPUInfos gpus = hwsd::Module::discoverGPUs();
+    for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
         std::cout << *i << std::endl;
 
     return 0;

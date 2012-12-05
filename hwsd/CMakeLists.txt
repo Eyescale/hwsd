@@ -4,9 +4,15 @@ configure_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/hwsd/version.h" @ONLY)
 set(HEADERS
   "${OUTPUT_INCLUDE_DIR}/hwsd/version.h"
   api.h
+  filter.h
+  module.h
+  gpuInfo.h
+  types.h
 )
 
 set(SOURCES
+  filter.cpp
+  module.cpp
   version.cpp
 )
 
@@ -18,13 +24,11 @@ add_library(${LIBRARY} SHARED ${HEADERS} ${SOURCES})
 set_target_properties(${LIBRARY} PROPERTIES
   VERSION ${VERSION} SOVERSION ${VERSION_MAJOR}
   PUBLIC_HEADER "${HEADERS}" COMPILE_DEFINITIONS "HWSD_SHARED")
-if(CMAKE_PROJECT_NAME MATCHES "hwsd")
-  install(TARGETS ${LIBRARY}
-    PUBLIC_HEADER DESTINATION ${INCLUDE} COMPONENT dev
-    ARCHIVE DESTINATION lib COMPONENT dev
-    RUNTIME DESTINATION bin COMPONENT runtime
-    LIBRARY DESTINATION lib COMPONENT runtime)
-endif()
+install(TARGETS ${LIBRARY}
+  PUBLIC_HEADER DESTINATION ${INCLUDE} COMPONENT dev
+  ARCHIVE DESTINATION lib COMPONENT dev
+  RUNTIME DESTINATION bin COMPONENT runtime
+  LIBRARY DESTINATION lib COMPONENT runtime)
 
 add_subdirectory(gpu)
 #add_subdirectory(net)

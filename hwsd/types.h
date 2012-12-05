@@ -15,8 +15,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GPUSD_TYPES_H
-#define GPUSD_TYPES_H
+#ifndef HWSD_TYPES_H
+#define HWSD_TYPES_H
 
 #include <vector>
 #ifdef _MSC_VER
@@ -27,8 +27,6 @@
 
 namespace hwsd
 {
-namespace gpu
-{
 
 struct GPUInfo;
 typedef std::vector< GPUInfo > GPUInfos; //!< A vector of GPUInfo structs
@@ -38,8 +36,7 @@ typedef GPUInfos::const_iterator GPUInfosCIter;
 
 class Filter;
 typedef std::tr1::shared_ptr< Filter > FilterPtr; //!< A Filter shared_ptr
-}
+
 }
 
-#endif // GPUSD_TYPES_H
-
+#endif // HWSD_TYPES_H

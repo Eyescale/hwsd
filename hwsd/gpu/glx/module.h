@@ -18,7 +18,7 @@
 #ifndef GPUSD_GLX_MODULE_H
 #define GPUSD_GLX_MODULE_H
 
-#include <hwsd/gpu/module.h> // base class
+#include <hwsd/module.h> // base class
 
 namespace hwsd
 {
@@ -33,7 +33,7 @@ namespace glx
      * be opened, all available screens on the server are added as a separate
      * GPUInfo.
      */
-    class Module : public gpu::Module
+    class Module : public hwsd::Module
     {
     public:
         /** Instantiate an GLX discovery module for the process. */
@@ -46,7 +46,7 @@ namespace glx
         virtual GPUInfos discoverGPUs_() const;
 
     private:
-        Module() : gpu::Module() {}
+        Module() : hwsd::Module() {}
         virtual ~Module() {}
     };
 }

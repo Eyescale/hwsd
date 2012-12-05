@@ -22,8 +22,6 @@
 
 namespace hwsd
 {
-namespace gpu
-{
 /** @cond IGNORE */
 typedef std::vector< FilterPtr > Filters;
 typedef Filters::const_iterator FiltersCIter;
@@ -128,5 +126,4 @@ bool SessionFilter::operator() ( const GPUInfos& current,
     return false;
 }
 
-}
 }

@@ -18,7 +18,7 @@
 #ifndef GPUSD_DNS_SD_MODULE_H
 #define GPUSD_DNS_SD_MODULE_H
 
-#include <hwsd/gpu/module.h> // base class
+#include <hwsd/module.h> // base class
 
 namespace hwsd
 {
@@ -27,7 +27,7 @@ namespace gpu
 namespace dns_sd
 {
     /** The DNS_SD implementation for remote GPU discovery. */
-    class Module : public gpu::Module
+    class Module : public hwsd::Module
     {
     public:
         /** Instantiate an AGL discovery module for the process. */
@@ -40,7 +40,7 @@ namespace dns_sd
         virtual GPUInfos discoverGPUs_() const;
 
     private:
-        Module() : gpu::Module() {}
+        Module() : hwsd::Module() {}
         virtual ~Module() {}
     };
 }

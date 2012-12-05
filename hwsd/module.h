@@ -15,18 +15,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GPUSD_MODULE_H
-#define GPUSD_MODULE_H
+#ifndef HWSD_MODULE_H
+#define HWSD_MODULE_H
 
 #include <hwsd/api.h>
-#include <hwsd/gpu/filter.h>
-#include <hwsd/gpu/types.h>
+#include <hwsd/filter.h>
+#include <hwsd/types.h>
 #include <iostream>
 
 
 namespace hwsd
-{
-namespace gpu
 {
 namespace detail
 {
@@ -53,6 +51,5 @@ namespace detail
         detail::Module* const impl_;
     };
 }
-}
-#endif // GPUSD_MODULE_H
 
+#endif // HWSD_MODULE_H

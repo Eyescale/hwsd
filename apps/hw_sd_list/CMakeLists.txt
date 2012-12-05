@@ -10,6 +10,6 @@ set(SOURCES
 
 source_group(\\ FILES ${SOURCES} ${HEADERS})
 add_executable(hw_sd_list ${SOURCES} ${HEADERS})
-target_link_libraries(hw_sd_list gpusd_dns_sd)
+target_link_libraries(hw_sd_list hwsd gpusd_dns_sd)
 install(TARGETS hw_sd_list DESTINATION bin COMPONENT tools)
 
