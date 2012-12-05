@@ -60,7 +60,7 @@ void Module::dispose()
     instance = 0;
 }
 
-GPUInfos Module::discoverGPUs_() const
+GPUInfos Module::discover() const
 {
     lunchbox::Servus service( "_gpu-sd._tcp" );
 

@@ -5,14 +5,16 @@ set(HEADERS
   "${OUTPUT_INCLUDE_DIR}/hwsd/version.h"
   api.h
   filter.h
+  hwsd.h
   module.h
+  netInfo.h
   gpuInfo.h
   types.h
 )
 
 set(SOURCES
   filter.cpp
-  module.cpp
+  hwsd.cpp
   version.cpp
 )
 

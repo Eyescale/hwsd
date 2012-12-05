@@ -17,6 +17,7 @@
   along with HW-SD. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <hwsd/hwsd.h>
 #include <hwsd/version.h>
 #include <hwsd/gpuInfo.h>
 #include <hwsd/module.h>
@@ -162,7 +163,7 @@ int main( const int argc, const char* argv[] )
     hwsd::gpu::wgl::Module::use();
 #endif
 
-    const GPUInfos& gpus = hwsd::Module::discoverGPUs();
+    const GPUInfos& gpus = hwsd::discoverGPUs();
     if( gpus.empty( ))
     {
         std::cerr << "No GPUs found, quitting" << std::endl;

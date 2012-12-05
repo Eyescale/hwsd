@@ -18,12 +18,6 @@
 #ifndef HWSD_MODULE_H
 #define HWSD_MODULE_H
 
-#include <hwsd/api.h>
-#include <hwsd/filter.h>
-#include <hwsd/types.h>
-#include <iostream>
-
-
 namespace hwsd
 {
 namespace detail
@@ -31,24 +25,53 @@ namespace detail
     class Module;
 }
     /** Base class for runtime-attached DSOs of a query implementation. */
+    template< typename T >
     class Module
     {
     public:
         /** Register and construct a new module. @version 1.0 */
-        HWSD_API Module();
+        Module()
+            : next_( 0 )
+        {
+            if( !stack_ )
+            {
+                stack_ = this;
+                return;
+            }
+
+            for( Module* module = stack_; module; module = module->next_ )
+            {
+                if( !module->next_ )
+                {
+                    module->next_ = this;
+                    return;
+                }
+            }
+        }
 
         /** Destruct this module. @version 1.0 */
-        HWSD_API virtual ~Module();
+        virtual ~Module()
+        {
+            Module* previous = 0;
+            for( Module* module = stack_; module; module = module->next_ )
+            {
+                if( module == this )
+                {
+                    if( previous )
+                        previous->next_ = next_;
+                    else
+                        stack_ = next_;
+                    break;
+                }
+                previous = module;
+            }
+        }
 
-        /** @return information about all found GPUs. @version 1.0 */
-        HWSD_API static GPUInfos discoverGPUs( FilterPtr filter =
-                                                FilterPtr(new DuplicateFilter));
-    protected:
-        /** @return information about all found GPUs. @version 1.0 */
-        virtual GPUInfos discoverGPUs_() const = 0;
+        /** @return information about all found resources. @version 1.0 */
+        virtual T discover() const = 0;
 
-    private:
-        detail::Module* const impl_;
+        static Module< T >* stack_;
+        Module< T >* next_;
     };
 }
 

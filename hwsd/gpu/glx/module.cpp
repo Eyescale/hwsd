@@ -108,7 +108,7 @@ void Module::dispose()
     instance = 0;
 }
 
-GPUInfos Module::discoverGPUs_() const
+GPUInfos Module::discover() const
 {
     GPUInfos result;
     GPUInfo defaultInfo( "GLX" );

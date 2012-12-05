@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
+/* Copyright (c) 2012, Daniel Nachbaur <danielnachbaur@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -15,38 +15,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef HWSD_GPU_DNS_SD_MODULE_H
-#define HWSD_GPU_DNS_SD_MODULE_H
+#ifndef HWSD_HWSD_H
+#define HWSD_HWSD_H
 
 #include <hwsd/api.h>
-#include <hwsd/module.h> // base class
+#include <hwsd/filter.h>
 #include <hwsd/types.h>
+
 
 namespace hwsd
 {
-namespace gpu
-{
-namespace dns_sd
-{
-    /** The DNS_SD implementation for remote GPU discovery. */
-    class Module : public hwsd::Module< GPUInfos >
-    {
-    public:
-        /** Instantiate an AGL discovery module for the process. */
-        static HWSD_API void use();
+    /** @return information about all found GPUs. @version 1.0 */
+    HWSD_API GPUInfos discoverGPUs( FilterPtr filter =
+                                              FilterPtr( new DuplicateFilter ));
 
-        /** Unload the AGL discovery module for the process. */
-        static HWSD_API void dispose();
-
-    protected:
-        virtual GPUInfos discover() const;
-
-    private:
-        Module() : hwsd::Module< GPUInfos >() {}
-        virtual ~Module() {}
-    };
+    /** @return information about all found network interfaces. @version 1.0 */
+    HWSD_API NetInfos discoverNets();
 }
-}
-}
-#endif // HWSD_GPU_DNS_SD_MODULE_H
 
+#endif // HWSD_HWSD_H

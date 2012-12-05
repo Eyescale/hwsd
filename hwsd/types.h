@@ -18,6 +18,8 @@
 #ifndef HWSD_TYPES_H
 #define HWSD_TYPES_H
 
+#include <hwsd/module.h>
+
 #include <vector>
 #ifdef _MSC_VER
 #  include <memory>
@@ -34,8 +36,16 @@ typedef GPUInfos::iterator GPUInfosIter; //!< An iterator over GPUInfos
 /** A const iterator over GPUInfos. */
 typedef GPUInfos::const_iterator GPUInfosCIter;
 
+struct NetInfo;
+typedef std::vector< NetInfo > NetInfos;
+typedef NetInfos::iterator NetInfosIter;
+typedef NetInfos::const_iterator NetInfosCIter;
+
 class Filter;
 typedef std::tr1::shared_ptr< Filter > FilterPtr; //!< A Filter shared_ptr
+
+typedef Module< GPUInfos > GPUModule;
+typedef Module< NetInfos > NetModule;
 
 }
 
