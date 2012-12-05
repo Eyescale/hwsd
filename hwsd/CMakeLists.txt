@@ -7,6 +7,7 @@ set(HEADERS
   filter.h
   hwsd.h
   module.h
+  module.ipp
   netInfo.h
   gpuInfo.h
   types.h

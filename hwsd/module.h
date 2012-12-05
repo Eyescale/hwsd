@@ -30,42 +30,10 @@ namespace detail
     {
     public:
         /** Register and construct a new module. @version 1.0 */
-        Module()
-            : next_( 0 )
-        {
-            if( !stack_ )
-            {
-                stack_ = this;
-                return;
-            }
-
-            for( Module* module = stack_; module; module = module->next_ )
-            {
-                if( !module->next_ )
-                {
-                    module->next_ = this;
-                    return;
-                }
-            }
-        }
+        Module();
 
         /** Destruct this module. @version 1.0 */
-        virtual ~Module()
-        {
-            Module* previous = 0;
-            for( Module* module = stack_; module; module = module->next_ )
-            {
-                if( module == this )
-                {
-                    if( previous )
-                        previous->next_ = next_;
-                    else
-                        stack_ = next_;
-                    break;
-                }
-                previous = module;
-            }
-        }
+        virtual ~Module();
 
         /** @return information about all found resources. @version 1.0 */
         virtual T discover() const = 0;
@@ -74,5 +42,7 @@ namespace detail
         Module< T >* next_;
     };
 }
+
+#include "module.ipp" // template implementation
 
 #endif // HWSD_MODULE_H
