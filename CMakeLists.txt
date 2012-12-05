@@ -29,11 +29,11 @@ include(FindPackages)
 
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 add_subdirectory(apps)
-add_subdirectory(libs)
+add_subdirectory(hwsd)
 add_subdirectory(doc)
 
-install(FILES CMake/Findhwsd.cmake
-  DESTINATION ${CMAKE_MODULE_INSTALL_PATH} COMPONENT dev)
+#install(FILES CMake/Findhwsd.cmake
+#  DESTINATION ${CMAKE_MODULE_INSTALL_PATH} COMPONENT dev)
 install(FILES CMake/FindLibraryPackage.cmake
   DESTINATION ${CMAKE_MODULE_INSTALL_PATH}/Findhwsd COMPONENT dev)
 

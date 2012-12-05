@@ -1,9 +1,5 @@
 
-configure_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/gpusd/version.h" @ONLY)
-
 set(HEADERS
-  "${OUTPUT_INCLUDE_DIR}/gpusd/version.h"
-  api.h
   filter.h
   module.h
   gpuInfo.h
@@ -13,7 +9,6 @@ set(HEADERS
 set(SOURCES
   filter.cpp
   module.cpp
-  version.cpp
 )
 
 set(LIBRARY gpusd)
