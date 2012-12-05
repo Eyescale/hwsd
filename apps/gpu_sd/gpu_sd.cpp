@@ -103,7 +103,6 @@ int main( const int argc, const char* argv[] )
 {
     std::string session( "default" );
     std::string hostname;
-    unsigned short port = 4242;
 
 #ifdef GPUSD_USE_BOOST
     const std::string applicationName = "GPU service discovery daemon";
@@ -115,8 +114,6 @@ int main( const int argc, const char* argv[] )
         ( "session,s", arg::value< std::string >()->default_value( session ),
           "set session name" )
         ( "hostname,h", arg::value< std::string >(), "set hostname" )
-        ( "port,p", arg::value< unsigned short >()->default_value( port ),
-          "set listening port" )
         ( "daemon,d", "run as daemon" );
 
     try
@@ -145,8 +142,6 @@ int main( const int argc, const char* argv[] )
         session = vm["session"].as< std::string >();
     if( vm.count( "hostname" ))
         hostname = vm["hostname"].as< std::string >();
-    if( vm.count( "port" ))
-        port = vm["port"].as< unsigned short >();
 
     const bool daemon = vm.count( "daemon" ) > 0;
 #else
@@ -175,7 +170,7 @@ int main( const int argc, const char* argv[] )
 
     lunchbox::Servus service( "_gpu-sd._tcp" );
     setKeys( service, gpus, session, hostname );
-    if( !service.announce( port, "" ))
+    if( !service.announce( 4242, "" ))
     {
         std::cerr << "Service announcement failed" << std::endl;
         return EXIT_FAILURE;
