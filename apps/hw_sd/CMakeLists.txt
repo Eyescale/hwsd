@@ -4,7 +4,7 @@ if(NOT LUNCHBOX_USE_DNSSD)
 endif()
 
 set(HEADERS)
-set(SOURCES gpu_sd.cpp)
+set(SOURCES hw_sd.cpp)
 
 include_directories(${LUNCHBOX_INCLUDE_DIRS})
 set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} gpusd)
@@ -30,8 +30,7 @@ else()
 endif()
 
 source_group(\\ FILES ${SOURCES} ${HEADERS})
-add_executable(gpu_sd ${SOURCES} ${HEADERS})
-target_link_libraries(gpu_sd ${LINK_LIBRARIES})
-if(CMAKE_PROJECT_NAME MATCHES "gpusd")
-  install(TARGETS gpu_sd DESTINATION bin COMPONENT daemon)
-endif()
+add_executable(hw_sd ${SOURCES} ${HEADERS})
+target_link_libraries(hw_sd ${LINK_LIBRARIES})
+install(TARGETS hw_sd DESTINATION bin COMPONENT daemon)
+

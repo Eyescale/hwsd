@@ -36,7 +36,7 @@
 #include <cstdlib>
 #include <sstream>
 
-#ifdef GPUSD_USE_BOOST
+#ifdef HWSD_USE_BOOST
 #  include <boost/program_options/options_description.hpp>
 #  include <boost/program_options/parsers.hpp>
 #  include <boost/program_options/variables_map.hpp>
@@ -104,7 +104,7 @@ int main( const int argc, const char* argv[] )
     std::string session( "default" );
     std::string hostname;
 
-#ifdef GPUSD_USE_BOOST
+#ifdef HWSD_USE_BOOST
     const std::string applicationName = "GPU service discovery daemon";
     arg::variables_map vm;
     arg::options_description desc( applicationName );
@@ -179,7 +179,7 @@ int main( const int argc, const char* argv[] )
     if( daemon )
     {
 #if LUNCHBOX_VERSION_GT(1, 5, 0)
-        if( lunchbox::Log::setOutput( "gpusd.log" ))
+        if( lunchbox::Log::setOutput( "hwsd.log" ))
             lunchbox::daemonize();
 #else
         LBWARN << "Ignoring daemon request, need Lunchbox >= 1.5.1, got "

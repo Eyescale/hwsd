@@ -1,3 +1,3 @@
 
-add_subdirectory(gpu_sd)
-add_subdirectory(gpu_sd_list)
+add_subdirectory(hw_sd)
+add_subdirectory(hw_sd_list)
