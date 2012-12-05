@@ -1,15 +1,15 @@
 
-/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch> 
+/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
  * by the Free Software Foundation.
- *  
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -70,8 +70,8 @@ namespace gpusd
             }
 
         /** @return true if both informations are identical. @version 1.0 */
-        bool operator == ( const GPUInfo& rhs ) const 
-            { 
+        bool operator == ( const GPUInfo& rhs ) const
+            {
                 return ( type == rhs.type && hostname == rhs.hostname &&
                          session == rhs.session && port == rhs.port &&
                          device == rhs.device &&
@@ -80,8 +80,8 @@ namespace gpusd
             }
 
         /** @return true if both infos are not identical. @version 1.0 */
-        bool operator != ( const GPUInfo& rhs ) const 
-            { 
+        bool operator != ( const GPUInfo& rhs ) const
+            {
                 return !(*this == rhs );
             }
 
@@ -104,7 +104,7 @@ namespace gpusd
         /** The size and location of the GPU (x,y,w,h). @version 1.0 */
         int pvp[4];
 
-        std::string hostname; //!< remote system  hostname, empty for local GPUs
+        std::string hostname; //!< remote system hostname, empty for local GPUs
         std::string session; //!< session name: local, default or custom string
 
         unsigned flags; //!< bitmask of additional GPU capabilities
