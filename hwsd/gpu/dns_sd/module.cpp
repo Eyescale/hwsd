@@ -17,14 +17,16 @@
 
 #include "module.h"
 
-#include <gpusd/gpuInfo.h>
+#include "../gpuInfo.h"
 #include <lunchbox/servus.h>
 #include <algorithm>
 #include <sstream>
 
 #define WAIT_TIME 500 // ms
 
-namespace gpusd
+namespace hwsd
+{
+namespace gpu
 {
 namespace dns_sd
 {
@@ -111,5 +113,6 @@ GPUInfos Module::discoverGPUs_() const
     return infos[0];
 }
 
+}
 }
 }

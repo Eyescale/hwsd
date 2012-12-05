@@ -26,5 +26,5 @@ if(CMAKE_PROJECT_NAME MATCHES "hwsd")
     LIBRARY DESTINATION lib COMPONENT runtime)
 endif()
 
-add_subdirectory(gpusd)
-#add_subdirectory(netsd)
+add_subdirectory(gpu)
+#add_subdirectory(net)

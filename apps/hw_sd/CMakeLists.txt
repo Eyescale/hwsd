@@ -7,7 +7,7 @@ set(HEADERS)
 set(SOURCES hw_sd.cpp)
 
 include_directories(${LUNCHBOX_INCLUDE_DIRS})
-set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} gpusd)
+set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} hwsd)
 
 if(APPLE)
   add_definitions(-DGPUSD_CGL)

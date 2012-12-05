@@ -17,7 +17,7 @@
 
 #include "module.h"
 
-#include <gpusd/gpuInfo.h>
+#include "../gpuInfo.h"
 
 #include <X11/Xlib.h>
 #include <GL/glx.h>
@@ -27,7 +27,9 @@
 
 #define TRY_PORTS 10
 
-namespace gpusd
+namespace hwsd
+{
+namespace gpu
 {
 namespace glx
 {
@@ -149,5 +151,6 @@ GPUInfos Module::discoverGPUs_() const
     return result;
 }
 
+}
 }
 }

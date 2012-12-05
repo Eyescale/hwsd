@@ -17,17 +17,18 @@
   along with GPU-SD. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <gpusd/gpuInfo.h>
-#include <gpusd/module.h>
-#include <gpusd/version.h>
+#include <hwsd/version.h>
+#include <hwsd/gpu/gpuInfo.h>
+#include <hwsd/gpu/module.h>
+
 #ifdef GPUSD_CGL
-#  include <gpusd/cgl/module.h>
+#  include <hwsd/gpu/cgl/module.h>
 #endif
 #ifdef GPUSD_GLX
-#  include <gpusd/glx/module.h>
+#  include <hwsd/gpu/glx/module.h>
 #endif
 #ifdef GPUSD_WGL
-#  include <gpusd/wgl/module.h>
+#  include <hwsd/gpu/wgl/module.h>
 #endif
 
 #include <lunchbox/lunchbox.h>
@@ -43,8 +44,8 @@
    namespace arg = boost::program_options;
 #endif
 
-using gpusd::GPUInfo;
-using gpusd::GPUInfos;
+using hwsd::gpu::GPUInfo;
+using hwsd::gpu::GPUInfos;
 
 static void setKey( lunchbox::Servus& service, const size_t gpuIndex,
                     const std::string& name, const unsigned value )
@@ -68,7 +69,7 @@ static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
     out << gpus.size();
     service.set( "GPU Count", out.str( ));
 
-    for( gpusd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
+    for( hwsd::gpu::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
     {
         const GPUInfo& info = *i;
         const size_t index = i - gpus.begin();
@@ -105,7 +106,7 @@ int main( const int argc, const char* argv[] )
     std::string hostname;
 
 #ifdef HWSD_USE_BOOST
-    const std::string applicationName = "GPU service discovery daemon";
+    const std::string applicationName = "Hardware service discovery daemon";
     arg::variables_map vm;
     arg::options_description desc( applicationName );
     desc.add_options()
@@ -133,7 +134,7 @@ int main( const int argc, const char* argv[] )
     }
     if( vm.count( "version" ))
     {
-        std::cout << applicationName << " " << gpusd::Version::getString()
+        std::cout << applicationName << " " << hwsd::Version::getString()
                   << "\n" << std::endl;
         return EXIT_SUCCESS;
     }
@@ -152,16 +153,16 @@ int main( const int argc, const char* argv[] )
 #endif
 
 #ifdef GPUSD_CGL
-    gpusd::cgl::Module::use();
+    hwsd::gpu::cgl::Module::use();
 #endif
 #ifdef GPUSD_GLX
-    gpusd::glx::Module::use();
+    hwsd::gpu::glx::Module::use();
 #endif
 #ifdef GPUSD_WGL
-    gpusd::wgl::Module::use();
+    hwsd::gpu::wgl::Module::use();
 #endif
 
-    const GPUInfos& gpus = gpusd::Module::discoverGPUs();
+    const GPUInfos& gpus = hwsd::gpu::Module::discoverGPUs();
     if( gpus.empty( ))
     {
         std::cerr << "No GPUs found, quitting" << std::endl;

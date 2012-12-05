@@ -20,6 +20,10 @@
 
 #include <string>
 
+/**
+ * @namespace hwsd
+ * @brief The HW-SD discovery library
+ */
 namespace hwsd
 {
 /** The current major version. */

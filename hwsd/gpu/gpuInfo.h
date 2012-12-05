@@ -23,7 +23,9 @@
 #include <iostream>
 #include <string>
 
-namespace gpusd
+namespace hwsd
+{
+namespace gpu
 {
     /** A structure containing GPU-specific information. */
     struct GPUInfo
@@ -135,5 +137,6 @@ namespace gpusd
         return os;
     }
 }
-#endif // GPUSD_GPUINFO_H
+}
 
+#endif // GPUSD_GPUINFO_H
