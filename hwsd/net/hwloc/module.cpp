@@ -75,13 +75,26 @@ NetInfos Module::discover() const
         if( !osDevice->attr )
             continue;
 
+        NetInfo::Type type = NetInfo::TYPE_UNKNOWN;
+
         if( osDevice->attr->osdev.type == HWLOC_OBJ_OSDEV_NETWORK )
-            std::cout << "Found ethernet device: " << osDevice->name
-                      << std::endl;
+            type = NetInfo::TYPE_ETHERNET;
 
         if( osDevice->attr->osdev.type == HWLOC_OBJ_OSDEV_OPENFABRICS )
-            std::cout << "Found Infiniband device: " << osDevice->name
-                      << std::endl;
+            type = NetInfo::TYPE_INFINIBAND;
+
+        if( type == NetInfo::TYPE_UNKNOWN )
+            continue;
+
+        NetInfo info;
+        info.type = type;
+        info.name = osDevice->name;
+        if( osDevice->infos_count == 1 &&
+            std::string( osDevice->infos[0].name ) == "Address" )
+        {
+            info.hwAddress = osDevice->infos[0].value;
+        }
+        result.push_back( info );
     }
 
     hwloc_topology_destroy( topology );

@@ -51,6 +51,8 @@
 
 using hwsd::GPUInfo;
 using hwsd::GPUInfos;
+using hwsd::NetInfo;
+using hwsd::NetInfos;
 
 static void setKey( lunchbox::Servus& service, const size_t gpuIndex,
                     const std::string& name, const unsigned value )
@@ -168,22 +170,58 @@ int main( const int argc, char* argv[] )
 #endif
 #ifdef HWSD_NET_HWLOC
     hwsd::net::hwloc::Module::use();
-    hwsd::discoverNets();
 #endif
 
     const GPUInfos& gpus = hwsd::discoverGPUs();
-    if( gpus.empty( ))
+    const NetInfos& nets = hwsd::discoverNets();
+
+    lunchbox::Servus gpuService( "_gpu-sd._tcp" );
+    if( !gpus.empty( ))
     {
-        std::cerr << "No GPUs found, quitting" << std::endl;
-        return EXIT_FAILURE;
+        setKeys( gpuService, gpus, session, hostname );
+        if( !gpuService.announce( 4242, "" ))
+        {
+            std::cerr << "Service announcement failed" << std::endl;
+            return EXIT_FAILURE;
+        }
     }
 
-    lunchbox::Servus service( "_gpu-sd._tcp" );
-    setKeys( service, gpus, session, hostname );
-    if( !service.announce( 4242, "" ))
+    lunchbox::Servus netService( "_net-sd._tcp" );
+    if( !nets.empty( ))
     {
-        std::cerr << "Service announcement failed" << std::endl;
-        return EXIT_FAILURE;
+        std::ostringstream out;
+        out << nets.size();
+        netService.set( "Net Count", out.str( ));
+        for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
+        {
+            const NetInfo& info = *i;
+            const size_t index = i - nets.begin();
+
+            out.str("");
+            out << "Net" << index << " Type";
+            netService.set( out.str(), info.getType( ));
+
+            out.str("");
+            out << "Net" << index << " Name";
+            netService.set( out.str(), info.name );
+
+            out.str("");
+            out << "Net" << index << " HWaddr";
+            netService.set( out.str(), info.hwAddress );
+
+            out.str("");
+            out << "Net" << index << " inet addr";
+            netService.set( out.str(), info.inetAddress );
+
+            out.str("");
+            out << "Net" << index << " inet6 addr";
+            netService.set( out.str(), info.inet6Address );
+        }
+        if( !netService.announce( 4242, "" ))
+        {
+            std::cerr << "Service announcement failed" << std::endl;
+            return EXIT_FAILURE;
+        }
     }
 
     if( daemon )

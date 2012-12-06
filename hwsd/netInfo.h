@@ -26,8 +26,15 @@ namespace hwsd
     /** A structure containing network-specific information. */
     struct NetInfo
     {
+        enum Type
+        {
+            TYPE_ETHERNET,
+            TYPE_INFINIBAND,
+            TYPE_UNKNOWN
+        };
+
         /** Default constructor pointing to the default display. @version 1.0 */
-        NetInfo() {}
+        NetInfo() : type( TYPE_UNKNOWN ) {}
 
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const NetInfo& rhs ) const
@@ -41,11 +48,44 @@ namespace hwsd
                 return !(*this == rhs );
             }
 
+        std::string getType() const
+        {
+            switch( type )
+            {
+            case NetInfo::TYPE_ETHERNET:
+                return "ETHERNET";
+            case NetInfo::TYPE_INFINIBAND:
+                return "INFINIBAND";
+            case NetInfo::TYPE_UNKNOWN:
+            default:
+                return "UNKNOWN";
+            }
+        }
+
+        Type type;
+
+        std::string name;
+
+        std::string hwAddress;
+
+        std::string inetAddress;
+
+        std::string inet6Address;
+
         char dummy[24]; //!< Buffer for binary-compatible additions
     };
 
     inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
     {
+        os << "type " << info.getType() << std::endl;
+        if( !info.name.empty( ))
+            os << "name " << info.name << std::endl;
+        if( !info.hwAddress.empty( ))
+            os << "HWaddr " << info.hwAddress << std::endl;
+        if( !info.inetAddress.empty( ))
+            os << "inet addr " << info.inetAddress << std::endl;
+        if( !info.inet6Address.empty( ))
+            os << "inet6 addr " << info.inet6Address << std::endl;
         return os;
     }
 }
