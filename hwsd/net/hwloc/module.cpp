@@ -54,7 +54,8 @@ NetInfos Module::discover() const
     hwloc_topology_t topology;
     hwloc_topology_init( &topology );
 
-    if( hwloc_topology_set_flags( topology, HWLOC_TOPOLOGY_FLAG_IO_DEVICES ) < 0 )
+    if( hwloc_topology_set_flags( topology,
+                                  HWLOC_TOPOLOGY_FLAG_IO_DEVICES ) < 0 )
     {
         LBERROR << "hwloc_topology_set_flags failed" << std::endl;
         hwloc_topology_destroy( topology );
@@ -68,10 +69,19 @@ NetInfos Module::discover() const
         return result;
     }
 
-    hwloc_obj_t obj = hwloc_get_next_pcidev( topology, 0 );
-    for(  ; obj; obj = hwloc_get_next_pcidev( topology, obj ))
+    hwloc_obj_t osDevice = hwloc_get_next_osdev( topology, 0 );
+    for(  ; osDevice; osDevice = hwloc_get_next_osdev( topology, osDevice ))
     {
-        LBINFO << obj->name << std::endl;
+        if( !osDevice->attr )
+            continue;
+
+        if( osDevice->attr->osdev.type == HWLOC_OBJ_OSDEV_NETWORK )
+            std::cout << "Found ethernet device: " << osDevice->name
+                      << std::endl;
+
+        if( osDevice->attr->osdev.type == HWLOC_OBJ_OSDEV_OPENFABRICS )
+            std::cout << "Found Infiniband device: " << osDevice->name
+                      << std::endl;
     }
 
     hwloc_topology_destroy( topology );
