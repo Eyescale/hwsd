@@ -19,6 +19,10 @@
 
 #include <hwsd/netInfo.h>
 
+#include <lunchbox/log.h>
+
+#include <hwloc.h>
+
 
 namespace hwsd
 {
@@ -46,6 +50,31 @@ void Module::dispose()
 NetInfos Module::discover() const
 {
     NetInfos result;
+
+    hwloc_topology_t topology;
+    hwloc_topology_init( &topology );
+
+    if( hwloc_topology_set_flags( topology, HWLOC_TOPOLOGY_FLAG_IO_DEVICES ) < 0 )
+    {
+        LBERROR << "hwloc_topology_set_flags failed" << std::endl;
+        hwloc_topology_destroy( topology );
+        return result;
+    }
+
+    if( hwloc_topology_load( topology ) < 0 )
+    {
+        LBERROR << "hwloc_topology_load failed" << std::endl;
+        hwloc_topology_destroy( topology );
+        return result;
+    }
+
+    hwloc_obj_t obj = hwloc_get_next_pcidev( topology, 0 );
+    for(  ; obj; obj = hwloc_get_next_pcidev( topology, obj ))
+    {
+        LBINFO << obj->name << std::endl;
+    }
+
+    hwloc_topology_destroy( topology );
     return result;
 }
 
