@@ -216,6 +216,12 @@ int main( const int argc, char* argv[] )
             out.str("");
             out << "Net" << index << " inet6 addr";
             netService.set( out.str(), info.inet6Address );
+
+            out.str("");
+            out << "Net" << index << " bandwidth";
+            std::ostringstream value;
+            value << info.bandwidth;
+            netService.set( out.str(), value.str( ));
         }
         if( !netService.announce( 4242, "" ))
         {

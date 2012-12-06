@@ -34,12 +34,16 @@ namespace hwsd
         };
 
         /** Default constructor pointing to the default display. @version 1.0 */
-        NetInfo() : type( TYPE_UNKNOWN ) {}
+        NetInfo() : type( TYPE_UNKNOWN ), bandwidth( 0 ) {}
 
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const NetInfo& rhs ) const
             {
-                return true;
+                return type == rhs.type && name == rhs.name &&
+                       hwAddress == rhs.hwAddress &&
+                       inetAddress == rhs.inetAddress &&
+                       inet6Address == rhs.inet6Address &&
+                       bandwidth == rhs.bandwidth;
             }
 
         /** @return true if both infos are not identical. @version 1.0 */
@@ -62,15 +66,23 @@ namespace hwsd
             }
         }
 
+        /** The type of the network interface. @version 1.0 */
         Type type;
 
+        /** The name of the interface (e.g. eth0, ib0). @version 1.0 */
         std::string name;
 
+        /** The MAC address (':' as separator) of the interface. @version 1.0 */
         std::string hwAddress;
 
+        /** The IPv4 address (':' as separator) of the interface. @version 1.0*/
         std::string inetAddress;
 
+        /** The IPv6 address (':' as separator) of the interface. @version 1.0*/
         std::string inet6Address;
+
+        /** The interface link speed in bits per second. @version 1.0 */
+        unsigned int bandwidth;
 
         char dummy[24]; //!< Buffer for binary-compatible additions
     };
@@ -86,6 +98,7 @@ namespace hwsd
             os << "inet addr " << info.inetAddress << std::endl;
         if( !info.inet6Address.empty( ))
             os << "inet6 addr " << info.inet6Address << std::endl;
+        os << "bandwidth " << info.bandwidth << "bps" << std::endl;
         return os;
     }
 }
