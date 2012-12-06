@@ -105,7 +105,7 @@ static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
     }
 }
 
-int main( const int argc, const char* argv[] )
+int main( const int argc, char* argv[] )
 {
     std::string session( "default" );
     std::string hostname;
