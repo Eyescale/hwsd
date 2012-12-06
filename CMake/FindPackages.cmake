@@ -15,7 +15,7 @@ if(Boost_name)
   include_directories(SYSTEM ${${Boost_name}_INCLUDE_DIRS})
 endif()
 
-find_package(HWLOC 1.4.0)
+find_package(HWLOC 1.3)
 if(HWLOC_FOUND)
   set(HWLOC_name HWLOC)
 elseif(HWLOC_FOUND)

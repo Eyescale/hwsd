@@ -16,7 +16,7 @@ set(INCLUDE include/hwsd/net/hwloc)
 
 source_group(\\ FILES CMakeLists.txt ${HEADERS} ${SOURCES})
 add_library(${LIBRARY} SHARED ${HEADERS} ${SOURCES})
-target_link_libraries(${LIBRARY} hwsd)
+target_link_libraries(${LIBRARY} hwsd ${HWLOC_LIBRARIES})
 set_target_properties(${LIBRARY} PROPERTIES VERSION ${VERSION}
   SOVERSION ${VERSION_MAJOR} PUBLIC_HEADER "${HEADERS}")
 install(TARGETS ${LIBRARY}
