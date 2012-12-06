@@ -18,9 +18,10 @@
 */
 
 #include <hwsd/hwsd.h>
-#include <hwsd/version.h>
 #include <hwsd/gpuInfo.h>
+#include <hwsd/netInfo.h>
 #include <hwsd/module.h>
+#include <hwsd/version.h>
 
 #ifdef HWSD_GPU_CGL
 #  include <hwsd/gpu/cgl/module.h>
@@ -30,6 +31,9 @@
 #endif
 #ifdef HWSD_GPU_WGL
 #  include <hwsd/gpu/wgl/module.h>
+#endif
+#ifdef HWSD_NET_HWLOC
+#  include <hwsd/net/hwloc/module.h>
 #endif
 
 #include <lunchbox/lunchbox.h>
@@ -161,6 +165,10 @@ int main( const int argc, const char* argv[] )
 #endif
 #ifdef HWSD_GPU_WGL
     hwsd::gpu::wgl::Module::use();
+#endif
+#ifdef HWSD_NET_HWLOC
+    hwsd::net::hwloc::Module::use();
+    hwsd::discoverNets();
 #endif
 
     const GPUInfos& gpus = hwsd::discoverGPUs();

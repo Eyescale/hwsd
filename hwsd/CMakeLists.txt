@@ -34,4 +34,4 @@ install(TARGETS ${LIBRARY}
   LIBRARY DESTINATION lib COMPONENT runtime)
 
 add_subdirectory(gpu)
-#add_subdirectory(net)
+add_subdirectory(net)
