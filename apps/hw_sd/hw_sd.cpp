@@ -32,9 +32,7 @@
 #ifdef HWSD_GPU_WGL
 #  include <hwsd/gpu/wgl/module.h>
 #endif
-#ifdef HWSD_NET_HWLOC
-#  include <hwsd/net/hwloc/module.h>
-#endif
+#include <hwsd/net/sys/module.h>
 
 #include <lunchbox/lunchbox.h>
 
@@ -168,9 +166,8 @@ int main( const int argc, char* argv[] )
 #ifdef HWSD_GPU_WGL
     hwsd::gpu::wgl::Module::use();
 #endif
-#ifdef HWSD_NET_HWLOC
-    hwsd::net::hwloc::Module::use();
-#endif
+
+    hwsd::net::sys::Module::use();
 
     const GPUInfos& gpus = hwsd::discoverGPUs();
     const NetInfos& nets = hwsd::discoverNets();
@@ -196,6 +193,7 @@ int main( const int argc, char* argv[] )
         {
             const NetInfo& info = *i;
             const size_t index = i - nets.begin();
+            std::cout << info << std::endl;
 
             out.str("");
             out << "Net" << index << " Type";
@@ -204,6 +202,10 @@ int main( const int argc, char* argv[] )
             out.str("");
             out << "Net" << index << " Name";
             netService.set( out.str(), info.name );
+
+            out.str("");
+            out << "Net" << index << " Hostname";
+            netService.set( out.str(), info.hostname );
 
             out.str("");
             out << "Net" << index << " HWaddr";
@@ -221,6 +223,12 @@ int main( const int argc, char* argv[] )
             out << "Net" << index << " bandwidth";
             std::ostringstream value;
             value << info.bandwidth;
+            netService.set( out.str(), value.str( ));
+
+            out.str("");
+            out << "Net" << index << " up";
+            value.str("");
+            value << (info.up ? 1 : 0);
             netService.set( out.str(), value.str( ));
         }
         if( !netService.announce( 4242, "" ))

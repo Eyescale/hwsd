@@ -34,16 +34,17 @@ namespace hwsd
         };
 
         /** Default constructor pointing to the default display. @version 1.0 */
-        NetInfo() : type( TYPE_UNKNOWN ), bandwidth( 0 ) {}
+        NetInfo() : type( TYPE_UNKNOWN ), bandwidth( 0 ), up( false ) {}
 
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const NetInfo& rhs ) const
             {
                 return type == rhs.type && name == rhs.name &&
+                       hostname == rhs.hostname &&
                        hwAddress == rhs.hwAddress &&
                        inetAddress == rhs.inetAddress &&
                        inet6Address == rhs.inet6Address &&
-                       bandwidth == rhs.bandwidth;
+                       bandwidth == rhs.bandwidth && up == rhs.up;
             }
 
         /** @return true if both infos are not identical. @version 1.0 */
@@ -72,6 +73,9 @@ namespace hwsd
         /** The name of the interface (e.g. eth0, ib0). @version 1.0 */
         std::string name;
 
+        /** The hostname assigned to this interface. @version 1.0 */
+        std::string hostname;
+
         /** The MAC address (':' as separator) of the interface. @version 1.0 */
         std::string hwAddress;
 
@@ -84,21 +88,27 @@ namespace hwsd
         /** The interface link speed in bits per second. @version 1.0 */
         unsigned int bandwidth;
 
+        /** Whether the interface is up or down. @version 1.0 */
+        bool up;
+
         char dummy[24]; //!< Buffer for binary-compatible additions
     };
 
     inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
     {
-        os << "type " << info.getType() << std::endl;
+        os << "Type " << info.getType() << std::endl;
         if( !info.name.empty( ))
-            os << "name " << info.name << std::endl;
+            os << "Name " << info.name << std::endl;
+        if( !info.hostname.empty( ))
+            os << "Hostname " << info.hostname << std::endl;
         if( !info.hwAddress.empty( ))
             os << "HWaddr " << info.hwAddress << std::endl;
         if( !info.inetAddress.empty( ))
-            os << "inet addr " << info.inetAddress << std::endl;
+            os << "IPv4 " << info.inetAddress << std::endl;
         if( !info.inet6Address.empty( ))
-            os << "inet6 addr " << info.inet6Address << std::endl;
-        os << "bandwidth " << info.bandwidth << "bps" << std::endl;
+            os << "IPv6 " << info.inet6Address << std::endl;
+        os << "Bandwidth " << info.bandwidth << "bps" << std::endl;
+        os << "Status " << (info.up ? "UP" : "DOWN") << std::endl;
         return os;
     }
 }

@@ -15,8 +15,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef HWSD_NET_HWLOC_MODULE_H
-#define HWSD_NET_HWLOC_MODULE_H
+#ifndef HWSD_NET_SYS_MODULE_H
+#define HWSD_NET_SYS_MODULE_H
 
 #include <hwsd/api.h>
 #include <hwsd/module.h> // base class
@@ -26,10 +26,10 @@ namespace hwsd
 {
 namespace net
 {
-namespace hwloc
+namespace sys
 {
     /**
-     * The hwloc implementation for local network interface discovery.
+     * The low-level implementation for local network interface discovery.
      */
     class Module : public hwsd::Module< NetInfos >
     {
@@ -50,4 +50,5 @@ namespace hwloc
 }
 }
 }
-#endif // HWSD_NET_HWLOC_MODULE_H
+
+#endif // HWSD_NET_SYS_MODULE_H
