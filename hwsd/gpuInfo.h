@@ -18,15 +18,18 @@
 #ifndef HWSD_GPUINFO_H
 #define HWSD_GPUINFO_H
 
+#include <hwsd/nodeInfo.h>  // base class
+
 #include <climits>
 #include <cstring>
 #include <iostream>
 #include <string>
 
+
 namespace hwsd
 {
     /** A structure containing GPU-specific information. */
-    struct GPUInfo
+    struct GPUInfo : public NodeInfo
     {
         /** A non-enumerated port or device. @version 1.0 */
         static const unsigned defaultValue = UINT_MAX;
@@ -40,7 +43,7 @@ namespace hwsd
         /** Default constructor pointing to the default display. @version 1.0 */
         GPUInfo()
                 : type( 0 ), port( defaultValue ), device( defaultValue )
-                , session( "local" ), flags( 0 )
+                , flags( 0 )
             { invalidatePVP(); }
 
         /**
@@ -54,7 +57,7 @@ namespace hwsd
          */
         GPUInfo( const std::string& name )
                 : type( 0 ), port( defaultValue ), device( defaultValue )
-                , session( "local" ), flags( 0 )
+                , flags( 0 )
             {
                 invalidatePVP();
                 strncpy( reinterpret_cast< char* >( &type ), name.c_str(), 4 );
@@ -72,9 +75,8 @@ namespace hwsd
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const GPUInfo& rhs ) const
             {
-                return ( type == rhs.type && hostname == rhs.hostname &&
-                         session == rhs.session && port == rhs.port &&
-                         device == rhs.device &&
+                return ( NodeInfo::operator==( rhs ) && type == rhs.type &&
+                         port == rhs.port && device == rhs.device &&
                          pvp[0] == rhs.pvp[0] && pvp[1] == rhs.pvp[1] &&
                          pvp[2] == rhs.pvp[2] && pvp[3] == rhs.pvp[3] );
             }
@@ -104,9 +106,6 @@ namespace hwsd
         /** The size and location of the GPU (x,y,w,h). @version 1.0 */
         int pvp[4];
 
-        std::string hostname; //!< remote system hostname, empty for local GPUs
-        std::string session; //!< session name: local, default or custom string
-
         unsigned flags; //!< bitmask of additional GPU capabilities
         unsigned unused; //!< @internal
         char dummy[24]; //!< Buffer for binary-compatible additions
@@ -116,24 +115,20 @@ namespace hwsd
     {
         os << "GPUInfo\n";
         if( !info.getName().empty( ))
-            os << "  Type     " << info.getName() << std::endl;
-        if( !info.hostname.empty( ))
-            os << "  Hostname " << info.hostname << std::endl;
-        if( !info.session.empty() && info.session != "local" )
-            os << "  Session  " << info.session << std::endl;
+            os << "  Type      " << info.getName() << std::endl;
         if( info.port != GPUInfo::defaultValue )
-            os << "  Port     " << info.port << std::endl;
+            os << "  Port      " << info.port << std::endl;
         if( info.device != GPUInfo::defaultValue )
-            os << "  Device   " << info.device << std::endl;
+            os << "  Device    " << info.device << std::endl;
         if( info.pvp[2] >0 && info.pvp[3] > 0 )
-            os << "  Viewport [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
+            os << "  Viewport  [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
                << info.pvp[2] << ' ' << info.pvp[3] << ']' << std::endl;
         if( info.flags != 0 )
-            os << "  Flags    "
+            os << "  Flags     "
                << (info.flags&GPUInfo::FLAG_VIRTUALGL ? "VirtualGL" : "")
                << (info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY ? "Display" : "")
                << std::endl;
-        return os;
+        return os << static_cast< const NodeInfo& >( info );
     }
 }
 

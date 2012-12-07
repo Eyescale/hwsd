@@ -87,7 +87,7 @@ bool MirrorFilter::operator() ( const GPUInfos& current,
     for( GPUInfosCIter i = current.begin(); i != current.end(); ++i )
     {
         const GPUInfo& info = *i;
-        if( info.hostname == candidate.hostname &&
+        if( info.id == candidate.id &&
             info.session == candidate.session &&
             info.device == candidate.device &&
             info.pvp[0] == candidate.pvp[0] && info.pvp[1] == candidate.pvp[1] )

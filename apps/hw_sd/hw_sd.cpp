@@ -48,6 +48,8 @@
 
 int main( const int argc, char* argv[] )
 {
+    std::string session( "default" );
+
 #ifdef HWSD_USE_BOOST
     const std::string applicationName = "Hardware service discovery daemon";
     arg::variables_map vm;
@@ -55,6 +57,8 @@ int main( const int argc, char* argv[] )
     desc.add_options()
         ( "help", "output this help message" )
         ( "version,v", "print version" )
+        ( "session,s", arg::value< std::string >()->default_value( session ),
+          "set session name" )
         ( "daemon,d", "run as daemon" );
 
     try
@@ -79,6 +83,9 @@ int main( const int argc, char* argv[] )
         return EXIT_SUCCESS;
     }
 
+    if( vm.count( "session" ))
+        session = vm["session"].as< std::string >();
+
     const bool daemon = vm.count( "daemon" ) > 0;
 #else
     if( argc > 1 )
@@ -100,7 +107,7 @@ int main( const int argc, char* argv[] )
         hwsd::gpu::wgl::Module::use();
 #endif
         hwsd::gpu::dns_sd::Module::use();
-        if( !hwsd::announceGPUs( ))
+        if( !hwsd::announceGPUs( session ))
         {
             std::cerr << "GPU announcement failed" << std::endl;
             return EXIT_FAILURE;
@@ -111,7 +118,7 @@ int main( const int argc, char* argv[] )
     {
         hwsd::net::dns_sd::Module::use();
         hwsd::net::sys::Module::use();
-        if( !hwsd::announceNets( ))
+        if( !hwsd::announceNets( session ))
         {
             std::cerr << "Network announcement failed" << std::endl;
             return EXIT_FAILURE;

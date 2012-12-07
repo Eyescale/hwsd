@@ -26,11 +26,14 @@ namespace hwsd
 template<> GPUModule* GPUModule::stack_ = 0;
 template<> NetModule* NetModule::stack_ = 0;
 
-bool announceGPUs()
+lunchbox::UUID nodeID( true );
+
+
+bool announceGPUs( const std::string& session )
 {
     for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
     {
-        if( !module->announce( ))
+        if( !module->announce( nodeID, session ))
             return false;
     }
     return true;
@@ -52,11 +55,11 @@ GPUInfos discoverGPUs( FilterPtr filter )
     return result;
 }
 
-bool announceNets()
+bool announceNets( const std::string& session )
 {
     for( NetModule* module = NetModule::stack_; module; module = module->next_ )
     {
-        if( !module->announce( ))
+        if( !module->announce( nodeID, session ))
             return false;
     }
     return true;

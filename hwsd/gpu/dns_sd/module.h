@@ -41,7 +41,8 @@ namespace detail { class Module; }
         static HWSD_API void dispose();
 
     protected:
-        virtual bool announce() const;
+        virtual bool announce( const lunchbox::UUID& nodeID,
+                               const std::string& session ) const;
         virtual GPUInfos discover() const;
 
     private:

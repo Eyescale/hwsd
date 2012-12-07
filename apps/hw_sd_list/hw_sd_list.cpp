@@ -30,11 +30,11 @@ int main (int argc, const char * argv[])
     hwsd::gpu::dns_sd::Module::use();
     hwsd::net::dns_sd::Module::use();
 
-    const hwsd::GPUInfos gpus = hwsd::discoverGPUs();
+    const hwsd::GPUInfos& gpus = hwsd::discoverGPUs();
     for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
         std::cout << *i << std::endl;
 
-    const hwsd::NetInfos nets = hwsd::discoverNets();
+    const hwsd::NetInfos& nets = hwsd::discoverNets();
     for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
         std::cout << *i << std::endl;
 

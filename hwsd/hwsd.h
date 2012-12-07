@@ -31,7 +31,7 @@ namespace hwsd
      * @return true if announcement was successful
      * @version 1.0
      */
-    HWSD_API bool announceGPUs();
+    HWSD_API bool announceGPUs( const std::string& session );
 
     /** @return information about all found GPUs. @version 1.0 */
     HWSD_API GPUInfos discoverGPUs( FilterPtr filter =
@@ -43,7 +43,7 @@ namespace hwsd
      * @return true if announcement was successful
      * @version 1.0
      */
-    HWSD_API bool announceNets();
+    HWSD_API bool announceNets( const std::string& session );
 
     /** @return information about all found network interfaces. @version 1.0 */
     HWSD_API NetInfos discoverNets();

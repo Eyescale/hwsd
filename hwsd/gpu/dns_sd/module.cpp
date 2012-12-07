@@ -39,7 +39,7 @@ std::string GPUSERVICE  = "_gpu-sd._tcp";
 std::string GPU         = "GPU";
 std::string GPUCOUNT    = "GPU Count";
 std::string GPUSESSION  = "Session";
-std::string GPUHOSTNAME = "Hostname";
+std::string GPUNODEID   = "NodeID";
 
 std::string GPUTYPE     = "Type";
 std::string GPUPORT     = "Port";
@@ -143,15 +143,16 @@ void Module::dispose()
     instance = 0;
 }
 
-bool Module::announce() const
+bool Module::announce( const lunchbox::UUID& nodeID,
+                       const std::string& session ) const
 {
     const GPUInfos& gpus = hwsd::discoverGPUs();
     if( gpus.empty( ))
         return true;
 
     _impl->setValue( GPUCOUNT, gpus.size( ));
-    _impl->setValue( GPUSESSION, "default" );
-    _impl->setValue( GPUHOSTNAME, "" );
+    _impl->setValue( GPUSESSION, session );
+    _impl->setValue( GPUNODEID, nodeID );
 
     for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
     {
@@ -206,10 +207,8 @@ GPUInfos Module::discover() const
                     continue;
 
                 GPUInfo info( type );
-                info.hostname = host;
-
                 _impl->getValue( host, GPUSESSION, info.session );
-                _impl->getValue( host, GPUHOSTNAME, info.hostname );
+                _impl->getValue( host, GPUNODEID, info.id );
                 _impl->getValue( host, k, GPUPORT, info.port );
                 _impl->getValue( host, k, GPUDEVICE, info.device );
                 _impl->getValue( host, k, GPUX, info.pvp[0] );
@@ -228,7 +227,7 @@ GPUInfos Module::discover() const
     {
         GPUInfo& info = *i;
         if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
-            info.hostname.clear();
+            info.id = lunchbox::UUID::ZERO;
     }
     return infos[0];
 }

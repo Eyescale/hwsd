@@ -18,6 +18,8 @@
 #ifndef HWSD_NETINFO_H
 #define HWSD_NETINFO_H
 
+#include <hwsd/nodeInfo.h>  // base class
+
 #include <climits>
 #include <ostream>
 
@@ -25,7 +27,7 @@
 namespace hwsd
 {
     /** A structure containing network-specific information. */
-    struct NetInfo
+    struct NetInfo : public NodeInfo
     {
         enum Type
         {
@@ -45,8 +47,8 @@ namespace hwsd
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const NetInfo& rhs ) const
             {
-                return type == rhs.type && name == rhs.name &&
-                       hostname == rhs.hostname &&
+                return NodeInfo::operator==( rhs ) && type == rhs.type &&
+                       name == rhs.name && hostname == rhs.hostname &&
                        hwAddress == rhs.hwAddress &&
                        inetAddress == rhs.inetAddress &&
                        inet6Address == rhs.inet6Address &&
@@ -132,7 +134,7 @@ namespace hwsd
         if( info.linkspeed != NetInfo::defaultValue )
             os << "  Linkspeed " << info.linkspeed << "Mbps" << std::endl;
 
-        return os;
+        return os << static_cast< const NodeInfo& >( info );
     }
 }
 

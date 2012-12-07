@@ -9,6 +9,7 @@ set(HEADERS
   module.h
   module.ipp
   netInfo.h
+  nodeInfo.h
   gpuInfo.h
   types.h
 )

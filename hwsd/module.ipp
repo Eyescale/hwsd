@@ -59,13 +59,16 @@ Module< T >::~Module()
 }
 
 template< typename T >
-bool Module< T >::announce() const
+bool Module< T >::announce( const lunchbox::UUID& nodeID,
+                            const std::string& session ) const
 {
     const T& resources = discover();
     for( typename T::const_iterator i = resources.begin();
          i != resources.end(); ++i )
     {
-        const typename T::value_type& info = *i;
+        typename T::value_type info = *i;
+        info.id = nodeID;
+        info.session = session;
         std::cout << info << std::endl;
     }
     return true;
