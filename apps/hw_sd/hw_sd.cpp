@@ -87,28 +87,35 @@ int main( const int argc, char* argv[] )
     const bool daemon = false;
 #endif
 
+    const std::string executable = basename( argv[0] );
+    if( executable != "net_sd" )
+    {
 #ifdef HWSD_GPU_CGL
-    hwsd::gpu::cgl::Module::use();
+        hwsd::gpu::cgl::Module::use();
 #endif
 #ifdef HWSD_GPU_GLX
-    hwsd::gpu::glx::Module::use();
+        hwsd::gpu::glx::Module::use();
 #endif
 #ifdef HWSD_GPU_WGL
-    hwsd::gpu::wgl::Module::use();
+        hwsd::gpu::wgl::Module::use();
 #endif
-    hwsd::gpu::dns_sd::Module::use();
-    if( !hwsd::announceGPUs( ))
-    {
-        std::cerr << "GPU announcement failed" << std::endl;
-        return EXIT_FAILURE;
+        hwsd::gpu::dns_sd::Module::use();
+        if( !hwsd::announceGPUs( ))
+        {
+            std::cerr << "GPU announcement failed" << std::endl;
+            return EXIT_FAILURE;
+        }
     }
 
-    hwsd::net::dns_sd::Module::use();
-    hwsd::net::sys::Module::use();
-    if( !hwsd::announceNets( ))
+    if( executable != "gpu_sd" )
     {
-        std::cerr << "Network announcement failed" << std::endl;
-        return EXIT_FAILURE;
+        hwsd::net::dns_sd::Module::use();
+        hwsd::net::sys::Module::use();
+        if( !hwsd::announceNets( ))
+        {
+            std::cerr << "Network announcement failed" << std::endl;
+            return EXIT_FAILURE;
+        }
     }
 
     if( daemon )

@@ -15,6 +15,7 @@ set(LAST_RELEASE 1.0.0)
 
 include(Common)
 include(GitTargets)
+include(InstallSymlink)
 
 if(APPLE)
   set(HWSD_OSX_VERSION 10.6)

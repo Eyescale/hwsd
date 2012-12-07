@@ -38,4 +38,6 @@ source_group(\\ FILES ${SOURCES} ${HEADERS})
 add_executable(hw_sd ${SOURCES} ${HEADERS})
 target_link_libraries(hw_sd ${LINK_LIBRARIES})
 install(TARGETS hw_sd DESTINATION bin COMPONENT daemon)
+install_symlink(bin/hw_sd bin/gpu_sd COMPONENT daemon)
+install_symlink(bin/hw_sd bin/net_sd COMPONENT daemon)
 
