@@ -31,6 +31,7 @@ namespace hwsd
         {
             TYPE_ETHERNET,
             TYPE_INFINIBAND,
+            TYPE_LOOPBACK,
             TYPE_UNKNOWN
         };
 
@@ -66,6 +67,8 @@ namespace hwsd
                 return "ETHERNET";
             case NetInfo::TYPE_INFINIBAND:
                 return "INFINIBAND";
+            case NetInfo::TYPE_LOOPBACK:
+                return "LOOPBACK";
             case NetInfo::TYPE_UNKNOWN:
             default:
                 return "UNKNOWN";
@@ -78,6 +81,8 @@ namespace hwsd
                 type = NetInfo::TYPE_ETHERNET;
             else if( strType == "INFINIBAND" )
                 type = NetInfo::TYPE_INFINIBAND;
+            else if( strType == "LOOPBACK" )
+                type = NetInfo::TYPE_LOOPBACK;
             else
                 type = NetInfo::TYPE_UNKNOWN;
         }

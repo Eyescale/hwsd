@@ -129,7 +129,11 @@ NetInfos Module::discover() const
         }
 
         if( ioctl( socketfd, SIOCGIFFLAGS, item ) >= 0 )
+        {
             info.up = item->ifr_flags & IFF_UP;
+            if( item->ifr_flags & IFF_LOOPBACK )
+                info.type = NetInfo::TYPE_LOOPBACK;
+        }
 
         ethtool_cmd edata;
         item->ifr_data = (caddr_t)&edata;

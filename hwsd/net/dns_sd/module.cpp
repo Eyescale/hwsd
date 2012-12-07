@@ -114,9 +114,18 @@ void Module::dispose()
 
 bool Module::announce() const
 {
-    const NetInfos& nets = hwsd::discoverNets();
+    NetInfos nets = hwsd::discoverNets();
     if( nets.empty( ))
         return true;
+
+    for( hwsd::NetInfosIter i = nets.begin(); i != nets.end(); ++i )
+    {
+        if( (*i).type == NetInfo::TYPE_LOOPBACK )
+        {
+            nets.erase( i );
+            break;
+        }
+    }
 
     std::ostringstream out;
     out << nets.size();
