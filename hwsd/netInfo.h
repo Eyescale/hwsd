@@ -18,6 +18,7 @@
 #ifndef HWSD_NETINFO_H
 #define HWSD_NETINFO_H
 
+#include <climits>
 #include <ostream>
 
 
@@ -33,8 +34,12 @@ namespace hwsd
             TYPE_UNKNOWN
         };
 
+        /** A non-enumerated value. @version 1.0 */
+        static const unsigned defaultValue = UINT_MAX;
+
         /** Default constructor pointing to the default display. @version 1.0 */
-        NetInfo() : type( TYPE_UNKNOWN ), bandwidth( 0 ), up( false ) {}
+        NetInfo() : type( TYPE_UNKNOWN ), linkspeed( defaultValue )
+                  , up( false ) {}
 
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const NetInfo& rhs ) const
@@ -44,7 +49,7 @@ namespace hwsd
                        hwAddress == rhs.hwAddress &&
                        inetAddress == rhs.inetAddress &&
                        inet6Address == rhs.inet6Address &&
-                       bandwidth == rhs.bandwidth && up == rhs.up;
+                       linkspeed == rhs.linkspeed && up == rhs.up;
             }
 
         /** @return true if both infos are not identical. @version 1.0 */
@@ -85,8 +90,8 @@ namespace hwsd
         /** The IPv6 address (':' as separator) of the interface. @version 1.0*/
         std::string inet6Address;
 
-        /** The interface link speed in bits per second. @version 1.0 */
-        unsigned int bandwidth;
+        /** The interface link speed in Megabits per second. @version 1.0 */
+        unsigned int linkspeed;
 
         /** Whether the interface is up or down. @version 1.0 */
         bool up;
@@ -97,6 +102,7 @@ namespace hwsd
     inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
     {
         os << "Type " << info.getType() << std::endl;
+        os << "Status " << (info.up ? "UP" : "DOWN") << std::endl;
         if( !info.name.empty( ))
             os << "Name " << info.name << std::endl;
         if( !info.hostname.empty( ))
@@ -107,8 +113,9 @@ namespace hwsd
             os << "IPv4 " << info.inetAddress << std::endl;
         if( !info.inet6Address.empty( ))
             os << "IPv6 " << info.inet6Address << std::endl;
-        os << "Bandwidth " << info.bandwidth << "bps" << std::endl;
-        os << "Status " << (info.up ? "UP" : "DOWN") << std::endl;
+        if( info.linkspeed != NetInfo::defaultValue )
+            os << "Linkspeed " << info.linkspeed << "Mbps" << std::endl;
+
         return os;
     }
 }

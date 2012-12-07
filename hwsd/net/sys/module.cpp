@@ -27,6 +27,8 @@
 #  include <net/if.h>
 #  include <string.h>
 #  include <sys/ioctl.h>
+#  include <linux/ethtool.h>
+#  include <linux/sockios.h>
 #endif
 
 
@@ -125,6 +127,12 @@ NetInfos Module::discover() const
 
         if( ioctl( socketfd, SIOCGIFFLAGS, item ) >= 0 )
             info.up = item->ifr_flags & IFF_UP;
+
+        ethtool_cmd edata;
+        item->ifr_data = (caddr_t)&edata;
+        edata.cmd = ETHTOOL_GSET;
+        if( ioctl( socketfd, SIOCETHTOOL, item ) >= 0 )
+            info.linkspeed = edata.speed;
 
         result.push_back( info );
     }

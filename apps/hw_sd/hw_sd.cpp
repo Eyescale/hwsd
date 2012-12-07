@@ -220,9 +220,9 @@ int main( const int argc, char* argv[] )
             netService.set( out.str(), info.inet6Address );
 
             out.str("");
-            out << "Net" << index << " bandwidth";
+            out << "Net" << index << " linkspeed";
             std::ostringstream value;
-            value << info.bandwidth;
+            value << info.linkspeed;
             netService.set( out.str(), value.str( ));
 
             out.str("");
