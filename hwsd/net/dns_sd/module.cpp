@@ -58,6 +58,7 @@ class Module
 public:
     Module()
         : service( NETSERVICE )
+        , announcing( false )
     {}
 
     template< class T >
@@ -118,6 +119,7 @@ public:
     }
 
     lunchbox::Servus service;
+    bool announcing;
 };
 }
 
@@ -146,7 +148,9 @@ void Module::dispose()
 bool Module::announce( const lunchbox::UUID& nodeID,
                        const std::string& session ) const
 {
+    _impl->announcing = true;
     NetInfos nets = hwsd::discoverNets();
+    _impl->announcing = false;
     if( nets.empty( ))
         return true;
 
@@ -197,6 +201,9 @@ bool Module::announce( const lunchbox::UUID& nodeID,
 NetInfos Module::discover() const
 {
     NetInfos infos[2];
+    if( _impl->announcing )
+        return infos[0];
+
     lunchbox::Servus::Interface interfaces[2] = { lunchbox::Servus::IF_ALL,
                                                   lunchbox::Servus::IF_LOCAL };
     for( unsigned i = 0; i < 2; ++i )
