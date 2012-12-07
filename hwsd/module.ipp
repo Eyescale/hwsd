@@ -15,6 +15,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <iostream>
+
 namespace hwsd
 {
 
@@ -54,6 +56,19 @@ Module< T >::~Module()
         }
         previous = module;
     }
+}
+
+template< typename T >
+bool Module< T >::announce() const
+{
+    const T& resources = discover();
+    for( typename T::const_iterator i = resources.begin();
+         i != resources.end(); ++i )
+    {
+        const typename T::value_type& info = *i;
+        std::cout << info << std::endl;
+    }
+    return true;
 }
 
 }
