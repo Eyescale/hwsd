@@ -29,6 +29,8 @@ namespace hwsd
     HWSD_API GPUInfos discoverGPUs( FilterPtr filter =
                                               FilterPtr( new DuplicateFilter ));
 
+    HWSD_API bool announceNets();
+
     /** @return information about all found network interfaces. @version 1.0 */
     HWSD_API NetInfos discoverNets();
 }

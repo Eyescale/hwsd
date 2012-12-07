@@ -41,6 +41,7 @@ namespace sys
         static HWSD_API void dispose();
 
     protected:
+        virtual bool announce() const;
         virtual NetInfos discover() const;
 
     private:

@@ -114,21 +114,22 @@ namespace hwsd
 
     inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )
     {
+        os << "GPUInfo\n";
         if( !info.getName().empty( ))
-            os << "type     " << info.getName() << std::endl;
+            os << "  Type     " << info.getName() << std::endl;
         if( !info.hostname.empty( ))
-            os << "hostname " << info.hostname << std::endl;
+            os << "  Hostname " << info.hostname << std::endl;
         if( !info.session.empty() && info.session != "local" )
-            os << "session  " << info.session << std::endl;
+            os << "  Session  " << info.session << std::endl;
         if( info.port != GPUInfo::defaultValue )
-            os << "port     " << info.port << std::endl;
+            os << "  Port     " << info.port << std::endl;
         if( info.device != GPUInfo::defaultValue )
-            os << "device   " << info.device << std::endl;
+            os << "  Device   " << info.device << std::endl;
         if( info.pvp[2] >0 && info.pvp[3] > 0 )
-            os << "viewport [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
+            os << "  Viewport [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
                << info.pvp[2] << ' ' << info.pvp[3] << ']' << std::endl;
         if( info.flags != 0 )
-            os << "flags    "
+            os << "  Flags    "
                << (info.flags&GPUInfo::FLAG_VIRTUALGL ? "VirtualGL" : "")
                << (info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY ? "Display" : "")
                << std::endl;

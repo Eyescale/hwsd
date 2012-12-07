@@ -72,6 +72,16 @@ namespace hwsd
             }
         }
 
+        void setType( const std::string& strType )
+        {
+            if( strType == "ETHERNET" )
+                type = NetInfo::TYPE_ETHERNET;
+            else if( strType == "INFINIBAND" )
+                type = NetInfo::TYPE_INFINIBAND;
+            else
+                type = NetInfo::TYPE_UNKNOWN;
+        }
+
         /** The type of the network interface. @version 1.0 */
         Type type;
 
@@ -101,20 +111,21 @@ namespace hwsd
 
     inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
     {
-        os << "Type " << info.getType() << std::endl;
-        os << "Status " << (info.up ? "UP" : "DOWN") << std::endl;
+        os << "NetInfo\n";
+            os << "  Type      " << info.getType() << std::endl;
+            os << "  Status    " << (info.up ? "UP" : "DOWN") << std::endl;
         if( !info.name.empty( ))
-            os << "Name " << info.name << std::endl;
+            os << "  Name      " << info.name << std::endl;
         if( !info.hostname.empty( ))
-            os << "Hostname " << info.hostname << std::endl;
+            os << "  Hostname  " << info.hostname << std::endl;
         if( !info.hwAddress.empty( ))
-            os << "HWaddr " << info.hwAddress << std::endl;
+            os << "  HWaddr    " << info.hwAddress << std::endl;
         if( !info.inetAddress.empty( ))
-            os << "IPv4 " << info.inetAddress << std::endl;
+            os << "  IPv4      " << info.inetAddress << std::endl;
         if( !info.inet6Address.empty( ))
-            os << "IPv6 " << info.inet6Address << std::endl;
+            os << "  IPv6      " << info.inet6Address << std::endl;
         if( info.linkspeed != NetInfo::defaultValue )
-            os << "Linkspeed " << info.linkspeed << "Mbps" << std::endl;
+            os << "  Linkspeed " << info.linkspeed << "Mbps" << std::endl;
 
         return os;
     }

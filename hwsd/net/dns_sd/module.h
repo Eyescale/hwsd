@@ -28,6 +28,8 @@ namespace net
 {
 namespace dns_sd
 {
+namespace detail { class Module; }
+
     /** The DNS_SD implementation for remote GPU discovery. */
     class Module : public hwsd::Module< NetInfos >
     {
@@ -39,11 +41,14 @@ namespace dns_sd
         static HWSD_API void dispose();
 
     protected:
+        virtual bool announce() const;
         virtual NetInfos discover() const;
 
     private:
-        Module() : hwsd::Module< NetInfos >() {}
-        virtual ~Module() {}
+        Module();
+        virtual ~Module();
+
+        detail::Module* const _impl;
     };
 }
 }

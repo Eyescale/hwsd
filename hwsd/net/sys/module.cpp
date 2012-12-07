@@ -57,6 +57,17 @@ void Module::dispose()
     instance = 0;
 }
 
+bool Module::announce() const
+{
+    const NetInfos& nets = discover();
+    for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
+    {
+        const NetInfo& info = *i;
+        std::cout << info << std::endl;
+    }
+    return true;
+}
+
 NetInfos Module::discover() const
 {
     NetInfos result;

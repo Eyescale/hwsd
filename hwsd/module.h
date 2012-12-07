@@ -35,6 +35,8 @@ namespace detail
         /** Destruct this module. @version 1.0 */
         virtual ~Module();
 
+        virtual bool announce() const { return true; }
+
         /** @return information about all found resources. @version 1.0 */
         virtual T discover() const = 0;
 

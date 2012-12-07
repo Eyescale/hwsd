@@ -43,6 +43,16 @@ GPUInfos discoverGPUs( FilterPtr filter )
     return result;
 }
 
+bool announceNets()
+{
+    for( NetModule* module = NetModule::stack_; module; module = module->next_ )
+    {
+        if( !module->announce( ))
+            return false;
+    }
+    return true;
+}
+
 NetInfos discoverNets()
 {
     NetInfos result;

@@ -7,7 +7,7 @@ set(HEADERS)
 set(SOURCES hw_sd.cpp)
 
 include_directories(${LUNCHBOX_INCLUDE_DIRS})
-set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} hwsd hwsd_net_sys)
+set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} hwsd hwsd_net_dns_sd hwsd_net_sys)
 
 if(APPLE)
   add_definitions(-DHWSD_GPU_CGL)
