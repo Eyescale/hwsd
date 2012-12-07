@@ -29,6 +29,8 @@
 #  include <sys/ioctl.h>
 #  include <linux/ethtool.h>
 #  include <linux/sockios.h>
+#else
+#  include <lunchbox/debug.h>
 #endif
 
 
