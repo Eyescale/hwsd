@@ -21,7 +21,7 @@
 
 #include <lunchbox/log.h>
 
-#ifndef _WIN32
+#ifdef __linux
 #  include <arpa/inet.h>
 #  include <netdb.h>
 #  include <net/if.h>
@@ -61,8 +61,9 @@ NetInfos Module::discover() const
 
 #ifdef _WIN32
     LBUNIMPLEMENTED
+#elif defined __APPLE__
+    LBUNIMPLEMENTED
 #else
-
     int socketfd = socket( PF_INET, SOCK_DGRAM, 0 );
     if( socketfd < 0 )
         return result;
