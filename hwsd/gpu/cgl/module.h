@@ -29,7 +29,7 @@ namespace gpu
 namespace cgl
 {
     /** The CGL implementation for local GPU discovery. */
-    class Module : public hwsd::Module< GPUInfos >
+    class Module : public GPUModule
     {
     public:
         /** Instantiate an CGL discovery module for the process. */
@@ -42,7 +42,7 @@ namespace cgl
         virtual GPUInfos discover() const;
 
     private:
-        Module() : hwsd::Module< GPUInfos >() {}
+        Module() : GPUModule() {}
         virtual ~Module() {}
     };
 }

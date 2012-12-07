@@ -19,7 +19,9 @@
 #ifndef HWSD_GPU_WGL_MODULE_H
 #define HWSD_GPU_WGL_MODULE_H
 
+#include <hwsd/api.h>
 #include <hwsd/module.h> // base class
+#include <hwsd/types.h>
 
 namespace hwsd
 {
@@ -28,20 +30,20 @@ namespace gpu
 namespace wgl
 {
     /** The WGL implementation for local GPU discovery. */
-    class Module : public hwsd::Module
+    class Module : public GPUModule
     {
     public:
         /** Instantiate an WGL discovery module for the process. */
-        static HWSD_GPU_API void use();
+        static HWSD_API void use();
 
         /** Unload the GLX discovery module for the process. */
-        static HWSD_GPU_API void dispose();
+        static HWSD_API void dispose();
 
     protected:
-        virtual GPUInfos discoverGPUs_() const;
+        virtual GPUInfos discover() const;
 
     private:
-        Module() : hwsd::Module() {}
+        Module() : GPUModule() {}
         virtual ~Module() {}
     };
 }

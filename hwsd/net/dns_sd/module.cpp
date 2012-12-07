@@ -91,7 +91,7 @@ public:
 }
 
 Module::Module()
-    : hwsd::Module< NetInfos >()
+    : NetModule()
     , _impl( new detail::Module )
 {}
 

@@ -31,7 +31,7 @@ namespace dns_sd
 namespace detail { class Module; }
 
     /** The DNS_SD implementation for remote GPU discovery. */
-    class Module : public hwsd::Module< NetInfos >
+    class Module : public NetModule
     {
     public:
         /** Instantiate an AGL discovery module for the process. */

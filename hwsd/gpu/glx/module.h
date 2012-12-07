@@ -35,7 +35,7 @@ namespace glx
      * be opened, all available screens on the server are added as a separate
      * GPUInfo.
      */
-    class Module : public hwsd::Module< GPUInfos >
+    class Module : public GPUModule
     {
     public:
         /** Instantiate an GLX discovery module for the process. */
@@ -48,7 +48,7 @@ namespace glx
         virtual GPUInfos discover() const;
 
     private:
-        Module() : hwsd::Module< GPUInfos >() {}
+        Module() : GPUModule() {}
         virtual ~Module() {}
     };
 }

@@ -31,7 +31,7 @@ namespace sys
     /**
      * The low-level implementation for local network interface discovery.
      */
-    class Module : public hwsd::Module< NetInfos >
+    class Module : public NetModule
     {
     public:
         /** Instantiate an hwloc discovery module for the process. */
@@ -44,7 +44,7 @@ namespace sys
         virtual NetInfos discover() const;
 
     private:
-        Module() : hwsd::Module< NetInfos >() {}
+        Module() : NetModule() {}
         virtual ~Module() {}
     };
 }
