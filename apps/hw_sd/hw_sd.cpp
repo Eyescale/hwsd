@@ -20,7 +20,6 @@
 #include <hwsd/hwsd.h>
 #include <hwsd/gpuInfo.h>
 #include <hwsd/netInfo.h>
-#include <hwsd/module.h>
 #include <hwsd/version.h>
 
 #ifdef HWSD_GPU_CGL
@@ -32,15 +31,12 @@
 #ifdef HWSD_GPU_WGL
 #  include <hwsd/gpu/wgl/module.h>
 #endif
+#include <hwsd/gpu/dns_sd/module.h>
 
 #include <hwsd/net/dns_sd/module.h>
 #include <hwsd/net/sys/module.h>
 
 #include <lunchbox/lunchbox.h>
-
-#include <cstdio>
-#include <cstdlib>
-#include <sstream>
 
 #ifdef HWSD_USE_BOOST
 #  include <boost/program_options/options_description.hpp>
@@ -49,69 +45,9 @@
    namespace arg = boost::program_options;
 #endif
 
-using hwsd::GPUInfo;
-using hwsd::GPUInfos;
-using hwsd::NetInfo;
-using hwsd::NetInfos;
-
-static void setKey( lunchbox::Servus& service, const size_t gpuIndex,
-                    const std::string& name, const unsigned value )
-{
-    std::ostringstream out;
-    out << "GPU" << gpuIndex << " " << name;
-    const std::string string = out.str();
-
-    out.str("");
-    out << value;
-    service.set( string, out.str( ));
-}
-
-static void setKeys( lunchbox::Servus& service, const GPUInfos& gpus,
-                     const std::string& session, const std::string& hostname )
-{
-    service.set( "Session", session );
-    service.set( "Hostname", hostname );
-
-    std::ostringstream out;
-    out << gpus.size();
-    service.set( "GPU Count", out.str( ));
-
-    for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
-    {
-        const GPUInfo& info = *i;
-        const size_t index = i - gpus.begin();
-
-        // GPU<integer> Type=GLX | WGL | WGLn | CGL
-        out.str("");
-        out << "GPU" << index << " Type";
-        service.set( out.str(), info.getName( ));
-
-        if( info.port != GPUInfo::defaultValue )
-            // GPU<integer> Port=<integer> // X11 display number, 0 otherwise
-            setKey( service, index, "Port", info.port );
-
-        if( info.device != GPUInfo::defaultValue )
-            // GPU<integer> Device=<integer> // X11 display number, 0 otherwise
-            setKey( service, index, "Device", info.device );
-
-        if( info.pvp[2] > 0 && info.pvp[3] > 0 )
-        {
-            setKey( service, index, "X", info.pvp[0] );
-            setKey( service, index, "Y", info.pvp[1] );
-            setKey( service, index, "Width", info.pvp[2] );
-            setKey( service, index, "Height", info.pvp[3] );
-        }
-
-        if( info.flags != 0 )
-            setKey( service, index, "Flags", info.flags );
-    }
-}
 
 int main( const int argc, char* argv[] )
 {
-    std::string session( "default" );
-    std::string hostname;
-
 #ifdef HWSD_USE_BOOST
     const std::string applicationName = "Hardware service discovery daemon";
     arg::variables_map vm;
@@ -119,9 +55,6 @@ int main( const int argc, char* argv[] )
     desc.add_options()
         ( "help", "output this help message" )
         ( "version,v", "print version" )
-        ( "session,s", arg::value< std::string >()->default_value( session ),
-          "set session name" )
-        ( "hostname,h", arg::value< std::string >(), "set hostname" )
         ( "daemon,d", "run as daemon" );
 
     try
@@ -146,11 +79,6 @@ int main( const int argc, char* argv[] )
         return EXIT_SUCCESS;
     }
 
-    if( vm.count( "session" ))
-        session = vm["session"].as< std::string >();
-    if( vm.count( "hostname" ))
-        hostname = vm["hostname"].as< std::string >();
-
     const bool daemon = vm.count( "daemon" ) > 0;
 #else
     if( argc > 1 )
@@ -168,17 +96,11 @@ int main( const int argc, char* argv[] )
 #ifdef HWSD_GPU_WGL
     hwsd::gpu::wgl::Module::use();
 #endif
-
-    const GPUInfos& gpus = hwsd::discoverGPUs();
-    lunchbox::Servus gpuService( "_gpu-sd._tcp" );
-    if( !gpus.empty( ))
+    hwsd::gpu::dns_sd::Module::use();
+    if( !hwsd::announceGPUs( ))
     {
-        setKeys( gpuService, gpus, session, hostname );
-        if( !gpuService.announce( 4242, "" ))
-        {
-            std::cerr << "GPU announcement failed" << std::endl;
-            return EXIT_FAILURE;
-        }
+        std::cerr << "GPU announcement failed" << std::endl;
+        return EXIT_FAILURE;
     }
 
     hwsd::net::dns_sd::Module::use();

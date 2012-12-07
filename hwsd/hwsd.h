@@ -25,10 +25,24 @@
 
 namespace hwsd
 {
+    /**
+     * Announce the information about all found network GPUs.
+     *
+     * @return true if announcement was successful
+     * @version 1.0
+     */
+    HWSD_API bool announceGPUs();
+
     /** @return information about all found GPUs. @version 1.0 */
     HWSD_API GPUInfos discoverGPUs( FilterPtr filter =
                                               FilterPtr( new DuplicateFilter ));
 
+    /**
+     * Announce the information about all found network interfaces.
+     *
+     * @return true if announcement was successful
+     * @version 1.0
+     */
     HWSD_API bool announceNets();
 
     /** @return information about all found network interfaces. @version 1.0 */

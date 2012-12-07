@@ -34,10 +34,10 @@ namespace sys
     class Module : public NetModule
     {
     public:
-        /** Instantiate an hwloc discovery module for the process. */
+        /** Instantiate the sys network discovery module for the process. */
         static HWSD_API void use();
 
-        /** Unload the hwloc discovery module for the process. */
+        /** Unload the sys network discovery module for the process. */
         static HWSD_API void dispose();
 
     protected:

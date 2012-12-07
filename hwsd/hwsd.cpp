@@ -26,6 +26,15 @@ namespace hwsd
 template<> GPUModule* GPUModule::stack_ = 0;
 template<> NetModule* NetModule::stack_ = 0;
 
+bool announceGPUs()
+{
+    for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
+    {
+        if( !module->announce( ))
+            return false;
+    }
+    return true;
+}
 
 GPUInfos discoverGPUs( FilterPtr filter )
 {

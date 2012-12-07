@@ -127,12 +127,25 @@ bool Module::announce() const
         const size_t index = i - nets.begin();
 
         _impl->setValue( index, NETTYPE, info.getType( ));
-        _impl->setValue( index, NETNAME, info.name );
-        _impl->setValue( index, NETHOSTNAME, info.hostname );
-        _impl->setValue( index, NETHWADDR, info.hwAddress );
-        _impl->setValue( index, NETINETADDR, info.inetAddress );
-        _impl->setValue( index, NETINET6ADDR, info.inet6Address );
-        _impl->setValue( index, NETLINKSPEED, info.linkspeed );
+
+        if( !info.name.empty( ))
+            _impl->setValue( index, NETNAME, info.name );
+
+        if( !info.hostname.empty( ))
+            _impl->setValue( index, NETHOSTNAME, info.hostname );
+
+        if( !info.hwAddress.empty( ))
+            _impl->setValue( index, NETHWADDR, info.hwAddress );
+
+        if( !info.inetAddress.empty( ))
+            _impl->setValue( index, NETINETADDR, info.inetAddress );
+
+        if( !info.inet6Address.empty( ))
+            _impl->setValue( index, NETINET6ADDR, info.inet6Address );
+
+        if( info.linkspeed != NetInfo::defaultValue )
+            _impl->setValue( index, NETLINKSPEED, info.linkspeed );
+
         _impl->setValue( index, NETUP, info.up );
     }
 

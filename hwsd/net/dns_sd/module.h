@@ -30,14 +30,14 @@ namespace dns_sd
 {
 namespace detail { class Module; }
 
-    /** The DNS_SD implementation for remote GPU discovery. */
+    /** The DNS_SD implementation for remote network interface discovery. */
     class Module : public NetModule
     {
     public:
-        /** Instantiate an AGL discovery module for the process. */
+        /** Instantiate the dns_sd discovery module for the process. */
         static HWSD_API void use();
 
-        /** Unload the AGL discovery module for the process. */
+        /** Unload the dns_sd discovery module for the process. */
         static HWSD_API void dispose();
 
     protected:
