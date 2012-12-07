@@ -18,7 +18,9 @@
 #ifndef HWSD_GPU_CGL_MODULE_H
 #define HWSD_GPU_CGL_MODULE_H
 
+#include <hwsd/api.h>
 #include <hwsd/module.h> // base class
+#include <hwsd/types.h>
 
 namespace hwsd
 {
@@ -27,7 +29,7 @@ namespace gpu
 namespace cgl
 {
     /** The CGL implementation for local GPU discovery. */
-    class Module : public hwsd::Module
+    class Module : public hwsd::Module< GPUInfos >
     {
     public:
         /** Instantiate an CGL discovery module for the process. */
@@ -37,10 +39,10 @@ namespace cgl
         static HWSD_API void dispose();
 
     protected:
-        virtual GPUInfos discoverGPUs_() const;
+        virtual GPUInfos discover() const;
 
     private:
-        Module() : hwsd::Module() {}
+        Module() : hwsd::Module< GPUInfos >() {}
         virtual ~Module() {}
     };
 }
