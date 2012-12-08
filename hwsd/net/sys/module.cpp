@@ -21,7 +21,11 @@
 
 #include <lunchbox/log.h>
 
-#ifdef __linux
+#ifdef _WIN32
+#  include <winsock2.h>
+#  include <Ws2tcpip.h>
+#  include <iphlpapi.h>
+#elif defined __linux
 #  include <arpa/inet.h>
 #  include <netdb.h>
 #  include <net/if.h>
@@ -29,7 +33,7 @@
 #  include <sys/ioctl.h>
 #  include <linux/ethtool.h>
 #  include <linux/sockios.h>
-#else
+#elif defined __APPLE__
 #  include <lunchbox/debug.h>
 #endif
 
@@ -59,13 +63,101 @@ void Module::dispose()
 
 NetInfos Module::discover() const
 {
-    NetInfos result;
+#ifdef _WIN32
+    return _discoverWin32();
+#elif defined __APPLE__
+    return _discoverMac();
+#else
+    return _discoverLinux();
+#endif
+}
 
 #ifdef _WIN32
-    LBUNIMPLEMENTED
-#elif defined __APPLE__
-    LBUNIMPLEMENTED
-#else
+NetInfos Module::_discoverWin32() const
+{
+    NetInfos result;
+    WSAData d;
+	if( WSAStartup( MAKEWORD(2, 0), &d ) != 0 )
+		return result;
+
+    DWORD datasize = 0;
+    if( GetAdaptersAddresses( AF_INET, GAA_FLAG_INCLUDE_PREFIX, 0,
+                              0, &datasize ) != ERROR_BUFFER_OVERFLOW )
+    {
+        return result;
+    }
+
+    PIP_ADAPTER_ADDRESSES addresses = (PIP_ADAPTER_ADDRESSES)malloc( datasize );
+    if( GetAdaptersAddresses( AF_INET, GAA_FLAG_INCLUDE_PREFIX, 0,
+                              addresses, &datasize ) != ERROR_SUCCESS )
+    {
+        free( addresses );
+        return result;
+    }
+
+    char buf[BUFSIZ];
+    for( PIP_ADAPTER_ADDRESSES current = addresses; current;
+         current = current->Next )
+    {
+        NetInfo info;
+
+        switch( current->IfType )
+        {
+        case IF_TYPE_ETHERNET_CSMACD:
+            info.type = NetInfo::TYPE_ETHERNET;
+            break;
+        case IF_TYPE_SOFTWARE_LOOPBACK:
+            info.type = NetInfo::TYPE_LOOPBACK;
+            break;
+        }
+
+        info.up = current->OperStatus == IfOperStatusUp;
+        info.linkspeed = current->TransmitLinkSpeed / 1000000;
+
+	    memset( buf, 0, BUFSIZ );
+	    WideCharToMultiByte( CP_ACP, 0, current->FriendlyName,
+	                         wcslen(current->FriendlyName), buf, BUFSIZ, 0, 0 );
+        info.name = buf;
+
+        for( PIP_ADAPTER_UNICAST_ADDRESS addr = current->FirstUnicastAddress;
+             addr; addr = addr->Next )
+        {
+            memset( buf, 0, BUFSIZ );
+	        getnameinfo( addr->Address.lpSockaddr,
+	                     addr->Address.iSockaddrLength, buf, sizeof(buf), 0, 0,
+	                     NI_NUMERICHOST );
+            if( addr->Address.lpSockaddr->sa_family == AF_INET )
+                info.inetAddress = buf;
+            else
+                info.inet6Address = buf;
+        }
+
+        if( current->PhysicalAddressLength != 0 )
+        {
+            std::ostringstream mac;
+            mac << std::setfill( '0' ) << std::hex;
+            size_t i = 0;
+            for( ; i < current->PhysicalAddressLength-1; ++i )
+                mac << std::setw( 2 ) << int(current->PhysicalAddress[i]) <<":";
+            mac << std::setw( 2 ) << int(current->PhysicalAddress[i]);
+            info.hwAddress = mac.str();
+        }
+
+        result.push_back( info );
+    }
+
+    free( addresses );
+    WSACleanup();
+
+    return result;
+}
+
+#elif defined __linux
+
+NetInfos Module::_discoverLinux() const
+{
+    NetInfos result;
+
     int socketfd = socket( PF_INET, SOCK_DGRAM, 0 );
     if( socketfd < 0 )
         return result;
@@ -145,10 +237,19 @@ NetInfos Module::discover() const
     }
 
     close( socketfd );
-#endif
-
     return result;
 }
+
+#elif defined __APPLE__
+
+NetInfos Module::_discoverMac() const
+{
+    NetInfos result;
+    LBUNIMPLEMENTED
+    return result;
+}
+
+#endif
 
 }
 }

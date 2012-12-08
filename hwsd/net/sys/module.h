@@ -46,6 +46,10 @@ namespace sys
     private:
         Module() : NetModule() {}
         virtual ~Module() {}
+
+        NetInfos _discoverWin32() const;
+        NetInfos _discoverLinux() const;
+        NetInfos _discoverMac() const;
     };
 }
 }
