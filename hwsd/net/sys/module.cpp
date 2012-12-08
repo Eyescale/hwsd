@@ -31,6 +31,7 @@
 #  include <net/if.h>
 #  include <string.h>
 #  include <sys/ioctl.h>
+#  include <unistd.h>
 #  include <linux/ethtool.h>
 #  include <linux/sockios.h>
 #elif defined __APPLE__
