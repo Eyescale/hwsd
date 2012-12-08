@@ -21,7 +21,6 @@
 #include <hwsd/gpuInfo.h>
 #include <sstream>
 
-#define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
 #include <GL/gl.h>
 
@@ -274,7 +273,7 @@ void Module::dispose()
     instance = 0;
 }
 
-GPUInfos Module::discoverGPUs_() const
+GPUInfos Module::discover() const
 {
     GPUInfos result;
 

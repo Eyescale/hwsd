@@ -34,4 +34,10 @@
 #  define HWSD_API HWSD_DLLIMPORT
 #endif
 
+#if defined(HWSD_SHARED_INL)
+#  define HWSD_INL HWSD_DLLEXPORT
+#else
+#  define HWSD_INL HWSD_DLLIMPORT
+#endif
+
 #endif //HWSD_API_H

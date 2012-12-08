@@ -18,6 +18,8 @@
 #ifndef HWSD_VERSION_H
 #define HWSD_VERSION_H
 
+#include <hwsd/api.h>
+
 #include <string>
 
 /**
@@ -68,16 +70,16 @@ class Version
 {
 public:
     /** @return the current major version of HW-SD. */
-    static int getMajor();
+    HWSD_API static int getMajor();
 
     /** @return the current minor version of HW-SD. */
-    static int getMinor();
+    HWSD_API static int getMinor();
 
     /** @return the current patch level of HW-SD. */
-    static int getPatch();
+    HWSD_API static int getPatch();
 
     /** @return the current HW-SD version (MM.mm.pp). */
-    static std::string getString();
+    HWSD_API static std::string getString();
 };
 
 }

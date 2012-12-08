@@ -18,6 +18,8 @@
 #ifndef HWSD_MODULE_H
 #define HWSD_MODULE_H
 
+#include <hwsd/api.h>
+
 #include <lunchbox/uuid.h>
 
 #include <string>
@@ -52,7 +54,7 @@ namespace detail
         /** @return information about all found resources. @version 1.0 */
         virtual T discover() const = 0;
 
-        static Module< T >* stack_;
+        HWSD_INL static Module< T >* stack_;
         Module< T >* next_;
     };
 }
