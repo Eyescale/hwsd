@@ -111,7 +111,7 @@ int main( const int argc, char* argv[] )
         hwsd::gpu::wgl::Module::use();
 #endif
         hwsd::gpu::dns_sd::Module::use();
-        if( !hwsd::announceGPUs( session ))
+        if( !hwsd::announceGPUInfos( session ))
         {
             std::cerr << "GPU announcement failed" << std::endl;
             return EXIT_FAILURE;
@@ -122,7 +122,7 @@ int main( const int argc, char* argv[] )
     {
         hwsd::net::dns_sd::Module::use();
         hwsd::net::sys::Module::use();
-        if( !hwsd::announceNets( session ))
+        if( !hwsd::announceNetInfos( session ))
         {
             std::cerr << "Network announcement failed" << std::endl;
             return EXIT_FAILURE;

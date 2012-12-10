@@ -31,11 +31,11 @@ namespace hwsd
      * @return true if announcement was successful
      * @version 1.0
      */
-    HWSD_API bool announceGPUs( const std::string& session );
+    HWSD_API bool announceGPUInfos( const std::string& session );
 
     /** @return information about all found GPUs. @version 1.0 */
-    HWSD_API GPUInfos discoverGPUs( FilterPtr filter =
-                                              FilterPtr( new DuplicateFilter ));
+    HWSD_API GPUInfos discoverGPUInfos( FilterPtr filter =
+                                            FilterPtr( new DuplicateFilter ));
 
     /**
      * Announce the information about all found network interfaces.
@@ -43,10 +43,13 @@ namespace hwsd
      * @return true if announcement was successful
      * @version 1.0
      */
-    HWSD_API bool announceNets( const std::string& session );
+    HWSD_API bool announceNetInfos( const std::string& session );
 
     /** @return information about all found network interfaces. @version 1.0 */
-    HWSD_API NetInfos discoverNets();
+    HWSD_API NetInfos discoverNetInfos();
+
+    /** @return the local node identifier. @version 1.0 */
+    HWSD_API const lunchbox::UUID& getLocalNodeID();
 }
 
 #endif // HWSD_HWSD_H

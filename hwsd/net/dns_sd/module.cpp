@@ -37,7 +37,7 @@ static Module* instance = 0;
 
 std::string NETSERVICE   = "_net-sd._tcp";
 std::string NET          = "Net";
-std::string NETCOUNT     = "Net Count";
+std::string NETCOUNT     = "Count";
 std::string NETSESSION   = "Session";
 std::string NETNODEID    = "NodeID";
 
@@ -149,7 +149,7 @@ bool Module::announce( const lunchbox::UUID& nodeID,
                        const std::string& session ) const
 {
     _impl->announcing = true;
-    NetInfos nets = hwsd::discoverNets();
+    NetInfos nets = hwsd::discoverNetInfos();
     _impl->announcing = false;
     if( nets.empty( ))
         return true;
@@ -200,56 +200,45 @@ bool Module::announce( const lunchbox::UUID& nodeID,
 
 NetInfos Module::discover() const
 {
-    NetInfos infos[2];
+    NetInfos infos;
     if( _impl->announcing )
-        return infos[0];
+        return infos;
 
-    lunchbox::Servus::Interface interfaces[2] = { lunchbox::Servus::IF_ALL,
-                                                  lunchbox::Servus::IF_LOCAL };
-    for( unsigned i = 0; i < 2; ++i )
+    const lunchbox::Strings& hosts =
+        _impl->service.discover( lunchbox::Servus::IF_ALL, WAIT_TIME );
+
+    for( lunchbox::StringsCIter i = hosts.begin(); i != hosts.end(); ++i )
     {
-        const lunchbox::Strings& hosts = _impl->service.discover( interfaces[i],
-                                                                  WAIT_TIME );
-        for( lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j )
+        const std::string& host = *i;
+
+        unsigned nNets = 0;
+        _impl->getValue( host, NETCOUNT, nNets );
+
+        for( unsigned j = 0; j < nNets; ++j )
         {
-            const std::string& host = *j;
+            NetInfo info;
+            _impl->getValue( host, NETSESSION, info.session );
+            if( !_impl->getValue( host, NETNODEID, info.id ))
+                info.id = lunchbox::make_uint128( host );
 
-            unsigned nNets = 0;
-            _impl->getValue( host, NETCOUNT, nNets );
+            std::string type;
+            _impl->getValue( host, j, NETTYPE, type );
+            info.setType( type );
+            _impl->getValue( host, j, NETNAME, info.name );
+            _impl->getValue( host, j, NETHOSTNAME, info.hostname );
+            _impl->getValue( host, j, NETHWADDR, info.hwAddress );
+            _impl->getValue( host, j, NETINETADDR, info.inetAddress );
+            _impl->getValue( host, j, NETINET6ADDR, info.inet6Address );
+            _impl->getValue( host, j, NETLINKSPEED, info.linkspeed );
+            _impl->getValue( host, j, NETUP, info.up );
 
-            for( unsigned k = 0; k < nNets; ++k )
-            {
-                NetInfo info;
+            if( info.id != getLocalNodeID( ))
                 info.nodeName = host;
-                _impl->getValue( host, NETSESSION, info.session );
-                _impl->getValue( host, NETNODEID, info.id );
-                std::string type;
-                _impl->getValue( host, k, NETTYPE, type );
-                info.setType( type );
-                _impl->getValue( host, k, NETNAME, info.name );
-                _impl->getValue( host, k, NETHOSTNAME, info.hostname );
-                _impl->getValue( host, k, NETHWADDR, info.hwAddress );
-                _impl->getValue( host, k, NETINETADDR, info.inetAddress );
-                _impl->getValue( host, k, NETINET6ADDR, info.inet6Address );
-                _impl->getValue( host, k, NETLINKSPEED, info.linkspeed );
-                _impl->getValue( host, k, NETUP, info.up );
-                infos[i].push_back( info );
-            }
-        }
-    }
 
-    // set localhost records to localhost
-    const NetInfosIter localEnd = infos[1].end();
-    for( NetInfosIter i = infos[0].begin(); i != infos[0].end(); ++i )
-    {
-        NetInfo& info = *i;
-        if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
-        {
-            info.id = lunchbox::UUID::ZERO;
-            info.nodeName.clear();
+            infos.push_back( info );
         }
     }
-    return infos[0];
+    return infos;
 }
 
 }

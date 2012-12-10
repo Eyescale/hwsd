@@ -26,20 +26,20 @@ namespace hwsd
 template<> GPUModule* GPUModule::stack_ = 0;
 template<> NetModule* NetModule::stack_ = 0;
 
-lunchbox::UUID nodeID( true );
+lunchbox::UUID nodeID_( true );
 
 
-bool announceGPUs( const std::string& session )
+bool announceGPUInfos( const std::string& session )
 {
     for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
     {
-        if( !module->announce( nodeID, session ))
+        if( !module->announce( nodeID_, session ))
             return false;
     }
     return true;
 }
 
-GPUInfos discoverGPUs( FilterPtr filter )
+GPUInfos discoverGPUInfos( FilterPtr filter )
 {
     GPUInfos result;
     for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
@@ -55,17 +55,17 @@ GPUInfos discoverGPUs( FilterPtr filter )
     return result;
 }
 
-bool announceNets( const std::string& session )
+bool announceNetInfos( const std::string& session )
 {
     for( NetModule* module = NetModule::stack_; module; module = module->next_ )
     {
-        if( !module->announce( nodeID, session ))
+        if( !module->announce( nodeID_, session ))
             return false;
     }
     return true;
 }
 
-NetInfos discoverNets()
+NetInfos discoverNetInfos()
 {
     NetInfos result;
     for( NetModule* module = NetModule::stack_; module; module = module->next_ )
@@ -75,4 +75,10 @@ NetInfos discoverNets()
     }
     return result;
 }
+
+const lunchbox::UUID& getLocalNodeID()
+{
+    return nodeID_;
+}
+
 }

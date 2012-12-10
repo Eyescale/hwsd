@@ -31,8 +31,7 @@ namespace detail
     class Module;
 }
     /** Base class for runtime-attached DSOs of a query implementation. */
-    template< typename T >
-    class Module
+    template< typename T > class Module
     {
     public:
         /** Register and construct a new module. @version 1.0 */
@@ -54,8 +53,8 @@ namespace detail
         /** @return information about all found resources. @version 1.0 */
         virtual T discover() const = 0;
 
-        HWSD_INL static Module< T >* stack_;
-        Module< T >* next_;
+        HWSD_INL static Module< T >* stack_; //!< @internal
+        Module< T >* next_; //!< @internal
     };
 }
 

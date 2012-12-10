@@ -108,7 +108,7 @@ namespace hwsd
 
         unsigned flags; //!< bitmask of additional GPU capabilities
         unsigned unused; //!< @internal
-        char dummy[24]; //!< Buffer for binary-compatible additions
+        char dummy[32]; //!< Buffer for binary-compatible additions
     };
 
     inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )

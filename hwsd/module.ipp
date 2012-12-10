@@ -20,8 +20,7 @@
 namespace hwsd
 {
 
-template< typename T >
-Module< T >::Module()
+template< typename T > Module< T >::Module()
     : next_( 0 )
 {
     if( !stack_ )
@@ -40,8 +39,7 @@ Module< T >::Module()
     }
 }
 
-template< typename T >
-Module< T >::~Module()
+template< typename T > Module< T >::~Module()
 {
     Module* previous = 0;
     for( Module* module = stack_; module; module = module->next_ )

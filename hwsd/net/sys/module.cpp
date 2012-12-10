@@ -266,13 +266,13 @@ NetInfos Module::_discoverLinux() const
 
         NetInfo& info = infos[ifa->ifa_name];
         info.name = ifa->ifa_name;
-
         info.up = ifa->ifa_flags & IFF_UP;
 
         const int family = ifa->ifa_addr->sa_family;
 
-        if( family == AF_INET )
+        switch( family )
         {
+        case AF_INET:
             if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in), host,
                              NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
             {
@@ -283,16 +283,18 @@ NetInfos Module::_discoverLinux() const
             {
                 info.hostname = host;
             }
-        }
-        else if( family == AF_INET6 )
-        {
+            break;
+
+        case AF_INET6:
             if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in6), host,
                              NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
             {
                 info.inet6Address = host;
             }
-        }
-        else if( family == AF_PACKET )
+            break;
+
+
+        case AF_PACKET:
         {
             sockaddr_ll* s = (sockaddr_ll*)ifa->ifa_addr;
             std::ostringstream mac;
@@ -318,6 +320,8 @@ NetInfos Module::_discoverLinux() const
             default:
                 info.type = NetInfo::TYPE_UNKNOWN;
             }
+            break;
+        }
         }
     }
 

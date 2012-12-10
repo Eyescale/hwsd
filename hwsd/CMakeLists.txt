@@ -1,5 +1,5 @@
 
-configure_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/hwsd/version.h" @ONLY)
+update_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/hwsd/version.h" @ONLY)
 
 set(HEADERS
   "${OUTPUT_INCLUDE_DIR}/hwsd/version.h"
@@ -17,6 +17,7 @@ set(HEADERS
 set(SOURCES
   filter.cpp
   hwsd.cpp
+  nodeInfo.cpp
   version.cpp
 )
 

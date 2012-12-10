@@ -37,7 +37,7 @@ static Module* instance = 0;
 
 std::string GPUSERVICE  = "_gpu-sd._tcp";
 std::string GPU         = "GPU";
-std::string GPUCOUNT    = "GPU Count";
+std::string GPUCOUNT    = "Count";
 std::string GPUSESSION  = "Session";
 std::string GPUNODEID   = "NodeID";
 
@@ -149,7 +149,7 @@ bool Module::announce( const lunchbox::UUID& nodeID,
                        const std::string& session ) const
 {
     _impl->announcing = true;
-    const GPUInfos& gpus = hwsd::discoverGPUs();
+    const GPUInfos& gpus = hwsd::discoverGPUInfos();
     _impl->announcing = false;
     if( gpus.empty( ))
         return true;
@@ -191,56 +191,45 @@ bool Module::announce( const lunchbox::UUID& nodeID,
 
 GPUInfos Module::discover() const
 {
-    GPUInfos infos[2];
+    GPUInfos infos;
     if( _impl->announcing )
-        return infos[0];
+        return infos;
 
-    lunchbox::Servus::Interface interfaces[2] = { lunchbox::Servus::IF_ALL,
-                                                  lunchbox::Servus::IF_LOCAL };
-    for( unsigned i = 0; i < 2; ++i )
+    const lunchbox::Strings& hosts =
+        _impl->service.discover( lunchbox::Servus::IF_ALL, WAIT_TIME );
+
+    for( lunchbox::StringsCIter i = hosts.begin(); i != hosts.end(); ++i )
     {
-        const lunchbox::Strings& hosts = _impl->service.discover( interfaces[i],
-                                                                  WAIT_TIME );
-        for( lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j )
+        const std::string& host = *i;
+
+        unsigned nGPUs = 0;
+        _impl->getValue( host, GPUCOUNT, nGPUs );
+        for( unsigned j = 0; j < nGPUs; ++j )
         {
-            const std::string& host = *j;
+            std::string type;
+            if( !_impl->getValue( host, j, GPUTYPE, type ))
+                continue;
 
-            unsigned nGPUs = 0;
-            _impl->getValue( host, GPUCOUNT, nGPUs );
-            for( unsigned k = 0; k < nGPUs; ++k )
-            {
-                std::string type;
-                if( !_impl->getValue( host, k, GPUTYPE, type ))
-                    continue;
+            GPUInfo info( type );
+            _impl->getValue( host, GPUSESSION, info.session );
+            if( !_impl->getValue( host, GPUNODEID, info.id ))
+                info.id = lunchbox::make_uint128( host );
 
-                GPUInfo info( type );
+            _impl->getValue( host, j, GPUPORT, info.port );
+            _impl->getValue( host, j, GPUDEVICE, info.device );
+            _impl->getValue( host, j, GPUX, info.pvp[0] );
+            _impl->getValue( host, j, GPUY, info.pvp[1] );
+            _impl->getValue( host, j, GPUWIDTH, info.pvp[2] );
+            _impl->getValue( host, j, GPUHEIGHT, info.pvp[3] );
+            _impl->getValue( host, j, GPUFLAGS, info.flags );
+
+            if( info.id != getLocalNodeID( ))
                 info.nodeName = host;
-                _impl->getValue( host, GPUSESSION, info.session );
-                _impl->getValue( host, GPUNODEID, info.id );
-                _impl->getValue( host, k, GPUPORT, info.port );
-                _impl->getValue( host, k, GPUDEVICE, info.device );
-                _impl->getValue( host, k, GPUX, info.pvp[0] );
-                _impl->getValue( host, k, GPUY, info.pvp[1] );
-                _impl->getValue( host, k, GPUWIDTH, info.pvp[2] );
-                _impl->getValue( host, k, GPUHEIGHT, info.pvp[3] );
-                _impl->getValue( host, k, GPUFLAGS, info.flags );
-                infos[i].push_back( info );
-            }
-        }
-    }
 
-    // set localhost records to localhost
-    const GPUInfosIter localEnd = infos[1].end();
-    for( GPUInfosIter i = infos[0].begin(); i != infos[0].end(); ++i )
-    {
-        GPUInfo& info = *i;
-        if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
-        {
-            info.id = lunchbox::UUID::ZERO;
-            info.nodeName.clear();
+            infos.push_back( info );
         }
     }
-    return infos[0];
+    return infos;
 }
 
 }

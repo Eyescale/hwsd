@@ -18,6 +18,7 @@
 #ifndef HWSD_NODEINFO_H
 #define HWSD_NODEINFO_H
 
+#include <hwsd/api.h>
 #include <lunchbox/uuid.h>
 
 #include <ostream>
@@ -29,20 +30,13 @@ namespace hwsd
     struct NodeInfo
     {
         /** Default constructor describing a local session. @version 1.0 */
-        NodeInfo() : id(), session( "local" ) {}
+        HWSD_API NodeInfo();
 
         /** @return true if both informations are identical. @version 1.0 */
-        bool operator == ( const NodeInfo& rhs ) const
-            {
-                return id == rhs.id && nodeName == rhs.nodeName &&
-                       session == rhs.session;
-            }
+        HWSD_API bool operator == ( const NodeInfo& rhs ) const;
 
         /** @return true if both infos are not identical. @version 1.0 */
-        bool operator != ( const NodeInfo& rhs ) const
-            {
-                return !(*this == rhs );
-            }
+        HWSD_API bool operator != ( const NodeInfo& rhs ) const;
 
         /** Random identifier if remote, UUID::ZERO if local. @version 1.0 */
         lunchbox::UUID id;
@@ -53,19 +47,10 @@ namespace hwsd
         /** The session name: local, default or custom string. @version 1.0 */
         std::string session;
 
-        char dummy[24]; //!< Buffer for binary-compatible additions
+        char dummy[32]; //!< Buffer for binary-compatible additions
     };
 
-    inline std::ostream& operator << ( std::ostream& os, const NodeInfo& info )
-    {
-        if( info.id != lunchbox::UUID::ZERO )
-            os << "  NodeID    " << info.id << std::endl;
-        if( !info.nodeName.empty( ))
-            os << "  Nodename  " << info.nodeName << std::endl;
-        if( !info.session.empty() && info.session != "local" )
-            os << "  Session   " << info.session << std::endl;
-        return os;
-    }
+    HWSD_API std::ostream& operator << ( std::ostream& os, const NodeInfo& info);
 }
 
 #endif // HWSD_NODEINFO_H
