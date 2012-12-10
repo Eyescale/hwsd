@@ -27,16 +27,27 @@
 
 int main (int argc, const char * argv[])
 {
-    hwsd::gpu::dns_sd::Module::use();
-    hwsd::net::dns_sd::Module::use();
+#ifdef _WIN32
+    const std::string executable = argv[0];
+#else
+    const std::string executable = basename( argv[0] );
+#endif
 
-    const hwsd::GPUInfos& gpus = hwsd::discoverGPUInfos();
-    for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
-        std::cout << *i << std::endl;
+    if( executable != "net_sd_list" )
+    {
+        hwsd::gpu::dns_sd::Module::use();
+        const hwsd::GPUInfos& gpus = hwsd::discoverGPUInfos();
+        for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
+            std::cout << *i << std::endl;
+    }
 
-    const hwsd::NetInfos& nets = hwsd::discoverNetInfos();
-    for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
-        std::cout << *i << std::endl;
+    if( executable != "gpu_sd_list" )
+    {
+        hwsd::net::dns_sd::Module::use();
+        const hwsd::NetInfos& nets = hwsd::discoverNetInfos();
+        for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
+            std::cout << *i << std::endl;
+    }
 
     return 0;
 }
