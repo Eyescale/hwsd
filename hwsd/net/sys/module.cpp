@@ -21,19 +21,31 @@
 
 #include <lunchbox/log.h>
 
+//#define USE_IOCTL
+
 #ifdef _WIN32
 #  include <winsock2.h>
 #  include <Ws2tcpip.h>
 #  include <iphlpapi.h>
 #elif defined __linux
-#  include <arpa/inet.h>
-#  include <netdb.h>
-#  include <net/if.h>
-#  include <string.h>
-#  include <sys/ioctl.h>
-#  include <unistd.h>
-#  include <linux/ethtool.h>
-#  include <linux/sockios.h>
+#  ifdef USE_IOCTL
+#    include <arpa/inet.h>
+#    include <netdb.h>
+#    include <net/if.h>
+#    include <string.h>
+#    include <sys/ioctl.h>
+#    include <unistd.h>
+#    include <linux/ethtool.h>
+#    include <linux/sockios.h>
+#  else
+#    include <arpa/inet.h>
+#    include <netdb.h>
+#    include <ifaddrs.h>
+#    include <sys/types.h>
+#    include <sys/socket.h>
+#    include <linux/if_arp.h>
+#    include <map>
+#  endif
 #elif defined __APPLE__
 #  include <lunchbox/debug.h>
 #endif
@@ -158,7 +170,7 @@ NetInfos Module::_discoverWin32() const
 NetInfos Module::_discoverLinux() const
 {
     NetInfos result;
-
+#ifdef USE_IOCTL
     int socketfd = socket( PF_INET, SOCK_DGRAM, 0 );
     if( socketfd < 0 )
         return result;
@@ -238,6 +250,73 @@ NetInfos Module::_discoverLinux() const
     }
 
     close( socketfd );
+#else
+    ifaddrs* ifaddr;
+    if( getifaddrs( &ifaddr ) == -1 )
+        return result;
+
+    typedef std::map< std::string, NetInfo > Name2Info;
+    Name2Info infos;
+
+    char host[NI_MAXHOST];
+    for( ifaddrs* ifa = ifaddr; ifa; ifa = ifa->ifa_next )
+    {
+        if( !ifa->ifa_addr )
+           continue;
+
+        NetInfo& info = infos[ifa->ifa_name];
+        info.type = NetInfo::TYPE_ETHERNET;
+        info.name = ifa->ifa_name;
+
+        info.up = ifa->ifa_flags & IFF_UP;
+        if( ifa->ifa_flags & IFF_LOOPBACK )
+            info.type = NetInfo::TYPE_LOOPBACK;
+
+        const int family = ifa->ifa_addr->sa_family;
+
+        if( family == AF_INET )
+        {
+            if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in), host,
+                             NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
+            {
+                info.inetAddress = host;
+            }
+            if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in), host,
+                             NI_MAXHOST, 0, 0, NI_NAMEREQD ) == 0 )
+            {
+                info.hostname = host;
+            }
+        }
+        else if( family == AF_INET6 )
+        {
+            if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in6), host,
+                             NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
+            {
+                info.inet6Address = host;
+            }
+        }
+        else if( family == AF_PACKET )
+        {
+            sockaddr_ll* s = (sockaddr_ll*)ifa->ifa_addr;
+            std::ostringstream mac;
+            mac << std::setfill( '0' ) << std::hex;
+            for( size_t i = 0; i < 6; ++i )
+            {
+                mac << std::setw( 2 ) << int(s->sll_addr[i])
+                    << (i < 5 ? ":" : "");
+            }
+            info.hwAddress = mac.str();
+
+            if( s->sll_hatype == ARPHRD_INFINIBAND )
+                info.type = NetInfo::TYPE_INFINIBAND;
+        }
+    }
+
+    freeifaddrs( ifaddr );
+
+    for( Name2Info::const_iterator it = infos.begin(); it != infos.end(); ++it )
+        result.push_back( it->second );
+#endif
     return result;
 }
 
