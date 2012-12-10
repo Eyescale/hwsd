@@ -265,12 +265,9 @@ NetInfos Module::_discoverLinux() const
            continue;
 
         NetInfo& info = infos[ifa->ifa_name];
-        info.type = NetInfo::TYPE_ETHERNET;
         info.name = ifa->ifa_name;
 
         info.up = ifa->ifa_flags & IFF_UP;
-        if( ifa->ifa_flags & IFF_LOOPBACK )
-            info.type = NetInfo::TYPE_LOOPBACK;
 
         const int family = ifa->ifa_addr->sa_family;
 
@@ -307,8 +304,20 @@ NetInfos Module::_discoverLinux() const
             }
             info.hwAddress = mac.str();
 
-            if( s->sll_hatype == ARPHRD_INFINIBAND )
+            switch( s->sll_hatype )
+            {
+            case ARPHRD_ETHER:
+                info.type = NetInfo::TYPE_ETHERNET;
+                break;
+            case ARPHRD_LOOPBACK:
+                info.type = NetInfo::TYPE_LOOPBACK;
+                break;
+            case ARPHRD_INFINIBAND:
                 info.type = NetInfo::TYPE_INFINIBAND;
+                break;
+            default:
+                info.type = NetInfo::TYPE_UNKNOWN;
+            }
         }
     }
 
