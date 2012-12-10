@@ -1,4 +1,4 @@
-if(NOT HWLOC_FOUND)
+if(NOT HWLOC_FOUND OR ${HWLOC_VERSION} VERSION_LESS 1.3)
   return()
 endif()
 
