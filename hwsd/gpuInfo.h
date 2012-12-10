@@ -113,7 +113,7 @@ namespace hwsd
 
     inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )
     {
-        os << "GPUInfo\n";
+        os << "GPUInfo\n" << static_cast< const NodeInfo& >( info );
         if( !info.getName().empty( ))
             os << "  Type      " << info.getName() << std::endl;
         if( info.port != GPUInfo::defaultValue )
@@ -128,7 +128,7 @@ namespace hwsd
                << (info.flags&GPUInfo::FLAG_VIRTUALGL ? "VirtualGL" : "")
                << (info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY ? "Display" : "")
                << std::endl;
-        return os << static_cast< const NodeInfo& >( info );
+        return os;
     }
 }
 

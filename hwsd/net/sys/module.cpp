@@ -78,8 +78,8 @@ NetInfos Module::_discoverWin32() const
 {
     NetInfos result;
     WSAData d;
-	if( WSAStartup( MAKEWORD(2, 0), &d ) != 0 )
-		return result;
+    if( WSAStartup( MAKEWORD(2, 0), &d ) != 0 )
+        return result;
 
     DWORD datasize = 0;
     if( GetAdaptersAddresses( AF_INET, GAA_FLAG_INCLUDE_PREFIX, 0,
@@ -115,18 +115,18 @@ NetInfos Module::_discoverWin32() const
         info.up = current->OperStatus == IfOperStatusUp;
         info.linkspeed = current->TransmitLinkSpeed / 1000000;
 
-	    memset( buf, 0, BUFSIZ );
-	    WideCharToMultiByte( CP_ACP, 0, current->FriendlyName,
-	                         wcslen(current->FriendlyName), buf, BUFSIZ, 0, 0 );
+        memset( buf, 0, BUFSIZ );
+        WideCharToMultiByte( CP_ACP, 0, current->FriendlyName,
+                             wcslen(current->FriendlyName), buf, BUFSIZ, 0, 0 );
         info.name = buf;
 
         for( PIP_ADAPTER_UNICAST_ADDRESS addr = current->FirstUnicastAddress;
              addr; addr = addr->Next )
         {
             memset( buf, 0, BUFSIZ );
-	        getnameinfo( addr->Address.lpSockaddr,
-	                     addr->Address.iSockaddrLength, buf, sizeof(buf), 0, 0,
-	                     NI_NUMERICHOST );
+            getnameinfo( addr->Address.lpSockaddr,
+                         addr->Address.iSockaddrLength, buf, sizeof(buf), 0, 0,
+                         NI_NUMERICHOST );
             if( addr->Address.lpSockaddr->sa_family == AF_INET )
                 info.inetAddress = buf;
             else

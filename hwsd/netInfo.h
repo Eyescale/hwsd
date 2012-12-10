@@ -118,7 +118,7 @@ namespace hwsd
 
     inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
     {
-        os << "NetInfo\n";
+        os << "NetInfo\n" << static_cast< const NodeInfo& >( info );
             os << "  Type      " << info.getType() << std::endl;
             os << "  Status    " << (info.up ? "UP" : "DOWN") << std::endl;
         if( !info.name.empty( ))
@@ -134,7 +134,7 @@ namespace hwsd
         if( info.linkspeed != NetInfo::defaultValue )
             os << "  Linkspeed " << info.linkspeed << "Mbps" << std::endl;
 
-        return os << static_cast< const NodeInfo& >( info );
+        return os;
     }
 }
 

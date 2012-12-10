@@ -34,7 +34,8 @@ namespace hwsd
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const NodeInfo& rhs ) const
             {
-                return id == rhs.id && session == rhs.session;
+                return id == rhs.id && nodeName == rhs.nodeName &&
+                       session == rhs.session;
             }
 
         /** @return true if both infos are not identical. @version 1.0 */
@@ -43,8 +44,11 @@ namespace hwsd
                 return !(*this == rhs );
             }
 
-        /** UUID::ZERO for local node, else random identifier. @version 1.0 */
+        /** Random identifier if remote, UUID::ZERO if local. @version 1.0 */
         lunchbox::UUID id;
+
+        /** System hostname if remote, empty for local. @version 1.0 */
+        std::string nodeName;
 
         /** The session name: local, default or custom string. @version 1.0 */
         std::string session;
@@ -56,6 +60,8 @@ namespace hwsd
     {
         if( info.id != lunchbox::UUID::ZERO )
             os << "  NodeID    " << info.id << std::endl;
+        if( !info.nodeName.empty( ))
+            os << "  Nodename  " << info.nodeName << std::endl;
         if( !info.session.empty() && info.session != "local" )
             os << "  Session   " << info.session << std::endl;
         return os;

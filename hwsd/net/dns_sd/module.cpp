@@ -220,6 +220,7 @@ NetInfos Module::discover() const
             for( unsigned k = 0; k < nNets; ++k )
             {
                 NetInfo info;
+                info.nodeName = host;
                 _impl->getValue( host, NETSESSION, info.session );
                 _impl->getValue( host, NETNODEID, info.id );
                 std::string type;
@@ -243,7 +244,10 @@ NetInfos Module::discover() const
     {
         NetInfo& info = *i;
         if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
+        {
             info.id = lunchbox::UUID::ZERO;
+            info.nodeName.clear();
+        }
     }
     return infos[0];
 }

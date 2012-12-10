@@ -214,6 +214,7 @@ GPUInfos Module::discover() const
                     continue;
 
                 GPUInfo info( type );
+                info.nodeName = host;
                 _impl->getValue( host, GPUSESSION, info.session );
                 _impl->getValue( host, GPUNODEID, info.id );
                 _impl->getValue( host, k, GPUPORT, info.port );
@@ -234,7 +235,10 @@ GPUInfos Module::discover() const
     {
         GPUInfo& info = *i;
         if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
+        {
             info.id = lunchbox::UUID::ZERO;
+            info.nodeName.clear();
+        }
     }
     return infos[0];
 }
