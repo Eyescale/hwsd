@@ -213,7 +213,7 @@ GPUInfos Module::discover() const
             GPUInfo info( type );
             _impl->getValue( host, GPUSESSION, info.session );
             if( !_impl->getValue( host, GPUNODEID, info.id ))
-                info.id = lunchbox::make_uint128( host );
+                info.id = lunchbox::make_uint128( host.c_str( ));
 
             _impl->getValue( host, j, GPUPORT, info.port );
             _impl->getValue( host, j, GPUDEVICE, info.device );

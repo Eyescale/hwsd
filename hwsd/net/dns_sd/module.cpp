@@ -219,7 +219,7 @@ NetInfos Module::discover() const
             NetInfo info;
             _impl->getValue( host, NETSESSION, info.session );
             if( !_impl->getValue( host, NETNODEID, info.id ))
-                info.id = lunchbox::make_uint128( host );
+                info.id = lunchbox::make_uint128( host.c_str( ));
 
             std::string type;
             _impl->getValue( host, j, NETTYPE, type );
