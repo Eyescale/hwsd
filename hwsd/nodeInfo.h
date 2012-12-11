@@ -38,7 +38,7 @@ namespace hwsd
         /** @return true if both infos are not identical. @version 1.0 */
         HWSD_API bool operator != ( const NodeInfo& rhs ) const;
 
-        /** Random identifier if remote, UUID::ZERO if local. @version 1.0 */
+        /** Random unique ID identifing the origin node. @version 1.0 */
         lunchbox::UUID id;
 
         /** System hostname if remote, empty for local. @version 1.0 */
@@ -50,7 +50,8 @@ namespace hwsd
         char dummy[32]; //!< Buffer for binary-compatible additions
     };
 
-    HWSD_API std::ostream& operator << ( std::ostream& os, const NodeInfo& info);
+    HWSD_API std::ostream& operator << ( std::ostream& os,
+                                         const NodeInfo& info );
 }
 
 #endif // HWSD_NODEINFO_H
