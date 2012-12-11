@@ -145,8 +145,7 @@ void Module::dispose()
     instance = 0;
 }
 
-bool Module::announce( const lunchbox::UUID& nodeID,
-                       const std::string& session ) const
+bool Module::announce( const std::string& session ) const
 {
     _impl->announcing = true;
     NetInfos nets = hwsd::discoverNetInfos();
@@ -165,7 +164,7 @@ bool Module::announce( const lunchbox::UUID& nodeID,
 
     _impl->setValue( NETCOUNT, nets.size( ));
     _impl->setValue( NETSESSION, session );
-    _impl->setValue( NETNODEID, nodeID );
+    _impl->setValue( NETNODEID, getLocalNodeID( ));
 
     for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
     {

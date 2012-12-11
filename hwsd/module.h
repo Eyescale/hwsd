@@ -47,8 +47,7 @@ namespace detail
          * @return true if announcement was successful
          * @version 1.0
          */
-        virtual bool announce( const lunchbox::UUID& nodeID,
-                               const std::string& session ) const;
+        virtual bool announce( const std::string& session ) const;
 
         /** @return information about all found resources. @version 1.0 */
         virtual T discover() const = 0;

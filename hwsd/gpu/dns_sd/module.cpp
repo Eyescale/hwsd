@@ -145,8 +145,7 @@ void Module::dispose()
     instance = 0;
 }
 
-bool Module::announce( const lunchbox::UUID& nodeID,
-                       const std::string& session ) const
+bool Module::announce( const std::string& session ) const
 {
     _impl->announcing = true;
     const GPUInfos& gpus = hwsd::discoverGPUInfos();
@@ -156,7 +155,7 @@ bool Module::announce( const lunchbox::UUID& nodeID,
 
     _impl->setValue( GPUCOUNT, gpus.size( ));
     _impl->setValue( GPUSESSION, session );
-    _impl->setValue( GPUNODEID, nodeID );
+    _impl->setValue( GPUNODEID, getLocalNodeID( ));
 
     for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
     {

@@ -33,7 +33,7 @@ bool announceGPUInfos( const std::string& session )
 {
     for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
     {
-        if( !module->announce( nodeID_, session ))
+        if( !module->announce( session ))
             return false;
     }
     return true;
@@ -59,7 +59,7 @@ bool announceNetInfos( const std::string& session )
 {
     for( NetModule* module = NetModule::stack_; module; module = module->next_ )
     {
-        if( !module->announce( nodeID_, session ))
+        if( !module->announce( session ))
             return false;
     }
     return true;

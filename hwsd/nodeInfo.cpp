@@ -36,7 +36,6 @@ bool NodeInfo::operator != ( const NodeInfo& rhs ) const
 
 std::ostream& operator << ( std::ostream& os, const NodeInfo& info )
 {
-    if( info.id != lunchbox::UUID::ZERO )
         os << "  NodeID    " << info.id << std::endl;
     if( !info.nodeName.empty( ))
         os << "  Nodename  " << info.nodeName << std::endl;
