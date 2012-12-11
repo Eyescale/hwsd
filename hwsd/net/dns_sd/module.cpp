@@ -199,45 +199,59 @@ bool Module::announce( const std::string& session ) const
 
 NetInfos Module::discover() const
 {
-    NetInfos infos;
+    NetInfos infos[2];
     if( _impl->announcing )
-        return infos;
+        return infos[0];
 
-    const lunchbox::Strings& hosts =
-        _impl->service.discover( lunchbox::Servus::IF_ALL, WAIT_TIME );
+    lunchbox::Servus::Interface interfaces[2] = { lunchbox::Servus::IF_ALL,
+                                                  lunchbox::Servus::IF_LOCAL };
 
-    for( lunchbox::StringsCIter i = hosts.begin(); i != hosts.end(); ++i )
+    for( unsigned i = 0; i < 2; ++i )
     {
-        const std::string& host = *i;
-
-        unsigned nNets = 0;
-        _impl->getValue( host, NETCOUNT, nNets );
-
-        for( unsigned j = 0; j < nNets; ++j )
+        const lunchbox::Strings& hosts = _impl->service.discover( interfaces[i],
+                                                                  WAIT_TIME );
+        for( lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j )
         {
-            NetInfo info;
-            _impl->getValue( host, NETSESSION, info.session );
-            if( !_impl->getValue( host, NETNODEID, info.id ))
-                info.id = lunchbox::make_uint128( host.c_str( ));
+            const std::string& host = *j;
 
-            std::string type;
-            _impl->getValue( host, j, NETTYPE, type );
-            info.setType( type );
-            _impl->getValue( host, j, NETNAME, info.name );
-            _impl->getValue( host, j, NETHOSTNAME, info.hostname );
-            _impl->getValue( host, j, NETHWADDR, info.hwAddress );
-            _impl->getValue( host, j, NETINETADDR, info.inetAddress );
-            _impl->getValue( host, j, NETINET6ADDR, info.inet6Address );
-            _impl->getValue( host, j, NETLINKSPEED, info.linkspeed );
-            _impl->getValue( host, j, NETUP, info.up );
+            unsigned nNets = 0;
+            _impl->getValue( host, NETCOUNT, nNets );
 
-            if( info.id != getLocalNodeID( ))
-                info.nodeName = host;
+            for( unsigned k = 0; k < nNets; ++k )
+            {
+                NetInfo info;
+                _impl->getValue( host, NETSESSION, info.session );
+                if( !_impl->getValue( host, NETNODEID, info.id ))
+                    info.id = lunchbox::make_uint128( host.c_str( ));
 
-            infos.push_back( info );
+                std::string type;
+                _impl->getValue( host, k, NETTYPE, type );
+                info.setType( type );
+                _impl->getValue( host, k, NETNAME, info.name );
+                _impl->getValue( host, k, NETHOSTNAME, info.hostname );
+                _impl->getValue( host, k, NETHWADDR, info.hwAddress );
+                _impl->getValue( host, k, NETINETADDR, info.inetAddress );
+                _impl->getValue( host, k, NETINET6ADDR, info.inet6Address );
+                _impl->getValue( host, k, NETLINKSPEED, info.linkspeed );
+                _impl->getValue( host, k, NETUP, info.up );
+
+                if( info.id != getLocalNodeID( ))
+                    info.nodeName = host;
+
+                infos[i].push_back( info );
+            }
         }
     }
-    return infos;
+
+    // set localhost records to localhost
+    const NetInfosIter localEnd = infos[1].end();
+    for( NetInfosIter i = infos[0].begin(); i != infos[0].end(); ++i )
+    {
+        NetInfo& info = *i;
+        if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
+            info.nodeName.clear();
+    }
+    return infos[0];
 }
 
 }

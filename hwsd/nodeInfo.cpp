@@ -26,7 +26,7 @@ NodeInfo::NodeInfo()
 
 bool NodeInfo::operator == ( const NodeInfo& rhs ) const
 {
-    return id == rhs.id && nodeName == rhs.nodeName && session == rhs.session;
+    return nodeName == rhs.nodeName && session == rhs.session;
 }
 
 bool NodeInfo::operator != ( const NodeInfo& rhs ) const
