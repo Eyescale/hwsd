@@ -65,13 +65,18 @@ bool announceNetInfos( const std::string& session )
     return true;
 }
 
-NetInfos discoverNetInfos()
+NetInfos discoverNetInfos( FilterPtr filter )
 {
     NetInfos result;
     for( NetModule* module = NetModule::stack_; module; module = module->next_ )
     {
         const NetInfos& infos = module->discover();
-        result.insert( result.end(), infos.begin(), infos.end( ));
+        for( NetInfosCIter i = infos.begin(); i != infos.end(); ++i )
+        {
+            const NetInfo& info = *i;
+            if( !filter || (*filter)( result, info ))
+                result.push_back( info );
+        }
     }
     return result;
 }

@@ -17,6 +17,7 @@
 
 #include "filter.h"
 #include "gpuInfo.h"
+#include "netInfo.h"
 
 #include <algorithm>
 
@@ -52,6 +53,17 @@ bool Filter::operator() ( const GPUInfos& current, const GPUInfo& candidate )
     return true;
 }
 
+bool Filter::operator() ( const NetInfos& current, const NetInfo& candidate )
+{
+    for( FiltersCIter i = impl_->next_.begin(); i!=impl_->next_.end(); ++i)
+    {
+        FilterPtr filter = *i;
+        if( !(*filter)( current, candidate ))
+            return false;
+    }
+    return true;
+}
+
 FilterPtr Filter::operator | ( FilterPtr rhs )
 {
     impl_->next_.push_back( rhs );
@@ -76,6 +88,15 @@ bool DuplicateFilter::operator() ( const GPUInfos& current,
     // TODO: break API in 2.0, making current non-const?
     GPUInfo& info = const_cast< GPUInfo& >( *i );
     info.flags |= candidate.flags; // merge flags from dropped info
+    return false;
+}
+
+bool DuplicateFilter::operator() ( const NetInfos& current,
+                                   const NetInfo& candidate )
+{
+    NetInfosCIter i = std::find( current.begin(), current.end(), candidate );
+    if( i == current.end())
+        return Filter::operator()( current, candidate );
     return false;
 }
 
@@ -120,6 +141,14 @@ SessionFilter::~SessionFilter() { delete impl_; }
 
 bool SessionFilter::operator() ( const GPUInfos& current,
                                  const GPUInfo& candidate )
+{
+    if( candidate.session == impl_->name_ )
+        return Filter::operator()( current, candidate );
+    return false;
+}
+
+bool SessionFilter::operator() ( const NetInfos& current,
+                                 const NetInfo& candidate )
 {
     if( candidate.session == impl_->name_ )
         return Filter::operator()( current, candidate );

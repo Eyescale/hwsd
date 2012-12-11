@@ -70,6 +70,9 @@ namespace detail
          */
         HWSD_API virtual bool operator() ( const GPUInfos& current,
                                            const GPUInfo& candidate );
+
+        HWSD_API virtual bool operator() ( const NetInfos& current,
+                                           const NetInfo& candidate );
     private:
         detail::Filter* const impl_;
     };
@@ -86,6 +89,9 @@ namespace detail
          */
         HWSD_API virtual bool operator() ( const GPUInfos& current,
                                            const GPUInfo& candidate );
+
+        HWSD_API virtual bool operator() ( const NetInfos& current,
+                                           const NetInfo& candidate );
     };
 
     /** Filter overlapping duplicates with different GPU types. */
@@ -113,6 +119,9 @@ namespace detail
         /** @return true if the candidate has the given session. @version 1.0 */
         HWSD_API virtual bool operator() ( const GPUInfos& current,
                                            const GPUInfo& candidate );
+
+        HWSD_API virtual bool operator() ( const NetInfos& current,
+                                           const NetInfo& candidate );
     private:
         detail::SessionFilter* const impl_;
     };

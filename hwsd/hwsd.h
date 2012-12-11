@@ -35,7 +35,7 @@ namespace hwsd
 
     /** @return information about all found GPUs. @version 1.0 */
     HWSD_API GPUInfos discoverGPUInfos( FilterPtr filter =
-                                            FilterPtr( new DuplicateFilter ));
+                                              FilterPtr( new DuplicateFilter ));
 
     /**
      * Announce the information about all found network interfaces.
@@ -46,7 +46,8 @@ namespace hwsd
     HWSD_API bool announceNetInfos( const std::string& session );
 
     /** @return information about all found network interfaces. @version 1.0 */
-    HWSD_API NetInfos discoverNetInfos();
+    HWSD_API NetInfos discoverNetInfos( FilterPtr filter =
+                                              FilterPtr( new DuplicateFilter ));
 
     /** @return the local node identifier. @version 1.0 */
     HWSD_API const lunchbox::UUID& getLocalNodeID();
