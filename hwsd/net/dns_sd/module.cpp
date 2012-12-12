@@ -19,7 +19,8 @@
 
 #include <hwsd/hwsd.h>
 #include <hwsd/netInfo.h>
-#include <lunchbox/servus.h>
+#include <hwsd/detail/dns_sd_module.h>
+
 #include <algorithm>
 #include <sstream>
 
@@ -38,8 +39,6 @@ static Module* instance = 0;
 std::string NETSERVICE   = "_net-sd._tcp";
 std::string NET          = "Net";
 std::string NETCOUNT     = "Count";
-std::string NETSESSION   = "Session";
-std::string NETNODEID    = "NodeID";
 
 std::string NETTYPE      = "Type";
 std::string NETNAME      = "Name";
@@ -53,72 +52,14 @@ std::string NETUP        = "Up";
 
 namespace detail
 {
-class Module
+class Module : public hwsd::detail::dns_sd::Module
 {
 public:
     Module()
-        : service( NETSERVICE )
+        : hwsd::detail::dns_sd::Module( NETSERVICE, NET )
         , announcing( false )
     {}
 
-    template< class T >
-    bool getValue( const std::string& host, const size_t index,
-                   const std::string& key, T& value )
-    {
-        std::ostringstream out;
-        out << NET << index << " " << key;
-        const std::string string = out.str();
-
-        const std::string& data = service.get( host, string );
-        if( data.empty( ))
-            return false;
-
-        std::istringstream in( data );
-        in >> value;
-        return true;
-    }
-
-    template< class T >
-    bool getValue( const std::string& host, const std::string& key, T& value )
-    {
-        std::ostringstream out;
-        out << NET << " " << key;
-        const std::string string = out.str();
-
-        const std::string& data = service.get( host, string );
-        if( data.empty( ))
-            return false;
-
-        std::istringstream in( data );
-        in >> value;
-        return true;
-    }
-
-    template< class T >
-    void setValue( const size_t index, const std::string& key, const T& value )
-    {
-        std::ostringstream out;
-        out << NET << index << " " << key;
-        const std::string string = out.str();
-
-        out.str("");
-        out << value;
-        service.set( string, out.str( ));
-    }
-
-    template< class T >
-    void setValue( const std::string& key, const T& value )
-    {
-        std::ostringstream out;
-        out << NET << " " << key;
-        const std::string string = out.str();
-
-        out.str("");
-        out << value;
-        service.set( string, out.str( ));
-    }
-
-    lunchbox::Servus service;
     bool announcing;
 };
 }
@@ -162,10 +103,11 @@ bool Module::announce( const std::string& session ) const
         }
     }
 
-    _impl->setValue( NETCOUNT, nets.size( ));
-    _impl->setValue( NETSESSION, session );
-    _impl->setValue( NETNODEID, getLocalNodeID( ));
+    NodeInfo nodeInfo;
+    nodeInfo.session = session;
+    _impl->announce( nodeInfo );
 
+    _impl->setValue( NETCOUNT, nets.size( ));
     for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
     {
         const NetInfo& info = *i;
@@ -220,9 +162,7 @@ NetInfos Module::discover() const
             for( unsigned k = 0; k < nNets; ++k )
             {
                 NetInfo info;
-                _impl->getValue( host, NETSESSION, info.session );
-                if( !_impl->getValue( host, NETNODEID, info.id ))
-                    info.id = lunchbox::make_uint128( host.c_str( ));
+                _impl->discover( host, info );
 
                 std::string type;
                 _impl->getValue( host, k, NETTYPE, type );
@@ -234,9 +174,6 @@ NetInfos Module::discover() const
                 _impl->getValue( host, k, NETINET6ADDR, info.inet6Address );
                 _impl->getValue( host, k, NETLINKSPEED, info.linkspeed );
                 _impl->getValue( host, k, NETUP, info.up );
-
-                if( info.id != getLocalNodeID( ))
-                    info.nodeName = host;
 
                 infos[i].push_back( info );
             }

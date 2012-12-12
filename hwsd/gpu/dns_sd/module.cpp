@@ -19,7 +19,8 @@
 
 #include <hwsd/gpuInfo.h>
 #include <hwsd/hwsd.h>
-#include <lunchbox/servus.h>
+#include <hwsd/detail/dns_sd_module.h>
+
 #include <algorithm>
 #include <sstream>
 
@@ -38,8 +39,6 @@ static Module* instance = 0;
 std::string GPUSERVICE  = "_gpu-sd._tcp";
 std::string GPU         = "GPU";
 std::string GPUCOUNT    = "Count";
-std::string GPUSESSION  = "Session";
-std::string GPUNODEID   = "NodeID";
 
 std::string GPUTYPE     = "Type";
 std::string GPUPORT     = "Port";
@@ -53,72 +52,14 @@ std::string GPUFLAGS    = "Flags";
 
 namespace detail
 {
-class Module
+class Module : public hwsd::detail::dns_sd::Module
 {
 public:
     Module()
-        : service( GPUSERVICE )
+        : hwsd::detail::dns_sd::Module( GPUSERVICE, GPU )
         , announcing( false )
     {}
 
-    template< class T >
-    bool getValue( const std::string& host, const size_t index,
-                   const std::string& key, T& value )
-    {
-        std::ostringstream out;
-        out << GPU << index << " " << key;
-        const std::string string = out.str();
-
-        const std::string& data = service.get( host, string );
-        if( data.empty( ))
-            return false;
-
-        std::istringstream in( data );
-        in >> value;
-        return true;
-    }
-
-    template< class T >
-    bool getValue( const std::string& host, const std::string& key, T& value )
-    {
-        std::ostringstream out;
-        out << GPU << " " << key;
-        const std::string string = out.str();
-
-        const std::string& data = service.get( host, string );
-        if( data.empty( ))
-            return false;
-
-        std::istringstream in( data );
-        in >> value;
-        return true;
-    }
-
-    template< class T >
-    void setValue( const size_t index, const std::string& key, const T& value )
-    {
-        std::ostringstream out;
-        out << GPU << index << " " << key;
-        const std::string string = out.str();
-
-        out.str("");
-        out << value;
-        service.set( string, out.str( ));
-    }
-
-    template< class T >
-    void setValue( const std::string& key, const T& value )
-    {
-        std::ostringstream out;
-        out << GPU << " " << key;
-        const std::string string = out.str();
-
-        out.str("");
-        out << value;
-        service.set( string, out.str( ));
-    }
-
-    lunchbox::Servus service;
     bool announcing;
 };
 }
@@ -153,10 +94,11 @@ bool Module::announce( const std::string& session ) const
     if( gpus.empty( ))
         return true;
 
-    _impl->setValue( GPUCOUNT, gpus.size( ));
-    _impl->setValue( GPUSESSION, session );
-    _impl->setValue( GPUNODEID, getLocalNodeID( ));
+    NodeInfo nodeInfo;
+    nodeInfo.session = session;
+    _impl->announce( nodeInfo );
 
+    _impl->setValue( GPUCOUNT, gpus.size( ));
     for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
     {
         const GPUInfo& info = *i;
@@ -214,10 +156,7 @@ GPUInfos Module::discover() const
                     continue;
 
                 GPUInfo info( type );
-                info.nodeName = host;
-                _impl->getValue( host, GPUSESSION, info.session );
-                if( !_impl->getValue( host, GPUNODEID, info.id ))
-                    info.id = lunchbox::make_uint128( host.c_str( ));
+                _impl->discover( host, info );
 
                 _impl->getValue( host, k, GPUPORT, info.port );
                 _impl->getValue( host, k, GPUDEVICE, info.device );
