@@ -16,14 +16,14 @@ different protocols. Each module is a separate library, which can be
 selectively linked by applications, limiting dependencies. Currently
 available are:
 
-- GPU_DNS_SD: Remote ZeroConf (Bonjour) discovery for GPUs announced by the daemon
-- GPU_CGL: Local discovery of Carbon displays (Mac OS X only)
-- GPU_GLX: Local discovery of X11 servers and screens
-- GPU_WGL: Local discovery of WGL_NV_gpu_affinity, WGL_AMD_gpu_association
+- gpu_dns_sd: Remote ZeroConf (Bonjour) discovery for GPUs announced by the daemon
+- gpu_cgl: Local discovery of Carbon displays (Mac OS X only)
+- gpu_glx: Local discovery of X11 servers and screens
+- gpu_wgl: Local discovery of WGL_NV_gpu_affinity, WGL_AMD_gpu_association
   or Windows displays (Windows only)
-- NET_DNS_SD: Remote ZeroConf (Bonjour) discovery for network interfaces
+- net_dns_sd: Remote ZeroConf (Bonjour) discovery for network interfaces
   announced by the daemon
-- NET_SYS: Local discovery of network interfaces
+- net_sys: Local discovery of network interfaces
 
 ### VirtualGL
 
@@ -43,6 +43,7 @@ protocol is used by the daemon:
 
 * Session=default | &lt;string&gt;
 * NodeID=&lt;UUID&gt;
+* Hostname=&lt;string&gt; // optional, hostname for connections
 
 * GPU Count=&lt;integer&gt;
 * GPU&lt;integer&gt; Type=GLX | WGL | WGLn | WGLa | CGL
@@ -85,11 +86,11 @@ instantiated modules. The following will find all (remote and the local)
 GPUs and local network interfaces on Windows:
 
     #include <hwsd/hwsd.h>
-    
+
     hwsd::gpu::wgl::Module::use();
     hwsd::gpu::dns_sd::Module::use();
     const hwsd::GPUInfos& gpus = hwsd::discoverGPUInfos();
-    
+
     hwsd::net::sys::Module::use();
     const hwsd::NetInfos& nets = hwsd::discoverNetInfos();
 
