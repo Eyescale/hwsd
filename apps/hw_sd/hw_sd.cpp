@@ -140,5 +140,18 @@ int main( const int argc, char* argv[] )
 
     std::cout << "Press <Enter> to quit" << std::endl;
     getchar();
+
+#ifdef HWSD_GPU_CGL
+        hwsd::gpu::cgl::Module::dispose();
+#endif
+#ifdef HWSD_GPU_GLX
+        hwsd::gpu::glx::Module::dispose();
+#endif
+#ifdef HWSD_GPU_WGL
+        hwsd::gpu::wgl::Module::dispose();
+#endif
+    hwsd::gpu::dns_sd::Module::dispose();
+    hwsd::net::dns_sd::Module::dispose();
+    hwsd::net::sys::Module::dispose();
     return EXIT_SUCCESS;
 }
