@@ -51,7 +51,7 @@ if(X11_name)
   include_directories(${${X11_name}_INCLUDE_DIRS})
 endif()
 
-find_package(Lunchbox 1.5.0 REQUIRED)
+find_package(Lunchbox 1.7.0 REQUIRED)
 if(Lunchbox_FOUND)
   set(Lunchbox_name Lunchbox)
 elseif(LUNCHBOX_FOUND)
