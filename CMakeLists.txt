@@ -1,7 +1,7 @@
 
 # Copyright (c) 2011-2012 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
 
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(hwsd)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
@@ -27,17 +27,19 @@ if(APPLE)
 endif()
 
 include(FindPackages)
+set(HWSD_TRANSIENT_LIBRARIES Lunchbox)
 
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 add_subdirectory(apps)
 add_subdirectory(hwsd)
 add_subdirectory(doc)
 
-#install(FILES CMake/Findhwsd.cmake
-#  DESTINATION ${CMAKE_MODULE_INSTALL_PATH} COMPONENT dev)
-install(FILES CMake/FindLibraryPackage.cmake
-  DESTINATION ${CMAKE_MODULE_INSTALL_PATH}/Findhwsd COMPONENT dev)
-
 include(DoxygenRule)
-include(CTest)
 include(CPackConfig)
+
+set(CTEST_CUSTOM_WARNING_EXCEPTION ${CTEST_CUSTOM_WARNING_EXCEPTION}
+  # http://public.kitware.com/Bug/view.php?id=10179
+  "ld: warning: duplicate dylib")
+include(CTest)
+
+include(PackageConfig)
