@@ -95,6 +95,7 @@ int main( const int argc, char* argv[] )
 #endif
 
     const std::string& executable = lunchbox::getFilename( argv[0] );
+
     if( executable != "net_sd" )
     {
 #ifdef HWSD_GPU_CGL
