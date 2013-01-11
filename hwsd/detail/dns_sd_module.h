@@ -29,9 +29,9 @@ namespace detail
 namespace dns_sd
 {
 
-std::string NODEID   = "NodeID";
-std::string NODENAME = "Hostname";
-std::string SESSION  = "Session";
+static std::string NODEID   = "NodeID";
+static std::string NODENAME = "Hostname";
+static std::string SESSION  = "Session";
 
 class Module
 {
