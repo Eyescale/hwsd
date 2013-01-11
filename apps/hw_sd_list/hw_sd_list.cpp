@@ -1,6 +1,6 @@
 
 /*
-  Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch>
+  Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
 
   This file is part of the HW-SD discovery tool.
 
@@ -21,17 +21,14 @@
 #include <hwsd/hwsd.h>
 #include <hwsd/gpuInfo.h>
 #include <hwsd/gpu/dns_sd/module.h>
-
 #include <hwsd/netInfo.h>
 #include <hwsd/net/dns_sd/module.h>
 
+#include <lunchbox/file.h>
+
 int main (int argc, const char * argv[])
 {
-#ifdef _WIN32
-    const std::string executable = argv[0];
-#else
-    const std::string executable = basename( argv[0] );
-#endif
+    const std::string& executable = lunchbox::getFilename( argv[0] );
 
     if( executable != "net_sd_list" )
     {

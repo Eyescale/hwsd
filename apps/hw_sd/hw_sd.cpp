@@ -94,11 +94,8 @@ int main( const int argc, char* argv[] )
     const bool daemon = false;
 #endif
 
-#ifdef _WIN32
-    const std::string executable = argv[0];
-#else
-    const std::string executable = basename( argv[0] );
-#endif
+    const std::string& executable = lunchbox::getFilename( argv[0] );
+
     if( executable != "net_sd" )
     {
 #ifdef HWSD_GPU_CGL
