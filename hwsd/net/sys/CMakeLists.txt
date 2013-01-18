@@ -6,7 +6,6 @@ set(SOURCES
   module.cpp
 )
 
-
 set(LIBRARY hwsd_net_sys)
 set(INCLUDE include/hwsd/net/sys)
 
