@@ -1,5 +1,6 @@
 
 /* Copyright (c) 2012, Daniel Nachbaur <danielnachbaur@gmail.com>
+ *               2013, Stefan.Eilemann@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -20,9 +21,9 @@
 
 #include <hwsd/nodeInfo.h>  // base class
 
+#include <lunchbox/debug.h>
 #include <climits>
 #include <ostream>
-
 
 namespace hwsd
 {
@@ -34,6 +35,8 @@ namespace hwsd
             TYPE_ETHERNET,
             TYPE_INFINIBAND,
             TYPE_LOOPBACK,
+            TYPE_TUNNEL_ETHERNET, //!< gif interface on Darwin
+            TYPE_TUNNEL_6TO4, //!< stf interface on Darwin
             TYPE_UNKNOWN
         };
 
@@ -71,9 +74,15 @@ namespace hwsd
                 return "INFINIBAND";
             case NetInfo::TYPE_LOOPBACK:
                 return "LOOPBACK";
+            case NetInfo::TYPE_TUNNEL_ETHERNET:
+                return "TUNNEL_ETHERNET";
+            case NetInfo::TYPE_TUNNEL_6TO4:
+                return "TUNNEL_6TO4";
             case NetInfo::TYPE_UNKNOWN:
-            default:
                 return "UNKNOWN";
+            default:
+                LBUNREACHABLE;
+                return "ERROR";
             }
         }
 

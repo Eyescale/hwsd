@@ -1,5 +1,6 @@
 
 /* Copyright (c) 2012, Daniel Nachbaur <danielnachbaur@gmail.com>
+ *               2013, Stefan.Eilemann@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -27,27 +28,31 @@
 #  include <winsock2.h>
 #  include <Ws2tcpip.h>
 #  include <iphlpapi.h>
-#elif defined __linux
-#  ifdef USE_IOCTL
-#    include <arpa/inet.h>
-#    include <netdb.h>
-#    include <net/if.h>
-#    include <string.h>
-#    include <sys/ioctl.h>
-#    include <unistd.h>
-#    include <linux/ethtool.h>
-#    include <linux/sockios.h>
-#  else
-#    include <arpa/inet.h>
-#    include <netdb.h>
-#    include <ifaddrs.h>
-#    include <sys/types.h>
-#    include <sys/socket.h>
+#elif defined USE_IOCTL
+#  include <arpa/inet.h>
+#  include <netdb.h>
+#  include <net/if.h>
+#  include <string.h>
+#  include <sys/ioctl.h>
+#  include <unistd.h>
+#  include <linux/ethtool.h>
+#  include <linux/sockios.h>
+#else
+#  include <arpa/inet.h>
+#  include <netdb.h>
+#  include <ifaddrs.h>
+#  include <sys/types.h>
+#  include <sys/socket.h>
+#  include <map>
+#  ifdef __linux
 #    include <linux/if_arp.h>
-#    include <map>
 #  endif
-#elif defined __APPLE__
-#  include <lunchbox/debug.h>
+#  ifdef __APPLE__
+#    include <net/if.h>
+#    include <net/if_dl.h>
+#    include <net/if_types.h>
+#    define AF_PACKET AF_LINK
+#  endif
 #endif
 
 
@@ -78,17 +83,15 @@ NetInfos Module::discover() const
 {
 #ifdef _WIN32
     return _discoverWin32();
-#elif defined __APPLE__
-    return _discoverMac();
 #else
-    return _discoverLinux();
+    return _discoverPosix();
 #endif
 }
 
-#ifdef _WIN32
 NetInfos Module::_discoverWin32() const
 {
     NetInfos result;
+#ifdef _WIN32
     WSAData d;
     if( WSAStartup( MAKEWORD(2, 0), &d ) != 0 )
         return result;
@@ -161,16 +164,15 @@ NetInfos Module::_discoverWin32() const
 
     free( addresses );
     WSACleanup();
-
+#endif
     return result;
 }
 
-#elif defined __linux
-
-NetInfos Module::_discoverLinux() const
+NetInfos Module::_discoverPosix() const
 {
     NetInfos result;
-#ifdef USE_IOCTL
+#ifndef _WIN32
+#  ifdef USE_IOCTL
     int socketfd = socket( PF_INET, SOCK_DGRAM, 0 );
     if( socketfd < 0 )
         return result;
@@ -250,7 +252,7 @@ NetInfos Module::_discoverLinux() const
     }
 
     close( socketfd );
-#else
+#  else
     ifaddrs* ifaddr;
     if( getifaddrs( &ifaddr ) == -1 )
         return result;
@@ -272,56 +274,95 @@ NetInfos Module::_discoverLinux() const
 
         switch( family )
         {
-        case AF_INET:
-            if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in), host,
-                             NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
-            {
-                info.inetAddress = host;
-            }
-            if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in), host,
-                             NI_MAXHOST, 0, 0, NI_NAMEREQD ) == 0 )
-            {
-                info.hostname = host;
-            }
-            break;
+          case AF_INET:
+              if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in), host,
+                               NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
+              {
+                  info.inetAddress = host;
+              }
+              if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in), host,
+                               NI_MAXHOST, 0, 0, NI_NAMEREQD ) == 0 )
+              {
+                  info.hostname = host;
+              }
+              break;
 
-        case AF_INET6:
-            if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in6), host,
-                             NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
-            {
-                info.inet6Address = host;
-            }
-            break;
+          case AF_INET6:
+              if( getnameinfo( ifa->ifa_addr, sizeof(sockaddr_in6), host,
+                               NI_MAXHOST, 0, 0, NI_NUMERICHOST ) == 0 )
+              {
+                  info.inet6Address = host;
+              }
+              break;
 
+          case AF_PACKET:
+          {
+              std::ostringstream mac;
+              mac << std::setfill( '0' ) << std::hex;
+#ifdef __APPLE__
+              const sockaddr_dl* link = (sockaddr_dl*)ifa->ifa_addr;
+              const uint8_t* macaddr = (uint8_t*)LLADDR(link);
 
-        case AF_PACKET:
-        {
-            sockaddr_ll* s = (sockaddr_ll*)ifa->ifa_addr;
-            std::ostringstream mac;
-            mac << std::setfill( '0' ) << std::hex;
-            for( size_t i = 0; i < 6; ++i )
-            {
-                mac << std::setw( 2 ) << int(s->sll_addr[i])
-                    << (i < 5 ? ":" : "");
-            }
-            info.hwAddress = mac.str();
+              for( size_t i = 0; i < 6; ++i )
+              {
+                  mac << std::setw( 2 ) << int( macaddr[i] )
+                      << (i < 5 ? ":" : "");
+              }
 
-            switch( s->sll_hatype )
-            {
-            case ARPHRD_ETHER:
-                info.type = NetInfo::TYPE_ETHERNET;
-                break;
-            case ARPHRD_LOOPBACK:
-                info.type = NetInfo::TYPE_LOOPBACK;
-                break;
-            case ARPHRD_INFINIBAND:
-                info.type = NetInfo::TYPE_INFINIBAND;
-                break;
-            default:
-                info.type = NetInfo::TYPE_UNKNOWN;
-            }
-            break;
-        }
+              switch( link->sdl_type )
+              {
+                case IFT_ETHER:
+                    info.type = NetInfo::TYPE_ETHERNET;
+                    break;
+                case IFT_LOOP:
+                    info.type = NetInfo::TYPE_LOOPBACK;
+                    break;
+                case IFT_GIF:
+                    info.type = NetInfo::TYPE_TUNNEL_ETHERNET;
+                    break;
+                case IFT_STF:
+                    info.type = NetInfo::TYPE_TUNNEL_6TO4;
+                    break;
+
+                default:
+                    LBWARN << "Unhandled interface type: 0x" << std::hex
+                           << unsigned( link->sdl_type ) << std::dec
+                           << std::endl;
+                    info.type = NetInfo::TYPE_UNKNOWN;
+                    break;
+              }
+#else
+              sockaddr_ll* s = (sockaddr_ll*)ifa->ifa_addr;
+              for( size_t i = 0; i < 6; ++i )
+              {
+                  mac << std::setw( 2 ) << int(s->sll_addr[i])
+                      << (i < 5 ? ":" : "");
+              }
+
+              switch( s->sll_hatype )
+              {
+                case ARPHRD_ETHER:
+                    info.type = NetInfo::TYPE_ETHERNET;
+                    break;
+                case ARPHRD_LOOPBACK:
+                    info.type = NetInfo::TYPE_LOOPBACK;
+                    break;
+                case ARPHRD_INFINIBAND:
+                    info.type = NetInfo::TYPE_INFINIBAND;
+                    break;
+
+                default:
+                    LBWARN << "Unhandled interface type: " << s->sll_hatype
+                           << std::endl;
+                    info.type = NetInfo::TYPE_UNKNOWN;
+              }
+#endif
+              info.hwAddress = mac.str();
+              break;
+          }
+
+          default:
+              LBWARN << "Unhandled protocol type: " << family << std::endl;
         }
     }
 
@@ -329,20 +370,10 @@ NetInfos Module::_discoverLinux() const
 
     for( Name2Info::const_iterator it = infos.begin(); it != infos.end(); ++it )
         result.push_back( it->second );
+#  endif
 #endif
     return result;
 }
-
-#elif defined __APPLE__
-
-NetInfos Module::_discoverMac() const
-{
-    NetInfos result;
-    LBUNIMPLEMENTED
-    return result;
-}
-
-#endif
 
 }
 }
