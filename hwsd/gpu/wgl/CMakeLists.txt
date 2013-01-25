@@ -1,4 +1,4 @@
-if(NOT WIN32)
+if(NOT WIN32 OR NOT OPENGL_FOUND)
   return()
 endif()
 

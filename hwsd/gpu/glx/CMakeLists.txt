@@ -1,4 +1,4 @@
-if(NOT X11_FOUND)
+if(NOT X11_FOUND OR NOT OPENGL_FOUND)
   return()
 endif()
 
