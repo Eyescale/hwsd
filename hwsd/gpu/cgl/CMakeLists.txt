@@ -1,4 +1,4 @@
-if(NOT APPLE)
+if(NOT APPLE OR NOT OPENGL_FOUND)
   return()
 endif()
 
