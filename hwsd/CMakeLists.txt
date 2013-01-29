@@ -25,6 +25,11 @@ set(SOURCES
   version.cpp
 )
 
+list(APPEND LINK_LIBRARIES ${LUNCHBOX_LIBRARIES})
+if(Boost_FOUND)
+  list(APPEND LINK_LIBRARIES ${Boost_REGEX_LIBRARY})
+endif()
+
 set(LIBRARY hwsd)
 set(INCLUDE include/${LIBRARY})
 
@@ -32,7 +37,7 @@ source_group(\\ FILES CMakeLists.txt ${HEADERS} ${SOURCES})
 source_group(detail FILES ${DETAIL_HEADERS})
 
 add_library(${LIBRARY} SHARED ${HEADERS} ${DETAIL_HEADERS} ${SOURCES})
-target_link_libraries(${LIBRARY} ${LUNCHBOX_LIBRARIES})
+target_link_libraries(${LIBRARY} ${LINK_LIBRARIES})
 set_target_properties(${LIBRARY} PROPERTIES
   VERSION ${VERSION} SOVERSION ${VERSION_MAJOR}
   PUBLIC_HEADER "${HEADERS}" COMPILE_DEFINITIONS "HWSD_SHARED;HWSD_SHARED_INL")

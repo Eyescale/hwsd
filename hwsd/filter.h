@@ -29,6 +29,7 @@ namespace detail
 {
     class Filter;
     class SessionFilter;
+    class GPURegexFilter;
 }
     /** Base class for all discovery filters. */
     class Filter
@@ -124,6 +125,23 @@ namespace detail
                                            const NetInfo& candidate );
     private:
         detail::SessionFilter* const impl_;
+    };
+
+    /** Filters for a specific GPU regex. */
+    class GPURegexFilter : public Filter
+    {
+    public:
+        HWSD_API GPURegexFilter( const std::string& regex );
+        HWSD_API virtual ~GPURegexFilter();
+
+        /**
+         * @return true of the regex matches 'nodename:port.device'
+         * @version 1.0
+         */
+        HWSD_API virtual bool operator() ( const hwsd::GPUInfos& current,
+                                           const hwsd::GPUInfo& candidate );
+    private:
+        detail::GPURegexFilter* const impl_;
     };
 }
 #endif // HWSD_FILTER_H

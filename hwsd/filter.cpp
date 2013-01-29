@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
+/* Copyright (c) 2011-2013, Stefan Eilemann <eile@eyescale.ch>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -18,6 +18,10 @@
 #include "filter.h"
 #include "gpuInfo.h"
 #include "netInfo.h"
+
+#ifdef HWSD_USE_BOOST
+#  include <boost/regex.hpp>
+#endif
 
 #include <algorithm>
 
@@ -152,6 +156,49 @@ bool SessionFilter::operator() ( const NetInfos& current,
 {
     if( candidate.session == impl_->name_ )
         return Filter::operator()( current, candidate );
+    return false;
+}
+
+// GPURegexFilter
+//---------------
+namespace detail
+{
+class GPURegexFilter
+{
+public:
+    GPURegexFilter( const std::string& regex_ )
+#ifdef HWSD_USE_BOOST
+        : regex( regex_ )
+#endif
+    {}
+
+#ifdef HWSD_USE_BOOST
+    boost::regex regex;
+#endif
+};
+}
+
+GPURegexFilter::GPURegexFilter( const std::string& regex )
+    : impl_( new detail::GPURegexFilter( regex ))
+{}
+
+GPURegexFilter::~GPURegexFilter()
+{
+    delete impl_;
+}
+
+bool GPURegexFilter::operator() ( const hwsd::GPUInfos& current,
+                                  const hwsd::GPUInfo& candidate )
+{
+#ifdef HWSD_USE_BOOST
+    std::ostringstream name;
+    name << candidate.nodeName << ':' << candidate.port << '.'
+         << candidate.device;
+
+    if( boost::regex_match( name.str(), impl_->regex ))
+#endif
+        return Filter::operator()( current, candidate );
+
     return false;
 }
 
