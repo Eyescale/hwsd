@@ -180,7 +180,12 @@ public:
 
 GPUFilter::GPUFilter( const std::string& regex )
     : impl_( new detail::GPUFilter( regex ))
-{}
+{
+#ifndef HWSD_USE_BOOST
+    LBWARN << "Ignoring GPU regex filter, boost::regex not available"
+           << std::endl;
+#endif
+}
 
 GPUFilter::~GPUFilter()
 {
