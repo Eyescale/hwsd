@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
+/* Copyright (c) 2011-2013, Stefan Eilemann <eile@eyescale.ch>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -29,7 +29,7 @@ namespace detail
 {
     class Filter;
     class SessionFilter;
-    class GPURegexFilter;
+    class GPUFilter;
 }
     /** Base class for all discovery filters. */
     class Filter
@@ -128,11 +128,11 @@ namespace detail
     };
 
     /** Filters for a specific GPU regex. */
-    class GPURegexFilter : public Filter
+    class GPUFilter : public Filter
     {
     public:
-        HWSD_API GPURegexFilter( const std::string& regex );
-        HWSD_API virtual ~GPURegexFilter();
+        HWSD_API GPUFilter( const std::string& regex );
+        HWSD_API virtual ~GPUFilter();
 
         /**
          * @return true of the regex matches 'nodename:port.device'
@@ -141,7 +141,7 @@ namespace detail
         HWSD_API virtual bool operator() ( const hwsd::GPUInfos& current,
                                            const hwsd::GPUInfo& candidate );
     private:
-        detail::GPURegexFilter* const impl_;
+        detail::GPUFilter* const impl_;
     };
 }
 #endif // HWSD_FILTER_H

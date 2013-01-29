@@ -159,14 +159,14 @@ bool SessionFilter::operator() ( const NetInfos& current,
     return false;
 }
 
-// GPURegexFilter
+// GPUFilter
 //---------------
 namespace detail
 {
-class GPURegexFilter
+class GPUFilter
 {
 public:
-    GPURegexFilter( const std::string& regex_ )
+    GPUFilter( const std::string& regex_ )
 #ifdef HWSD_USE_BOOST
         : regex( regex_ )
 #endif
@@ -178,16 +178,16 @@ public:
 };
 }
 
-GPURegexFilter::GPURegexFilter( const std::string& regex )
-    : impl_( new detail::GPURegexFilter( regex ))
+GPUFilter::GPUFilter( const std::string& regex )
+    : impl_( new detail::GPUFilter( regex ))
 {}
 
-GPURegexFilter::~GPURegexFilter()
+GPUFilter::~GPUFilter()
 {
     delete impl_;
 }
 
-bool GPURegexFilter::operator() ( const hwsd::GPUInfos& current,
+bool GPUFilter::operator() ( const hwsd::GPUInfos& current,
                                   const hwsd::GPUInfo& candidate )
 {
 #ifdef HWSD_USE_BOOST
