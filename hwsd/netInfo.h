@@ -32,12 +32,13 @@ namespace hwsd
     {
         enum Type
         {
-            TYPE_ETHERNET,
-            TYPE_INFINIBAND,
-            TYPE_LOOPBACK,
-            TYPE_TUNNEL_ETHERNET, //!< gif interface on Darwin
-            TYPE_TUNNEL_6TO4, //!< stf interface on Darwin
-            TYPE_UNKNOWN
+            TYPE_UNKNOWN = LB_BIT_NONE,
+            TYPE_ETHERNET = LB_BIT1,
+            TYPE_INFINIBAND = LB_BIT2,
+            TYPE_LOOPBACK = LB_BIT3,
+            TYPE_TUNNEL_ETHERNET = LB_BIT4, //!< gif interface on Darwin
+            TYPE_TUNNEL_6TO4 = LB_BIT5, //!< stf interface on Darwin
+            TYPE_ALL = LB_BIT_ALL_32
         };
 
         /** A non-enumerated value. @version 1.0 */

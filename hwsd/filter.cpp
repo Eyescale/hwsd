@@ -23,6 +23,10 @@
 #  include <boost/regex.hpp>
 #endif
 
+#ifdef HWSD_USE_QT4
+#  include <QtNetwork/QHostAddress>
+#endif
+
 #include <algorithm>
 
 namespace hwsd
@@ -193,7 +197,7 @@ GPUFilter::~GPUFilter()
 }
 
 bool GPUFilter::operator() ( const hwsd::GPUInfos& current,
-                                  const hwsd::GPUInfo& candidate )
+                             const hwsd::GPUInfo& candidate )
 {
 #ifdef HWSD_USE_BOOST
     std::ostringstream name;
@@ -202,6 +206,68 @@ bool GPUFilter::operator() ( const hwsd::GPUInfos& current,
 
     if( boost::regex_match( name.str(), impl_->regex ))
 #endif
+        return Filter::operator()( current, candidate );
+
+    return false;
+}
+
+// NetFilter
+//---------------
+namespace detail
+{
+class NetFilter
+{
+public:
+    NetFilter( const lunchbox::Strings& prefixes_, const uint32_t type_ )
+        : prefixes( prefixes_ )
+        , type( type_ )
+    {}
+
+    const lunchbox::Strings& prefixes;
+    const uint32_t type;
+};
+}
+
+NetFilter::NetFilter( const lunchbox::Strings& prefixes, const uint32_t type )
+    : impl_( new detail::NetFilter( prefixes, type ))
+{
+}
+
+NetFilter::~NetFilter()
+{
+    delete impl_;
+}
+
+bool NetFilter::operator() ( const hwsd::NetInfos& current,
+                             const hwsd::NetInfo& candidate )
+{
+    if( impl_->type != NetInfo::TYPE_ALL && !( impl_->type & candidate.type ))
+        return false;
+
+#ifdef HWSD_USE_QT4
+    QHostAddress address4( QString::fromStdString( candidate.inetAddress ));
+    QHostAddress address6( QString::fromStdString( candidate.inet6Address ));
+    bool isInSubnet = impl_->prefixes.empty();
+    for( lunchbox::StringsCIter j = impl_->prefixes.begin();
+         j != impl_->prefixes.end(); ++j )
+    {
+        const QString prefixStr = QString::fromStdString( *j );
+        const QPair< QHostAddress, int > subnet =
+                                     QHostAddress::parseSubnet( prefixStr );
+        if( address4.isInSubnet( subnet ) || address6.isInSubnet( subnet ))
+        {
+            isInSubnet = true;
+            break;
+        }
+    }
+#else
+    if( !impl_->prefixes.empty( ))
+        LBWARN << "Ignoring prefix filter, QtNetwork not available"
+               << std::endl;
+    const bool isInSubnet = true;
+#endif
+
+    if( isInSubnet )
         return Filter::operator()( current, candidate );
 
     return false;

@@ -20,6 +20,9 @@
 
 #include <hwsd/api.h>
 #include <hwsd/types.h>
+#include <hwsd/netInfo.h>
+
+#include <lunchbox/types.h>
 
 #include <string>
 
@@ -30,6 +33,7 @@ namespace detail
     class Filter;
     class SessionFilter;
     class GPUFilter;
+    class NetFilter;
 }
     /** Base class for all discovery filters. */
     class Filter
@@ -142,6 +146,24 @@ namespace detail
                                            const hwsd::GPUInfo& candidate );
     private:
         detail::GPUFilter* const impl_;
+    };
+
+    /** Filter for network interfaces matching prefixes and/or type. */
+    class NetFilter : public Filter
+    {
+    public:
+        HWSD_API NetFilter( const lunchbox::Strings& prefixes,
+                            const uint32_t type );
+        HWSD_API virtual ~NetFilter();
+
+        /**
+         * @return true if matching prefix and type
+         * @version 1.0
+         */
+        HWSD_API virtual bool operator() ( const hwsd::NetInfos& current,
+                                           const hwsd::NetInfo& candidate );
+    private:
+        detail::NetFilter* const impl_;
     };
 }
 #endif // HWSD_FILTER_H

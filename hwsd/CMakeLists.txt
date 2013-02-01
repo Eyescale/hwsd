@@ -30,6 +30,11 @@ if(Boost_FOUND)
   list(APPEND LINK_LIBRARIES ${Boost_REGEX_LIBRARY})
 endif()
 
+if(QT_QTNETWORK_FOUND)
+  include(${QT_USE_FILE})
+  list(APPEND LINK_LIBRARIES ${QT_LIBRARIES})
+endif()
+
 set(LIBRARY hwsd)
 set(INCLUDE include/${LIBRARY})
 
