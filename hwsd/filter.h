@@ -20,10 +20,8 @@
 
 #include <hwsd/api.h>
 #include <hwsd/types.h>
-#include <hwsd/netInfo.h>
 
 #include <lunchbox/types.h>
-
 #include <string>
 
 namespace hwsd
