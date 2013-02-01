@@ -116,6 +116,10 @@ namespace detail
     class SessionFilter : public Filter
     {
     public:
+        /**
+         * Matches the given name literally. An empty name matches all
+         * sessions.
+         */
         HWSD_API SessionFilter( const std::string& name );
         HWSD_API virtual ~SessionFilter();
 
@@ -133,6 +137,10 @@ namespace detail
     class GPUFilter : public Filter
     {
     public:
+        /**
+         * Matches the GPU agaings the given regex. An empty regex matches all
+         * GPUs.
+         */
         HWSD_API GPUFilter( const std::string& regex );
         HWSD_API virtual ~GPUFilter();
 
