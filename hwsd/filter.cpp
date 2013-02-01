@@ -150,7 +150,7 @@ SessionFilter::~SessionFilter() { delete impl_; }
 bool SessionFilter::operator() ( const GPUInfos& current,
                                  const GPUInfo& candidate )
 {
-    if( candidate.session == impl_->name_ )
+    if( impl_->name_.empty() || candidate.session == impl_->name_ )
         return Filter::operator()( current, candidate );
     return false;
 }
@@ -158,7 +158,7 @@ bool SessionFilter::operator() ( const GPUInfos& current,
 bool SessionFilter::operator() ( const NetInfos& current,
                                  const NetInfo& candidate )
 {
-    if( candidate.session == impl_->name_ )
+    if( impl_->name_.empty() || candidate.session == impl_->name_ )
         return Filter::operator()( current, candidate );
     return false;
 }
@@ -204,7 +204,7 @@ bool GPUFilter::operator() ( const hwsd::GPUInfos& current,
     name << candidate.nodeName << ':' << candidate.port << '.'
          << candidate.device;
 
-    if( boost::regex_match( name.str(), impl_->regex ))
+    if( impl_->regex.empty() || boost::regex_match( name.str(), impl_->regex ))
 #endif
         return Filter::operator()( current, candidate );
 
