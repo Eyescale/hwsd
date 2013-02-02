@@ -171,10 +171,12 @@ class GPUFilter
 {
 public:
     GPUFilter( const std::string& regex_ )
+    {
 #ifdef HWSD_USE_BOOST
-        : regex( regex_ )
+        if( !regex_.empty( ))
+            regex = regex_;
 #endif
-    {}
+    }
 
 #ifdef HWSD_USE_BOOST
     boost::regex regex;
