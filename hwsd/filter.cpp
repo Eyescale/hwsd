@@ -75,13 +75,13 @@ bool Filter::operator() ( const NetInfos& current, const NetInfo& candidate )
 FilterPtr Filter::operator | ( FilterPtr rhs )
 {
     impl_->next_.push_back( rhs );
-    return rhs;
+    return this;
 }
 
 FilterPtr Filter::operator |= ( FilterPtr rhs )
 {
     impl_->next_.push_back( rhs );
-    return rhs;
+    return this;
 }
 
 // DuplicateFilter

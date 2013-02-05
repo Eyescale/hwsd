@@ -21,7 +21,7 @@
 #include <hwsd/api.h>
 #include <hwsd/types.h>
 
-#include <lunchbox/types.h>
+#include <lunchbox/referenced.h> // base class
 #include <string>
 
 namespace hwsd
@@ -34,7 +34,7 @@ namespace detail
     class NetFilter;
 }
     /** Base class for all discovery filters. */
-    class Filter
+    class Filter : public lunchbox::Referenced
     {
     public:
         /** Create a new filter. @version 1.0 */
@@ -79,6 +79,10 @@ namespace detail
     private:
         detail::Filter* const impl_;
     };
+
+    /** Chain two filters and return the chain. @version 1.0 */
+    inline FilterPtr operator | ( FilterPtr a, FilterPtr b )
+        { return (*a) |= b; }
 
     /** Filters all duplicates during discovery. */
     class DuplicateFilter : public Filter

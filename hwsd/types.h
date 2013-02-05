@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch>
+/* Copyright (c) 2011-2013, Stefan Eilemann <eile@eyescale.ch>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -20,12 +20,8 @@
 
 #include <hwsd/module.h>
 
+#include <lunchbox/refPtr.h>
 #include <vector>
-#ifdef _MSC_VER
-#  include <memory>
-#else
-#  include <tr1/memory>
-#endif
 
 namespace hwsd
 {
@@ -42,7 +38,7 @@ typedef NetInfos::iterator NetInfosIter;
 typedef NetInfos::const_iterator NetInfosCIter;
 
 class Filter;
-typedef std::tr1::shared_ptr< Filter > FilterPtr; //!< A Filter shared_ptr
+typedef lunchbox::RefPtr< Filter > FilterPtr; //!< A shared Filter pointer
 
 typedef Module< GPUInfos > GPUModule;
 typedef Module< NetInfos > NetModule;
