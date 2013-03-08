@@ -19,9 +19,7 @@
 #include "gpuInfo.h"
 #include "netInfo.h"
 
-#ifdef HWSD_USE_BOOST
-#  include <boost/regex.hpp>
-#endif
+#include <boost/regex.hpp>
 
 #ifdef HWSD_USE_QT4
 #  include <QtNetwork/QHostAddress>

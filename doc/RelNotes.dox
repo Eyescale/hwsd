@@ -1,15 +1,15 @@
 /**
-@mainpage GPU-SD Release Notes
+@mainpage HWSD Release Notes
 
 @section Introduction Introduction
 
-Welcome to GPU-SD, a daemon and library for the discovery and announcement of
-graphics processing units using ZeroConf. GPU-SD enables auto-configuration of
-ad-hoc GPU clusters and multi-GPU machines.
+Welcome to HWSD, a daemon and library for the discovery and announcement of
+harware resources using ZeroConf. HWSD enables auto-configuration of ad-hoc GPU
+clusters and multi-GPU machines.
 
-GPU-SD 1.4 is a feature release for version 1.0. It can be retrieved by
+HWSD 1.0 is a feature release based on GPU-SD 1.4. It can be retrieved by
 downloading the
-<a href="http://www.equalizergraphics.com/gpu-sd/downloads/gpu-sd-1.4.0.tar.gz">source
+<a href="http://www.equalizergraphics.com/gpu-sd/downloads/hwsd-1.0.0.tar.gz">source
   code</a> or one of the
 <a href="http://www.equalizergraphics.com/gpu-sd/downloads.html">binary
   distributions</a>.
@@ -17,7 +17,7 @@ downloading the
 
 @subsection Features Features
 
-GPU-SD provides the following features to enable GPU discovery:
+HWSD provides the following features to enable GPU discovery:
 - <b>Local Discovery:</b> Automatic GPU discovery for Linux (X11/GLX), Mac
   OS X (CGL, GLX) and Windows (WGL, WGL_NV_gpu_affinity,
   WGL_AMD_gpu_association).
@@ -25,11 +25,11 @@ GPU-SD provides the following features to enable GPU discovery:
   GPUs and their configuration using DNS service discovery and ZeroConf
   networking.
 - <b>Remote Discovery:</b> Remote GPU discovery of resources announced using the
-  GPU-SD daemon.
+  HWSD daemon.
 
 @section New New in this release
 
-GPU-SD 1.4 is a feature release and contains the following features,
+HWSD 1.4 is a feature release and contains the following features,
   enhancements, bug fixes and documentation changes over the 1.0 release:
 
 @subsection NewFeatures New Features
@@ -57,7 +57,7 @@ No example code.
 
 @subsection API Changes
 
-No API changes breaking compatibility with GPU-SD 1.0 source code were made.
+No API changes breaking compatibility with HWSD 1.0 source code were made.
 
 @subsection Documentation
 
@@ -68,7 +68,7 @@ No updates.
 
 @subsection Bugs Bug Fixes
 
-GPU-SD 1.4 includes various bugfixes over the 1.0 release, including the
+HWSD 1.4 includes various bugfixes over the 1.0 release, including the
 following:
 
 Version 1.4.1:
@@ -89,13 +89,13 @@ No known bugs.
 
 @section About About
 
-GPU-SD is a cross-platform library, designed to run on any modern operating
+HWSD is a cross-platform library, designed to run on any modern operating
 system, including all Unix variants and the Windows operating system. The servus
 zeroconf library is required for the DNS_SD module and applications.
 
 @subsection OS Operating System Support
 
-GPU-SD uses CMake to create a platform-specific build environment. The following
+HWSD uses CMake to create a platform-specific build environment. The following
 platforms and build environments are tested:
 
 - <b>Linux:</b> Ubuntu 11.10,12.04 (Makefile, i386, x64)
@@ -111,14 +111,14 @@ platforms and build environments are tested:
 
 @subsection Support Support
 
-Technical questions can be posted to the 
+Technical questions can be posted to the
 <a href="http://www.equalizergraphics.com/cgi-bin/mailman/listinfo/eq-dev">Developer
   Mailing List</a>, or directly
-to <a href="mailto:info@equalizergraphics.com?subject=GPU-SD%20question">info@equalizergraphics.com</a>.
+to <a href="mailto:info@equalizergraphics.com?subject=HWSD%20question">info@equalizergraphics.com</a>.
 
 Commercial support, custom software development and porting services are
 available from <a href="http://www.eyescale.ch">Eyescale</a>. Please contact
-<a href="mailto:info@eyescale.ch?subject=GPU-SD%20support">info@eyescale.ch</a>
+<a href="mailto:info@eyescale.ch?subject=HWSD%20support">info@eyescale.ch</a>
 for further information.
 
 @section Errata
