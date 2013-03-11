@@ -27,7 +27,7 @@ if(APPLE)
 endif()
 
 include(FindPackages)
-set(HWSD_TRANSIENT_LIBRARIES Lunchbox)
+set(HWSD_DEPENDENT_LIBRARIES Lunchbox)
 
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 add_subdirectory(apps)

@@ -42,7 +42,7 @@ if(X11_name)
   include_directories(${${X11_name}_INCLUDE_DIRS})
 endif()
 
-find_package(Lunchbox 1.7.0 REQUIRED)
+find_package(Lunchbox 1.7.1 REQUIRED)
 if(Lunchbox_FOUND)
   set(Lunchbox_name Lunchbox)
 endif()
@@ -68,6 +68,8 @@ if(Boost_name)
   include_directories(SYSTEM ${${Boost_name}_INCLUDE_DIRS})
 endif()
 
+
+set(HWSD_DEPENDS OpenGL;Qt4;X11;Lunchbox;Boost)
 
 # Write defines.h and options.cmake
 if(NOT FIND_PACKAGES_INCLUDE)
