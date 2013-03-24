@@ -25,6 +25,7 @@ endif()
 
 if(Boost_FOUND)
   list(APPEND LINK_LIBRARIES ${Boost_PROGRAM_OPTIONS_LIBRARY})
+  add_definitions(-DBOOST_PROGRAM_OPTIONS_DYN_LINK)
 else()
   message(STATUS
     "boost::program_options missing, command line options not available")
