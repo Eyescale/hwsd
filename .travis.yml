@@ -10,4 +10,4 @@ script:
  - env TRAVIS=1 make -j8 hwsd-test ARGS=-V
 before_install:
  - sudo apt-get update -qq
- - sudo apt-get install -qq libavahi-compat-libdnssd-dev libboost-regex-dev libboost-serialization-dev libgl1-mesa-dev libhwloc-dev libqt4-dev libx11-dev 
+ - sudo apt-get install -qq libavahi-compat-libdnssd-dev libboost-program-options-dev libboost-regex-dev libboost-serialization-dev libgl1-mesa-dev libhwloc-dev libqt4-dev libx11-dev 

@@ -79,11 +79,11 @@ if(Boost_name)
 endif()
 
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/FindPackagesPost.cmake)
-  include(${CMAKE_SOURCE_DIR}/FindPackagesPost.cmake)
+if(EXISTS ${CMAKE_SOURCE_DIR}/CMake/FindPackagesPost.cmake)
+  include(${CMAKE_SOURCE_DIR}/CMake/FindPackagesPost.cmake)
 endif()
 
-set(HWSD_BUILD_DEBS libavahi-compat-libdnssd-dev;libboost-regex-dev;libboost-serialization-dev;libgl1-mesa-dev;libhwloc-dev;libqt4-dev;libx11-dev)
+set(HWSD_BUILD_DEBS libavahi-compat-libdnssd-dev;libboost-program-options-dev;libboost-regex-dev;libboost-serialization-dev;libgl1-mesa-dev;libhwloc-dev;libqt4-dev;libx11-dev)
 
 set(HWSD_DEPENDS OpenGL;Qt4;X11;Lunchbox;Boost)
 
