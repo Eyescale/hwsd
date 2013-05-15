@@ -132,7 +132,8 @@ NetInfos Module::_discoverWin32() const
 
         memset( buf, 0, BUFSIZ );
         WideCharToMultiByte( CP_ACP, 0, current->FriendlyName,
-                             wcslen(current->FriendlyName), buf, BUFSIZ, 0, 0 );
+                             int( wcslen( current->FriendlyName )), buf, BUFSIZ,
+                             0, 0 );
         info.name = buf;
 
         for( PIP_ADAPTER_UNICAST_ADDRESS addr = current->FirstUnicastAddress;
