@@ -13,10 +13,11 @@ The source code is hosted on
 
 The HW-SD library uses modules which implement discovery using
 different protocols. Each module is a separate library, which can be
-selectively linked by applications, limiting dependencies. Currently
+selectively linked by applications, which limits dependencies. Currently
 available are:
 
-- gpu_dns_sd: Remote ZeroConf (Bonjour) discovery for GPUs announced by the daemon
+- gpu_dns_sd: Remote ZeroConf (Bonjour) discovery for GPUs announced by
+  the daemon
 - gpu_cgl: Local discovery of Carbon displays (Mac OS X only)
 - gpu_glx: Local discovery of X11 servers and screens
 - gpu_wgl: Local discovery of WGL_NV_gpu_affinity, WGL_AMD_gpu_association
@@ -35,11 +36,11 @@ redirection. This is only implemented for GLX so far
 
 ## Daemon
 
-The daemon uses all available local modules to query local GPUs and network
-interaces and announces them using ZeroConf on the local network. The service type
-name is "_gpu-sd" and "_net_sd". The dns_sd discovery module gathers the
-information announced by all daemons on the local network. The following
-protocol is used by the daemon:
+The daemon uses all available local modules to query local GPUs and
+network interfaces to announce them using ZeroConf to the local
+network. The service type name is "_gpu-sd" and "_net_sd". The dns_sd
+discovery module gathers the information announced by all daemons on the
+local network. The following protocol is used by the daemon:
 
 * Session=default | &lt;string&gt;
 * NodeID=&lt;UUID&gt;
@@ -48,7 +49,8 @@ protocol is used by the daemon:
 * GPU Count=&lt;integer&gt;
 * GPU&lt;integer&gt; Type=GLX | WGL | WGLn | WGLa | CGL
 * GPU&lt;integer&gt; Port=&lt;integer&gt; // X11 display number, 0 otherwise
-* GPU&lt;integer&gt; Device=&lt;integer&gt; // X11 screen number, wglEnumGpusNV index, CGDirectDisplayID
+* GPU&lt;integer&gt; Device=&lt;integer&gt; // X11 screen number,
+  wglEnumGpusNV index, CGDirectDisplayID
 * GPU&lt;integer&gt; Width=&lt;integer&gt;
 * GPU&lt;integer&gt; Height=&lt;integer&gt;
 * GPU&lt;integer&gt; X=&lt;integer&gt;
@@ -81,9 +83,9 @@ discovery modules.
 ## Usage
 
 An application can use the discovery by linking the relevant module
-libraries, instantiation the modules in the code and then quering the
-instantiated modules. The following will find all (remote and the local)
-GPUs and local network interfaces on Windows:
+libraries, instantiating the modules in the code and then quering the
+instantiated modules. The following will find all remote and local GPUs
+and local network interfaces on Windows:
 
     #include <hwsd/hwsd.h>
 

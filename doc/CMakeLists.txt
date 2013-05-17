@@ -8,4 +8,4 @@ if(DOXYGEN_FOUND)
 endif()
 
 install(FILES AUTHORS ../LICENSE.txt LGPL.txt GPL.txt
-  DESTINATION share/hwsd/doc COMPONENT hwsdruntime)
+  DESTINATION share/hwsd/doc COMPONENT lib)

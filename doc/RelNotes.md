@@ -35,43 +35,45 @@ enhancements, bug fixes and documentation changes over the gpusd 1.4 release:
 
 ## New Features {#NewFeatures}
 
-* [7:](https://github.com/Eyescale/hwsd/issues/7) Support for VirtualGL
-  detection
+* [gpusd#5:](https://github.com/Eyescale/gpusd/issues/5) net_dns_sd:
+  discovery module for remote zeroconf (Bonjour) network interfaces
+* [gpusd#5:](https://github.com/Eyescale/gpusd/issues/5) net_sys:
+  discovery of local network interfaces
 
 ## Enhancements {#Enhancements}
 
-* Improved co::ObjectMap API and implementation
+* [gpusd#9:](https://github.com/Eyescale/gpusd/issues/9) Daemon support
+  for hw_sd application
 
 ## Optimizations {#Optimizations}
 
-* co::WorkerThread uses bulk message retrieval from co::CommandQueue
+* No optimizations
 
 ## Tools {#Tools}
 
-* New coNodePerf application to benchmark node-to-node messaging performance
+* New hw_sd daemon announcing local GPUs and network interfaces
+* New hw_sd_list tool listing remote GPUs and network interfaces
 
 ## Documentation {#Documentation}
 
 The following documentation has been added or substantially improved
 since the last release:
 
-* Full documentation for the public Collage API
-* Expanded Collage content in the Equalizer Programming and User Guide
+* Documentation for the public
+  [hwsd API](http://eyescale.github.io/hwsd-1.0/index.html).
 
 ## Bug Fixes {#Fixes}
 
-Collage 1.0 includes various bugfixes over the Equalizer 1.4 release,
+HWSD 1.0 includes various bugfixes over the gpusd 1.4 release,
 including the following:
 
-* [22](https://github.com/Eyescale/hwsd/issues/22) Crash during
-  concurrent object deregister and map
+* [4:](https://github.com/Eyescale/hwsd/issues/4) Bug in regex GPU filter
 
 ## Known Bugs {#Bugs}
 
 The following bugs were known at release time. Please file a [Bug Report](https://github.com/Eyescale/Collage/issues) if you find any other issue with this release.
 
-* [16](https://github.com/Eyescale/hwsd/issues/16): RSP Interface not
-  bound on Linux
+* No known bugs
 
 # About {#About}
 
