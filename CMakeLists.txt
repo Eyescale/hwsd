@@ -1,5 +1,5 @@
 
-# Copyright (c) 2011-2012 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
+# Copyright (c) 2011-2013 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(hwsd)
@@ -10,7 +10,7 @@ set(VERSION_MAJOR "1")
 set(VERSION_MINOR "0")
 set(VERSION_PATCH "0")
 
-set(RELEASE_VERSION OFF) # OFF or ABI version
+set(RELEASE_VERSION 1) # OFF or ABI version
 set(LAST_RELEASE 1.0.0)
 
 include(Common)

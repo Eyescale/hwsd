@@ -5,9 +5,9 @@ Release Notes {#mainpage}
 
 # Introduction {#Introduction}
 
-Welcome to HWSD, a daemon and library for the discovery and announcement of
-harware resources using ZeroConf. HWSD enables auto-configuration of ad-hoc GPU
-clusters and multi-GPU machines.
+Welcome to HWSD, a daemon and library for the discovery and announcement
+of hardware resources using ZeroConf. HWSD enables auto-configuration of
+ad-hoc GPU clusters and multi-GPU machines.
 
 HWSD 1.0 is a feature release based on GPU-SD 1.4. It can be retrieved by
 downloading the
