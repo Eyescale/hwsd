@@ -10,7 +10,7 @@ set(CPACK_PACKAGE_VENDOR "www.eyescale.ch")
 set(CPACK_PACKAGE_CONTACT "Stefan Eilemann <eile@eyescale.ch>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Local and remote GPU discovery")
 set(CPACK_DEBIAN_BUILD_DEPENDS ${HWSD_BUILD_DEBS} ${LUNCHBOX_DEB_DEPENDENCIES})
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libboost-program-options-dev, libboost-regex-dev, libqt4-network, {LUNCHBOX_DEB_DEPENDENCIES}")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libboost-program-options-dev, libboost-regex-dev, libqt4-network, ${LUNCHBOX_DEB_DEPENDENCIES}")
 
 set(CPACK_MACPORTS_CATEGORY graphics)
 set(CPACK_MACPORTS_DEPENDS boost Lunchbox)
