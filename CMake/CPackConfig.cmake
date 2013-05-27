@@ -1,19 +1,19 @@
 # Copyright (c) 2010 Daniel Pfeifer <daniel@pfeifer-mail.de>
 #               2010-2013 Stefan Eilemann <eile@eyescale.ch>
-
-#info: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
-
-#configure_file(${CMAKE_SOURCE_DIR}/CMake/Equalizer.in.spec
-#              ${CMAKE_SOURCE_DIR}/CMake/Equalizer.spec @ONLY)
+# Info: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
 
 set(CPACK_PACKAGE_VENDOR "www.eyescale.ch")
 set(CPACK_PACKAGE_CONTACT "Stefan Eilemann <eile@eyescale.ch>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Local and remote GPU discovery")
-set(CPACK_DEBIAN_BUILD_DEPENDS ${HWSD_BUILD_DEBS} ${LUNCHBOX_DEB_DEPENDENCIES})
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libboost-program-options-dev, libboost-regex-dev, libqt4-network, ${LUNCHBOX_DEB_DEPENDENCIES}")
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/doc/RelNotes.md)
+set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/doc/RelNotes.md)
+
+set(CPACK_DEBIAN_BUILD_DEPENDS
+  ${HWSD_BUILD_DEBS} ${LUNCHBOX_DEB_DEV_DEPENDENCY})
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libboost-program-options-dev, libboost-regex-dev, libqt4-network, ${LUNCHBOX_DEB_DEV_DEPENDENCY}")
 
 set(CPACK_MACPORTS_CATEGORY graphics)
-set(CPACK_MACPORTS_DEPENDS boost Lunchbox)
+set(CPACK_MACPORTS_DEPENDS boost qt4-mac-devel Lunchbox)
 
 # components
 set(CPACK_COMPONENTS_ALL dev runtime tools daemon examples)
