@@ -23,12 +23,36 @@
 #include <hwsd/gpu/dns_sd/module.h>
 #include <hwsd/netInfo.h>
 #include <hwsd/net/dns_sd/module.h>
+#include <hwsd/net/sys/module.h>
+#ifdef HWSD_GPU_CGL
+#  include <hwsd/gpu/cgl/module.h>
+#endif
+#ifdef HWSD_GPU_GLX
+#  include <hwsd/gpu/glx/module.h>
+#endif
+#ifdef HWSD_GPU_WGL
+#  include <hwsd/gpu/wgl/module.h>
+#endif
 
 #include <lunchbox/file.h>
 
 int main (int argc, const char * argv[])
 {
     const std::string& executable = lunchbox::getFilename( argv[0] );
+
+    if( executable != "net_sd_list" && executable != "gpu_sd_list" )
+    {
+#ifdef HWSD_GPU_CGL
+        hwsd::gpu::cgl::Module::use();
+#endif
+#ifdef HWSD_GPU_GLX
+        hwsd::gpu::glx::Module::use();
+#endif
+#ifdef HWSD_GPU_WGL
+        hwsd::gpu::wgl::Module::use();
+#endif
+        hwsd::net::sys::Module::use();
+    }
 
     if( executable != "net_sd_list" )
     {

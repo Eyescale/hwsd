@@ -7,21 +7,8 @@ set(HEADERS)
 set(SOURCES hw_sd.cpp)
 
 include_directories(${LUNCHBOX_INCLUDE_DIRS})
-set(LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} hwsd hwsd_gpu_dns_sd hwsd_net_dns_sd
-                                         hwsd_net_sys)
-
-if(APPLE)
-  add_definitions(-DHWSD_GPU_CGL)
-  list(APPEND LINK_LIBRARIES hwsd_gpu_cgl)
-endif()
-if(X11_FOUND)
-  add_definitions(-DHWSD_GPU_GLX)
-  list(APPEND LINK_LIBRARIES hwsd_gpu_glx)
-endif()
-if(WIN32)
-  add_definitions(-DHWSD_GPU_WGL)
-  list(APPEND LINK_LIBRARIES hwsd_gpu_wgl ws2_32)
-endif()
+list(APPEND LINK_LIBRARIES ${LUNCHBOX_LIBRARIES}
+  hwsd_gpu_dns_sd hwsd_net_dns_sd hwsd_net_sys)
 
 if(Boost_FOUND)
   list(APPEND LINK_LIBRARIES ${Boost_PROGRAM_OPTIONS_LIBRARY})
