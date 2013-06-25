@@ -61,15 +61,21 @@ static bool getGPUInfo_( Display* display, GPUInfo& info )
     if( vendor && std::string( vendor ) == "VirtualGL" )
     {
         info.flags |= GPUInfo::FLAG_VIRTUALGL;
-        const char* vglDisplay = getenv( "VGL_DISPLAY" );
-        const std::string vglDisplayStr( vglDisplay ? vglDisplay : ":0.0" );
-        std::stringstream xDisplay;
+        const char* vglDisplayEnv = getenv( "VGL_DISPLAY" );
+        std::string vglDisplay( vglDisplayEnv ? vglDisplayEnv : ":0" );
+        const bool vglHasScreen = vglDisplay[ vglDisplay.size() - 2 ] == '.';
 
+        std::stringstream xDisplay;
         xDisplay << DisplayString( display );
-        if( xDisplay.str() == ":0" )
+        if( xDisplay.str() == ":0" && vglHasScreen )
             xDisplay << "." << DefaultScreen( display );
 
-        if( vglDisplayStr == xDisplay.str( ))
+        const std::string& xDisplayStr = xDisplay.str();
+        const bool xHasScreen = xDisplayStr[ xDisplayStr.size() - 2 ] == '.';
+        if( xHasScreen && !vglHasScreen )
+            vglDisplay += ".0";
+
+        if( vglDisplay == xDisplayStr )
             info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
     }
 
