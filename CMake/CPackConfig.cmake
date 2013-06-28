@@ -13,7 +13,7 @@ set(CPACK_DEBIAN_BUILD_DEPENDS
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libstdc++6, libgl1-mesa-glx, libboost-program-options-dev, libboost-regex-dev, libqt4-network, ${LUNCHBOX_DEB_DEV_DEPENDENCY}")
 
 set(CPACK_MACPORTS_CATEGORY graphics)
-set(CPACK_MACPORTS_DEPENDS boost qt4-mac-devel Lunchbox)
+set(CPACK_MACPORTS_DEPENDS boost qt4-mac Lunchbox)
 
 # components
 set(CPACK_COMPONENTS_ALL dev runtime tools daemon examples)
