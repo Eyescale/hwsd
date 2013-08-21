@@ -19,7 +19,7 @@
 #define HWSD_NODEINFO_H
 
 #include <hwsd/api.h>
-#include <lunchbox/uuid.h>
+#include <lunchbox/uint128_t.h>
 
 #include <ostream>
 
@@ -39,7 +39,7 @@ namespace hwsd
         HWSD_API bool operator != ( const NodeInfo& rhs ) const;
 
         /** Random unique ID identifing the origin node. @version 1.0 */
-        lunchbox::UUID id;
+        lunchbox::uint128_t id;
 
         /** System hostname if remote, empty for local. @version 1.0 */
         std::string nodeName;
