@@ -20,8 +20,6 @@
 
 #include <hwsd/api.h>
 
-#include <lunchbox/uuid.h>
-
 #include <string>
 
 namespace hwsd
