@@ -30,6 +30,7 @@
 
 
 include(CMakePackageConfigHelpers)
+include(${CMAKE_CURRENT_LIST_DIR}/CMakeInstallPath.cmake)
 
 # Write the ProjectConfig.cmake.in file for configure_package_config_file
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/pkg/${CMAKE_PROJECT_NAME}Config.cmake.in
@@ -38,6 +39,10 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/pkg/${CMAKE_PROJECT_NAME}Config.cmake.in
   "@PACKAGE_INIT@\n"
   "\n"
   "set(${CMAKE_PROJECT_NAME}_PREFIX_DIR \${PACKAGE_PREFIX_DIR})\n"
+  "if(CMAKE_VERSION VERSION_LESS 2.8.3) # WAR bug\n"
+  "  get_filename_component(CMAKE_CURRENT_LIST_DIR \${CMAKE_CURRENT_LIST_FILE} PATH)\n"
+  "endif()\n"
+  "list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})\n"
 # reset before using them
   "set(_output_type)\n"
   "set(_out)\n"
@@ -232,6 +237,10 @@ install(
   DESTINATION ${CMAKE_MODULE_INSTALL_PATH} COMPONENT dev)
 
 # create and install Project.pc
+if(NOT LIBRARY_DIR)
+  set(LIBRARY_DIR lib)
+endif()
+
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/pkg/${CMAKE_PROJECT_NAME}.pc
   "prefix=${CMAKE_INSTALL_PREFIX}\n"
   "exec_prefix=\${prefix}\n"
