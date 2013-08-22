@@ -39,7 +39,7 @@ if(Qt4_name)
   set(FIND_PACKAGES_FOUND "${FIND_PACKAGES_FOUND} Qt4")
   link_directories(${${Qt4_name}_LIBRARY_DIRS})
   if(NOT "${${Qt4_name}_INCLUDE_DIRS}" MATCHES "-NOTFOUND")
-    include_directories(${${Qt4_name}_INCLUDE_DIRS})
+    include_directories(SYSTEM ${${Qt4_name}_INCLUDE_DIRS})
   endif()
 endif()
 
@@ -83,12 +83,12 @@ if(Boost_name)
   list(APPEND FIND_PACKAGES_DEFINES HWSD_USE_BOOST)
   set(FIND_PACKAGES_FOUND "${FIND_PACKAGES_FOUND} Boost")
   link_directories(${${Boost_name}_LIBRARY_DIRS})
-  if(NOT "SYSTEM ${${Boost_name}_INCLUDE_DIRS}" MATCHES "-NOTFOUND")
+  if(NOT "${${Boost_name}_INCLUDE_DIRS}" MATCHES "-NOTFOUND")
     include_directories(SYSTEM ${${Boost_name}_INCLUDE_DIRS})
   endif()
 endif()
 
-set(HWSD_BUILD_DEBS cmake;git;git-svn;libavahi-compat-libdnssd-dev;libboost-program-options-dev;libboost-regex-dev;libboost-serialization-dev;libgl1-mesa-dev;libhwloc-dev;libjpeg-turbo8-dev;libqt4-dev;libturbojpeg;libx11-dev;pkg-config;subversion)
+set(HWSD_BUILD_DEBS autoconf;automake;cmake;git;git-svn;libavahi-compat-libdnssd-dev;libboost-program-options-dev;libboost-regex-dev;libboost-serialization-dev;libgl1-mesa-dev;libhwloc-dev;libjpeg-turbo8-dev;libqt4-dev;libturbojpeg;libx11-dev;pkg-config;subversion)
 
 set(HWSD_DEPENDS OpenGL;Qt4;X11;Lunchbox;Boost)
 
