@@ -43,7 +43,12 @@ bool NodeInfo::operator != ( const NodeInfo& rhs ) const
 
 bool NodeInfo::isLocal() const
 {
-    return session == getLocalSessionName();
+    return isLocal( session );
+}
+
+bool NodeInfo::isLocal( const std::string& name )
+{
+    return name == getLocalSessionName();
 }
 
 std::ostream& operator << ( std::ostream& os, const NodeInfo& info )
