@@ -1,5 +1,6 @@
 
 /* Copyright (c) 2012, Daniel Nachbaur <danielnachbaur@gmail.com>
+ *               2013, Stefan.Eilemann@epfl.ch
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -26,32 +27,35 @@
 
 namespace hwsd
 {
-    /** A structure containing node-specific information. */
-    struct NodeInfo
-    {
-        /** Default constructor describing a local session. @version 1.0 */
-        HWSD_API NodeInfo();
+/** A structure containing node-specific information. */
+struct NodeInfo
+{
+    /** Default constructor describing a local session. @version 1.0 */
+    HWSD_API NodeInfo();
 
-        /** @return true if both informations are identical. @version 1.0 */
-        HWSD_API bool operator == ( const NodeInfo& rhs ) const;
+    /** @return true if both informations are identical. @version 1.0 */
+    HWSD_API bool operator == ( const NodeInfo& rhs ) const;
 
-        /** @return true if both infos are not identical. @version 1.0 */
-        HWSD_API bool operator != ( const NodeInfo& rhs ) const;
+    /** @return true if both infos are not identical. @version 1.0 */
+    HWSD_API bool operator != ( const NodeInfo& rhs ) const;
 
-        /** Random unique ID identifing the origin node. @version 1.0 */
-        lunchbox::uint128_t id;
+    /** @return true if this resource was discovered locally. @version 1.1.1 */
+    HWSD_API bool isLocal() const;
 
-        /** System hostname if remote, empty for local. @version 1.0 */
-        std::string nodeName;
+    /** Random unique ID identifing the origin node. @version 1.0 */
+    lunchbox::uint128_t id;
 
-        /** The session name: local, default or custom string. @version 1.0 */
-        std::string session;
+    /** System hostname if remote, empty for local. @version 1.0 */
+    std::string nodeName;
 
-        char dummy[32]; //!< Buffer for binary-compatible additions
-    };
+    /** The session name: local, default or custom string. @version 1.0 */
+    std::string session;
 
-    HWSD_API std::ostream& operator << ( std::ostream& os,
-                                         const NodeInfo& info );
+    char dummy[32]; //!< Buffer for binary-compatible additions
+};
+
+HWSD_API std::ostream& operator << ( std::ostream& os,
+                                     const NodeInfo& info );
 }
 
 #endif // HWSD_NODEINFO_H

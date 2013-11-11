@@ -25,32 +25,32 @@
 
 namespace hwsd
 {
-    /**
-     * Announce the information about all found network GPUs.
-     *
-     * @return true if announcement was successful
-     * @version 1.0
-     */
-    HWSD_API bool announceGPUInfos( const std::string& session );
+/**
+ * Announce the information about all found network GPUs.
+ *
+ * @return true if announcement was successful
+ * @version 1.0
+ */
+HWSD_API bool announceGPUInfos( const std::string& session );
 
-    /** @return information about all found GPUs. @version 1.0 */
-    HWSD_API GPUInfos discoverGPUInfos( FilterPtr filter =
-                                              FilterPtr( new DuplicateFilter ));
+/** @return information about all found GPUs. @version 1.0 */
+HWSD_API GPUInfos discoverGPUInfos( FilterPtr filter =
+                                    FilterPtr( new DuplicateFilter ));
 
-    /**
-     * Announce the information about all found network interfaces.
-     *
-     * @return true if announcement was successful
-     * @version 1.0
-     */
-    HWSD_API bool announceNetInfos( const std::string& session );
+/**
+ * Announce the information about all found network interfaces.
+ *
+ * @return true if announcement was successful
+ * @version 1.0
+ */
+HWSD_API bool announceNetInfos( const std::string& session );
 
-    /** @return information about all found network interfaces. @version 1.0 */
-    HWSD_API NetInfos discoverNetInfos( FilterPtr filter =
-                                              FilterPtr( new DuplicateFilter ));
+/** @return information about all found network interfaces. @version 1.0 */
+HWSD_API NetInfos discoverNetInfos( FilterPtr filter =
+                                    FilterPtr( new DuplicateFilter ));
 
-    /** @return the local node identifier. @version 1.0 */
-    HWSD_API const lunchbox::UUID& getLocalNodeID();
+/** @return the local node identifier. @version 1.0 */
+HWSD_API const lunchbox::UUID& getLocalNodeID();
 }
 
 #endif // HWSD_HWSD_H
