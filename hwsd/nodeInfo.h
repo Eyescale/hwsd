@@ -45,6 +45,9 @@ struct NodeInfo
     /** @return true if this resource was discovered locally. @version 1.1.1 */
     HWSD_API static bool isLocal( const std::string& name );
 
+    /** @return the session name for local resources. @version 1.1.1 */
+    static std::string getLocalSession() { return "local"; }
+
     /** Random unique ID identifing the origin node. @version 1.0 */
     lunchbox::uint128_t id;
 

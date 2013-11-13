@@ -21,14 +21,9 @@
 
 namespace hwsd
 {
-static std::string getLocalSessionName()
-{
-    static const std::string name = "local";
-    return name;
-}
 
 NodeInfo::NodeInfo()
-    : id( getLocalNodeID( )), session( getLocalSessionName( ))
+    : id( getLocalNodeID( )), session( getLocalSession( ))
 {}
 
 bool NodeInfo::operator == ( const NodeInfo& rhs ) const
@@ -48,7 +43,7 @@ bool NodeInfo::isLocal() const
 
 bool NodeInfo::isLocal( const std::string& name )
 {
-    return name == getLocalSessionName();
+    return name == getLocalSession();
 }
 
 std::ostream& operator << ( std::ostream& os, const NodeInfo& info )
