@@ -6,17 +6,22 @@ language: cpp
 script:
  - mkdir Debug
  - cd Debug
- - cmake .. -DCI_BUILD_COMMIT=$TRAVIS_COMMIT -DCMAKE_BUILD_TYPE=Debug
- - env TRAVIS=1 make -j8 tests ARGS=-V
+ - cmake .. -DCI_BUILD_COMMIT=$TRAVIS_COMMIT -DCMAKE_BUILD_TYPE=Debug -DTRAVIS=1
+ - env TRAVIS=1 make -j2 cis ARGS=-V
  - mkdir ../Release
+ - git status
+ - git --no-pager diff
  - cd ../Release
- - cmake .. -DCI_BUILD_COMMIT=$TRAVIS_COMMIT -DCMAKE_BUILD_TYPE=Release
- - env TRAVIS=1 make -j8 tests ARGS=-V
+ - cmake .. -DCI_BUILD_COMMIT=$TRAVIS_COMMIT -DCMAKE_BUILD_TYPE=Release -DTRAVIS=1
+ - env TRAVIS=1 make -j2 cis ARGS=-V
+ - git status
+ - git --no-pager diff
 before_install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq autoconf || /bin/true
  - sudo apt-get install -qq automake || /bin/true
  - sudo apt-get install -qq cmake || /bin/true
+ - sudo apt-get install -qq doxygen || /bin/true
  - sudo apt-get install -qq git || /bin/true
  - sudo apt-get install -qq git-review || /bin/true
  - sudo apt-get install -qq git-svn || /bin/true

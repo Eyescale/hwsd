@@ -141,7 +141,7 @@ if(Boost_name)
   endif()
 endif()
 
-set(HWSD_BUILD_DEBS autoconf;automake;cmake;git;git-review;git-svn;lcov;libavahi-compat-libdnssd-dev;libboost-program-options-dev;libboost-regex-dev;libboost-serialization-dev;libgl1-mesa-dev;libhwloc-dev;libjpeg-turbo8-dev;libqt4-dev;libturbojpeg;libx11-dev;ninja-build;pkg-config;subversion)
+set(HWSD_BUILD_DEBS autoconf;automake;cmake;doxygen;git;git-review;git-svn;lcov;libavahi-compat-libdnssd-dev;libboost-program-options-dev;libboost-regex-dev;libboost-serialization-dev;libgl1-mesa-dev;libhwloc-dev;libjpeg-turbo8-dev;libqt4-dev;libturbojpeg;libx11-dev;ninja-build;pkg-config;subversion)
 
 set(HWSD_DEPENDS OpenGL;Qt4;X11;Lunchbox;Boost)
 
