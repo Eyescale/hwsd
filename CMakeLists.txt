@@ -22,10 +22,6 @@ include(GitTargets)
 include(InstallSymlink)
 
 if(APPLE)
-  set(HWSD_OSX_VERSION 10.6)
-  set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -mmacosx-version-min=${HWSD_OSX_VERSION}" )
-
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
   list(INSERT CMAKE_PREFIX_PATH 0 /usr/X11R6)
 endif()
