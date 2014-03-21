@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <sstream>
 
-#define WAIT_TIME 500 // ms
+#define WAIT_TIME 50 // ms
 
 namespace hwsd
 {
