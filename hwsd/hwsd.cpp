@@ -26,7 +26,7 @@ namespace hwsd
 template<> GPUModule* GPUModule::stack_ = 0;
 template<> NetModule* NetModule::stack_ = 0;
 
-lunchbox::UUID nodeID_( true );
+lunchbox::UUID nodeID_ = lunchbox::make_UUID();
 
 
 bool announceGPUInfos( const std::string& session )
