@@ -22,7 +22,7 @@ set(LAST_RELEASE 1.0.0)
 
 set(PROJECT_INCLUDE_NAME hwsd)
 set(COMMON_PROJECT_DOMAIN ch.eyescale)
-set(HWSD_DESCRIPTION "Library and daemon for the discovery and announcement of hardware resources using ZeroConf")
+set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
 
 include(Common)
 include(GitTargets)
