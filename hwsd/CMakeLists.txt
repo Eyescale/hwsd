@@ -1,8 +1,6 @@
 
-configure_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/hwsd/version.h" @ONLY)
-
 set(HEADERS # public, installed
-  "${OUTPUT_INCLUDE_DIR}/hwsd/version.h"
+  ${COMMON_INCLUDES}
   api.h
   filter.h
   hwsd.h
@@ -19,10 +17,10 @@ set(DETAIL_HEADERS # private, not installed
 )
 
 set(SOURCES
+  ${COMMON_SOURCES}
   filter.cpp
   hwsd.cpp
   nodeInfo.cpp
-  version.cpp
 )
 
 list(APPEND LINK_LIBRARIES ${LUNCHBOX_LIBRARIES})
