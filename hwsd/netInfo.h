@@ -45,25 +45,29 @@ namespace hwsd
         static const unsigned defaultValue = UINT_MAX;
 
         /** Default constructor pointing to the default display. @version 1.0 */
-        NetInfo() : type( TYPE_UNKNOWN ), linkspeed( defaultValue )
-                  , up( false ) {}
+        NetInfo()
+            : type( TYPE_UNKNOWN )
+            , linkspeed( defaultValue )
+            , up( false )
+            , dummy { 0 }
+        {}
 
         /** @return true if both informations are identical. @version 1.0 */
         bool operator == ( const NetInfo& rhs ) const
-            {
-                return NodeInfo::operator==( rhs ) && type == rhs.type &&
-                       name == rhs.name && hostname == rhs.hostname &&
-                       hwAddress == rhs.hwAddress &&
-                       inetAddress == rhs.inetAddress &&
-                       inet6Address == rhs.inet6Address &&
-                       linkspeed == rhs.linkspeed && up == rhs.up;
-            }
+        {
+            return NodeInfo::operator==( rhs ) && type == rhs.type &&
+                   name == rhs.name && hostname == rhs.hostname &&
+                   hwAddress == rhs.hwAddress &&
+                   inetAddress == rhs.inetAddress &&
+                   inet6Address == rhs.inet6Address &&
+                   linkspeed == rhs.linkspeed && up == rhs.up;
+        }
 
         /** @return true if both infos are not identical. @version 1.0 */
         bool operator != ( const NetInfo& rhs ) const
-            {
-                return !(*this == rhs );
-            }
+        {
+            return !(*this == rhs );
+        }
 
         std::string getType() const
         {

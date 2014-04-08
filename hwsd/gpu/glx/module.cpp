@@ -82,7 +82,7 @@ static bool getGPUInfo_( Display* display, GPUInfo& info )
     return true;
 }
 
-static bool queryDisplay_( const std::string display, GPUInfo& info )
+static bool queryDisplay_( const std::string& display, GPUInfo& info )
 {
     ::Display* xDisplay = XOpenDisplay( display.c_str( ));
     if( !xDisplay )

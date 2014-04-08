@@ -42,9 +42,15 @@ struct GPUInfo : public NodeInfo
 
     /** Default constructor pointing to the default display. @version 1.0 */
     GPUInfo()
-        : type( 0 ), port( defaultValue ), device( defaultValue )
+        : type( 0 )
+        , port( defaultValue )
+        , device( defaultValue )
         , flags( 0 )
-        { invalidatePVP(); }
+        , unused( 0 )
+        , dummy { 0 }
+    {
+        invalidatePVP();
+    }
 
     /**
      * Constructor pointing to default display of a specific GPU type.
@@ -56,40 +62,46 @@ struct GPUInfo : public NodeInfo
      * @version 1.0
      */
     GPUInfo( const std::string& name )
-        : type( 0 ), port( defaultValue ), device( defaultValue )
+        : type( 0 )
+        , port( defaultValue )
+        , device( defaultValue )
         , flags( 0 )
-        {
-            invalidatePVP();
-            strncpy( reinterpret_cast< char* >( &type ), name.c_str(), 4 );
-        }
+        , unused( 0 )
+        , dummy { 0 }
+    {
+        invalidatePVP();
+        strncpy( reinterpret_cast< char* >( &type ), name.c_str(), 4 );
+    }
 
     /** Invalidate the pixel viewport. @version 1.0 */
     void invalidatePVP()
-        {
-            pvp[0] = 0;
-            pvp[1] = 0;
-            pvp[2] = -1;
-            pvp[3] = -1;
-        }
+    {
+        pvp[0] = 0;
+        pvp[1] = 0;
+        pvp[2] = -1;
+        pvp[3] = -1;
+    }
 
     /** @return true if both informations are identical. @version 1.0 */
     bool operator == ( const GPUInfo& rhs ) const
-        {
-            return ( NodeInfo::operator==( rhs ) && type == rhs.type &&
-                     port == rhs.port && device == rhs.device &&
-                     pvp[0] == rhs.pvp[0] && pvp[1] == rhs.pvp[1] &&
-                     pvp[2] == rhs.pvp[2] && pvp[3] == rhs.pvp[3] );
-        }
+    {
+        return ( NodeInfo::operator==( rhs ) && type == rhs.type &&
+                 port == rhs.port && device == rhs.device &&
+                 pvp[0] == rhs.pvp[0] && pvp[1] == rhs.pvp[1] &&
+                 pvp[2] == rhs.pvp[2] && pvp[3] == rhs.pvp[3] );
+    }
 
     /** @return true if both infos are not identical. @version 1.0 */
     bool operator != ( const GPUInfo& rhs ) const
-        {
-            return !(*this == rhs );
-        }
+    {
+        return !(*this == rhs );
+    }
 
     /** @return the type name string of this information. @version 1.0 */
     std::string getName() const
-        { return std::string( reinterpret_cast<const char*>( &type ), 4 ); }
+    {
+        return std::string( reinterpret_cast<const char*>( &type ), 4 );
+    }
 
     /** Four-character code of the GPU type. @version 1.0 */
     unsigned type;
