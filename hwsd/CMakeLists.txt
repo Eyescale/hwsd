@@ -1,5 +1,5 @@
 
-update_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/hwsd/version.h" @ONLY)
+configure_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/hwsd/version.h" @ONLY)
 
 set(HEADERS # public, installed
   "${OUTPUT_INCLUDE_DIR}/hwsd/version.h"
