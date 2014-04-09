@@ -18,7 +18,7 @@
  */
 
 
-#include <hwsd/hwsd.h>
+#include <hwsd/functions.h>
 #include <hwsd/gpuInfo.h>
 #include <hwsd/gpu/dns_sd/module.h>
 #include <hwsd/netInfo.h>

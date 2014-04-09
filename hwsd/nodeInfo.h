@@ -56,8 +56,6 @@ struct NodeInfo
 
     /** The session name: local, default or custom string. @version 1.0 */
     std::string session;
-
-    char dummy[32]; //!< Buffer for binary-compatible additions
 };
 
 HWSD_API std::ostream& operator << ( std::ostream& os,

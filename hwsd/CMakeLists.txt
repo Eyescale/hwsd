@@ -1,11 +1,8 @@
 
-update_file("version.in.h" "${OUTPUT_INCLUDE_DIR}/hwsd/version.h" @ONLY)
-
 set(HEADERS # public, installed
-  "${OUTPUT_INCLUDE_DIR}/hwsd/version.h"
-  api.h
+  ${COMMON_INCLUDES}
   filter.h
-  hwsd.h
+  functions.h
   module.h
   module.ipp
   netInfo.h
@@ -19,10 +16,12 @@ set(DETAIL_HEADERS # private, not installed
 )
 
 set(SOURCES
+  ${COMMON_SOURCES}
   filter.cpp
-  hwsd.cpp
+  functions.cpp
+  netInfo.cpp
   nodeInfo.cpp
-  version.cpp
+  gpuInfo.cpp
 )
 
 list(APPEND LINK_LIBRARIES ${LUNCHBOX_LIBRARIES})

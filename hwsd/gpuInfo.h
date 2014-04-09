@@ -41,10 +41,7 @@ struct GPUInfo : public NodeInfo
     static const unsigned FLAG_VIRTUALGL_DISPLAY = 0x2;
 
     /** Default constructor pointing to the default display. @version 1.0 */
-    GPUInfo()
-        : type( 0 ), port( defaultValue ), device( defaultValue )
-        , flags( 0 )
-        { invalidatePVP(); }
+    GPUInfo();
 
     /**
      * Constructor pointing to default display of a specific GPU type.
@@ -55,41 +52,19 @@ struct GPUInfo : public NodeInfo
      * @param name the type of the GPU.
      * @version 1.0
      */
-    GPUInfo( const std::string& name )
-        : type( 0 ), port( defaultValue ), device( defaultValue )
-        , flags( 0 )
-        {
-            invalidatePVP();
-            strncpy( reinterpret_cast< char* >( &type ), name.c_str(), 4 );
-        }
+    GPUInfo( const std::string& name );
 
     /** Invalidate the pixel viewport. @version 1.0 */
-    void invalidatePVP()
-        {
-            pvp[0] = 0;
-            pvp[1] = 0;
-            pvp[2] = -1;
-            pvp[3] = -1;
-        }
+    void invalidatePVP();
 
     /** @return true if both informations are identical. @version 1.0 */
-    bool operator == ( const GPUInfo& rhs ) const
-        {
-            return ( NodeInfo::operator==( rhs ) && type == rhs.type &&
-                     port == rhs.port && device == rhs.device &&
-                     pvp[0] == rhs.pvp[0] && pvp[1] == rhs.pvp[1] &&
-                     pvp[2] == rhs.pvp[2] && pvp[3] == rhs.pvp[3] );
-        }
+    bool operator == ( const GPUInfo& rhs ) const;
 
     /** @return true if both infos are not identical. @version 1.0 */
-    bool operator != ( const GPUInfo& rhs ) const
-        {
-            return !(*this == rhs );
-        }
+    bool operator != ( const GPUInfo& rhs ) const;
 
     /** @return the type name string of this information. @version 1.0 */
-    std::string getName() const
-        { return std::string( reinterpret_cast<const char*>( &type ), 4 ); }
+    std::string getName() const;
 
     /** Four-character code of the GPU type. @version 1.0 */
     unsigned type;
@@ -108,7 +83,6 @@ struct GPUInfo : public NodeInfo
 
     unsigned flags; //!< bitmask of additional GPU capabilities
     unsigned unused; //!< @internal
-    char dummy[32]; //!< Buffer for binary-compatible additions
 };
 
 inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )

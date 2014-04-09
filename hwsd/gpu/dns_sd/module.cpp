@@ -18,7 +18,7 @@
 #include "module.h"
 
 #include <hwsd/gpuInfo.h>
-#include <hwsd/hwsd.h>
+#include <hwsd/functions.h>
 #include <hwsd/detail/dns_sd_module.h>
 
 #include <algorithm>

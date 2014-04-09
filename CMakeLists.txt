@@ -4,18 +4,24 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(hwsd)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake
+                              ${CMAKE_CURRENT_SOURCE_DIR}/CMake/common)
+
+include(GitExternal)
 include(Buildyard)
+
 if(BUILDYARD_STOP)
   return()
 endif()
 
+set(RELEASE_VERSION OFF) # OFF or ABI version
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "0")
-
-set(RELEASE_VERSION OFF) # OFF or ABI version
 set(LAST_RELEASE 1.0.0)
+
+set(COMMON_PROJECT_DOMAIN ch.eyescale)
+set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
 
 include(Common)
 include(GitTargets)

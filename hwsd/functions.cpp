@@ -15,7 +15,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "hwsd.h"
+#include "functions.h"
 #include "gpuInfo.h"
 #include "netInfo.h"
 #include "module.h"
@@ -26,7 +26,7 @@ namespace hwsd
 template<> GPUModule* GPUModule::stack_ = 0;
 template<> NetModule* NetModule::stack_ = 0;
 
-lunchbox::UUID nodeID_( true );
+lunchbox::UUID nodeID_ = lunchbox::make_UUID();
 
 
 bool announceGPUInfos( const std::string& session )
