@@ -25,9 +25,7 @@ namespace hwsd
 NodeInfo::NodeInfo()
     : id( getLocalNodeID( ))
     , session( getLocalSession( ))
-{
-    dummy[0] = 0;
-}
+{}
 
 bool NodeInfo::operator == ( const NodeInfo& rhs ) const
 {

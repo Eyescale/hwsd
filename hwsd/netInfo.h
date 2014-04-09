@@ -80,8 +80,6 @@ struct NetInfo : public NodeInfo
 
     /** Whether the interface is up or down. @version 1.0 */
     bool up;
-
-    char dummy[24]; //!< Buffer for binary-compatible additions
 };
 
 inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )

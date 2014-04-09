@@ -26,7 +26,6 @@ namespace hwsd
         , flags( 0 )
         , unused( 0 )
     {
-        dummy[0] = 0;
         invalidatePVP();
     }
 
@@ -37,7 +36,6 @@ namespace hwsd
         , flags( 0 )
         , unused( 0 )
     {
-        dummy[0] = 0;
         invalidatePVP();
         strncpy( reinterpret_cast< char* >( &type ), name.c_str(), 4 );
     }

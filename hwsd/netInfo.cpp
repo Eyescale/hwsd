@@ -24,9 +24,7 @@ namespace hwsd
         : type( TYPE_UNKNOWN )
         , linkspeed( defaultValue )
         , up( false )
-    {
-        dummy[0] = 0;
-    }
+    {}
 
     bool NetInfo::operator == ( const NetInfo& rhs ) const
     {
