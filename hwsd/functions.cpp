@@ -15,7 +15,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "hwsd.h"
+#include "functions.h"
 #include "gpuInfo.h"
 #include "netInfo.h"
 #include "module.h"

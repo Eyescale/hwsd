@@ -1,9 +1,8 @@
 
 set(HEADERS # public, installed
   ${COMMON_INCLUDES}
-  api.h
   filter.h
-  hwsd.h
+  functions.h
   module.h
   module.ipp
   netInfo.h
@@ -19,8 +18,10 @@ set(DETAIL_HEADERS # private, not installed
 set(SOURCES
   ${COMMON_SOURCES}
   filter.cpp
-  hwsd.cpp
+  functions.cpp
+  netInfo.cpp
   nodeInfo.cpp
+  gpuInfo.cpp
 )
 
 list(APPEND LINK_LIBRARIES ${LUNCHBOX_LIBRARIES})

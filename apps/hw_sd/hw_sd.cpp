@@ -17,7 +17,7 @@
   along with HW-SD. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <hwsd/hwsd.h>
+#include <hwsd/functions.h>
 #include <hwsd/gpuInfo.h>
 #include <hwsd/netInfo.h>
 #include <hwsd/version.h>
