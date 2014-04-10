@@ -1,5 +1,7 @@
 
-set(HEADERS # public, installed
+source_group(\\ FILES CMakeLists.txt)
+
+set(HWSD_PUBLIC_HEADERS # public, installed
   ${COMMON_INCLUDES}
   filter.h
   functions.h
@@ -11,11 +13,11 @@ set(HEADERS # public, installed
   types.h
 )
 
-set(DETAIL_HEADERS # private, not installed
+set(HWSD__HEADERS # private, not installed
   detail/dns_sd_module.h
 )
 
-set(SOURCES
+set(HWSD_SOURCES
   ${COMMON_SOURCES}
   filter.cpp
   functions.cpp
@@ -24,30 +26,14 @@ set(SOURCES
   gpuInfo.cpp
 )
 
-list(APPEND LINK_LIBRARIES ${LUNCHBOX_LIBRARIES})
-list(APPEND LINK_LIBRARIES ${Boost_REGEX_LIBRARY})
+set(HWSD_LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} ${Boost_REGEX_LIBRARY})
 
 if(QT_QTNETWORK_FOUND)
   include(${QT_USE_FILE})
-  list(APPEND LINK_LIBRARIES ${QT_LIBRARIES})
+  list(APPEND HWSD_LINK_LIBRARIES ${QT_LIBRARIES})
 endif()
 
-set(LIBRARY hwsd)
-set(INCLUDE include/${LIBRARY})
-
-source_group(\\ FILES CMakeLists.txt ${HEADERS} ${SOURCES})
-source_group(detail FILES ${DETAIL_HEADERS})
-
-add_library(${LIBRARY} SHARED ${HEADERS} ${DETAIL_HEADERS} ${SOURCES})
-target_link_libraries(${LIBRARY} ${LINK_LIBRARIES})
-set_target_properties(${LIBRARY} PROPERTIES
-  VERSION ${VERSION} SOVERSION ${VERSION_MAJOR}
-  PUBLIC_HEADER "${HEADERS}" COMPILE_DEFINITIONS "HWSD_SHARED;HWSD_SHARED_INL")
-install(TARGETS ${LIBRARY}
-  PUBLIC_HEADER DESTINATION ${INCLUDE} COMPONENT dev
-  ARCHIVE DESTINATION lib COMPONENT dev
-  RUNTIME DESTINATION bin COMPONENT runtime
-  LIBRARY DESTINATION lib COMPONENT runtime)
+common_library(hwsd)
 
 add_subdirectory(gpu)
 add_subdirectory(net)
