@@ -19,6 +19,7 @@
 #ifndef HWSD_NETINFO_H
 #define HWSD_NETINFO_H
 
+#include <hwsd/api.h>
 #include <hwsd/nodeInfo.h>  // base class
 
 #include <lunchbox/debug.h>
@@ -45,17 +46,17 @@ struct NetInfo : public NodeInfo
     static const unsigned defaultValue = UINT_MAX;
 
     /** Default constructor pointing to the default display. @version 1.0 */
-    NetInfo();
+    HWSD_API NetInfo();
 
     /** @return true if both informations are identical. @version 1.0 */
-    bool operator == ( const NetInfo& rhs ) const;
+    HWSD_API bool operator == ( const NetInfo& rhs ) const;
 
     /** @return true if both infos are not identical. @version 1.0 */
-    bool operator != ( const NetInfo& rhs ) const;
+    HWSD_API bool operator != ( const NetInfo& rhs ) const;
 
-    std::string getType() const;
+    HWSD_API std::string getType() const;
 
-    void setType( const std::string& strType );
+    HWSD_API void setType( const std::string& strType );
 
     /** The type of the network interface. @version 1.0 */
     Type type;

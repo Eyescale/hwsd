@@ -34,6 +34,8 @@ if(QT_QTNETWORK_FOUND)
 endif()
 
 common_library(hwsd)
+set_target_properties(hwsd PROPERTIES
+  COMPILE_DEFINITIONS "HWSD_SHARED;HWSD_SHARED_INL")
 
 add_subdirectory(gpu)
 add_subdirectory(net)
