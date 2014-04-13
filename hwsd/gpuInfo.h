@@ -18,6 +18,7 @@
 #ifndef HWSD_GPUINFO_H
 #define HWSD_GPUINFO_H
 
+#include <hwsd/api.h>
 #include <hwsd/nodeInfo.h>  // base class
 
 #include <climits>
@@ -41,7 +42,7 @@ struct GPUInfo : public NodeInfo
     static const unsigned FLAG_VIRTUALGL_DISPLAY = 0x2;
 
     /** Default constructor pointing to the default display. @version 1.0 */
-    GPUInfo();
+    HWSD_API GPUInfo();
 
     /**
      * Constructor pointing to default display of a specific GPU type.
@@ -52,19 +53,19 @@ struct GPUInfo : public NodeInfo
      * @param name the type of the GPU.
      * @version 1.0
      */
-    GPUInfo( const std::string& name );
+    HWSD_API GPUInfo( const std::string& name );
 
     /** Invalidate the pixel viewport. @version 1.0 */
-    void invalidatePVP();
+    HWSD_API void invalidatePVP();
 
     /** @return true if both informations are identical. @version 1.0 */
-    bool operator == ( const GPUInfo& rhs ) const;
+    HWSD_API bool operator == ( const GPUInfo& rhs ) const;
 
     /** @return true if both infos are not identical. @version 1.0 */
-    bool operator != ( const GPUInfo& rhs ) const;
+    HWSD_API bool operator != ( const GPUInfo& rhs ) const;
 
     /** @return the type name string of this information. @version 1.0 */
-    std::string getName() const;
+    HWSD_API std::string getName() const;
 
     /** Four-character code of the GPU type. @version 1.0 */
     unsigned type;
