@@ -32,7 +32,7 @@ namespace sys
     /**
      * The low-level implementation for local network interface discovery.
      */
-    class Module : public NetModule
+    class Module : public hwsd::Module< NetInfos >
     {
     public:
         /** Instantiate the sys network discovery module for the process. */
@@ -47,9 +47,6 @@ namespace sys
     private:
         Module() : NetModule() {}
         virtual ~Module() {}
-
-        NetInfos _discoverWin32() const;
-        NetInfos _discoverPosix() const;
     };
 }
 }

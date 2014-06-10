@@ -81,15 +81,6 @@ void Module::dispose()
 
 NetInfos Module::discover() const
 {
-#ifdef _WIN32
-    return _discoverWin32();
-#else
-    return _discoverPosix();
-#endif
-}
-
-NetInfos Module::_discoverWin32() const
-{
     NetInfos result;
 #ifdef _WIN32
     WSAData d;
@@ -165,14 +156,9 @@ NetInfos Module::_discoverWin32() const
 
     free( addresses );
     WSACleanup();
-#endif
-    return result;
-}
 
-NetInfos Module::_discoverPosix() const
-{
-    NetInfos result;
-#ifndef _WIN32
+#else // _WIN32
+
 #  ifdef USE_IOCTL
     int socketfd = socket( PF_INET, SOCK_DGRAM, 0 );
     if( socketfd < 0 )
@@ -253,7 +239,9 @@ NetInfos Module::_discoverPosix() const
     }
 
     close( socketfd );
-#  else
+
+#  else // USE_IOCTL
+
     ifaddrs* ifaddr;
     if( getifaddrs( &ifaddr ) == -1 )
         return result;
@@ -332,7 +320,7 @@ NetInfos Module::_discoverPosix() const
                     info.type = NetInfo::TYPE_UNKNOWN;
                     break;
               }
-#else
+#else // __APPLE__
               sockaddr_ll* s = (sockaddr_ll*)ifa->ifa_addr;
               for( size_t i = 0; i < 6; ++i )
               {
@@ -357,7 +345,7 @@ NetInfos Module::_discoverPosix() const
                            << std::endl;
                     info.type = NetInfo::TYPE_UNKNOWN;
               }
-#endif
+#endif // !__APPLE__
               info.hwAddress = mac.str();
               break;
           }
@@ -371,8 +359,8 @@ NetInfos Module::_discoverPosix() const
 
     for( Name2Info::const_iterator it = infos.begin(); it != infos.end(); ++it )
         result.push_back( it->second );
-#  endif
-#endif
+#  endif // !USE_IOCTL
+#endif // !_WIN32
     return result;
 }
 
