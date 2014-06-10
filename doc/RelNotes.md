@@ -9,11 +9,11 @@ Welcome to HWSD, a daemon and library for the discovery and announcement
 of hardware resources using ZeroConf. HWSD enables auto-configuration of
 ad-hoc GPU clusters and multi-GPU machines.
 
-HWSD 1.0 is a feature release based on GPU-SD 1.4. It can be retrieved by
+HWSD 1.1 is a code cleanup release based on HWSD 1.0. It can be retrieved by
 downloading the
-[source code](http://www.equalizergraphics.com/gpu-sd/downloads/hwsd-1.0.0.tar.gz)
+[source code](https://github.com/Eyescale/hwsd/archive/1.1.0.tar.gz)
 or one of the
-[binary distributions](http://www.equalizergraphics.com/gpu-sd/downloads.html).
+[binary distributions](https://launchpad.net/~bbp/+archive/ppa).
 
 ## Features {#Features}
 
@@ -30,50 +30,42 @@ HWSD provides the following features to enable GPU and network device discovery:
 
 # New in this release {#New}
 
-HWSD 1.0 is a feature release and contains the following features,
-enhancements, bug fixes and documentation changes over the gpusd 1.4 release:
+HWSD 1.1 contains the following features, enhancements, bug fixes and
+documentation changes over the HWSD 1.0 release:
 
 ## New Features {#NewFeatures}
 
-* [gpusd#5:](https://github.com/Eyescale/gpusd/issues/5) net_dns_sd:
-  discovery module for remote zeroconf (Bonjour) network interfaces
-* [gpusd#5:](https://github.com/Eyescale/gpusd/issues/5) net_sys:
-  discovery of local network interfaces
+* No new features
 
 ## Enhancements {#Enhancements}
 
-* [gpusd#9:](https://github.com/Eyescale/gpusd/issues/9) Daemon support
-  for hw_sd application
+* Allow filtering of unknown connections
+* Adapted to latest Lunchbox code base
 
 ## Optimizations {#Optimizations}
 
-* No optimizations
+* Reduce mdns browse time to 50ms
 
 ## Tools {#Tools}
 
-* New hw_sd daemon announcing local GPUs and network interfaces
-* New hw_sd_list tool listing remote GPUs and network interfaces
+* No new tools
 
 ## Documentation {#Documentation}
 
-The following documentation has been added or substantially improved
-since the last release:
+The following documentation has been upated since the last release:
 
 * Documentation for the public
-  [hwsd API](http://eyescale.github.io/hwsd-1.0/index.html).
+  [hwsd API](http://eyescale.github.io/hwsd-1.1/index.html).
 
 ## Bug Fixes {#Fixes}
 
-HWSD 1.0 includes various bugfixes over the gpusd 1.4 release,
-including the following:
-
-* [4:](https://github.com/Eyescale/hwsd/issues/4) Bug in regex GPU filter
+HWSD 1.1 does not include any bugfixes over the HWSD 1.0 release.
 
 ## Known Bugs {#Bugs}
 
-The following bugs were known at release time. Please file a [Bug Report](https://github.com/Eyescale/Collage/issues) if you find any other issue with this release.
-
-* No known bugs
+No bugs were known at release time. Please file a
+[Bug Report](https://github.com/Eyescale/hwsd/issues)
+if you find any issue with this release.
 
 # About {#About}
 
@@ -86,7 +78,7 @@ HWSD uses CMake and [Buildyard](https://github.com/Eyescale/Buildyard)
 to create a platform-specific build environment. The following platforms
 and build environments are tested:
 
-* Linux: Ubuntu 12.04, 12.10, 13.04, RHEL 6.3 (Makefile, i386, x64)
+* Linux: Ubuntu 14.04, RHEL 6.5 (Makefile, i386, x64)
 * Windows: 7 (Visual Studio 2008, i386, x64)
 * Mac OS X: 10.8 (Makefile, i386, x64)
 
@@ -95,7 +87,7 @@ directly to info@equalizergraphics.com.
 
 Commercial support, custom software development and porting services are
 available from [Eyescale](http://www.eyescale.ch). Please contact
-[info@eyescale.ch](mailto:info@eyescale.ch?subject=Collage%20support)
+[info@eyescale.ch](mailto:info@eyescale.ch?subject=HWSD%20support)
 for further information.
 
 # Errata

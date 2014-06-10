@@ -14,11 +14,13 @@ if(BUILDYARD_STOP)
   return()
 endif()
 
-set(RELEASE_VERSION OFF) # OFF or ABI version
+set(VERSION_ABI 2)
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "0")
-set(LAST_RELEASE 1.0.0)
+set(LAST_RELEASE 1.1.0)
+
+set(DPUT_HOST "ppa:bbp/ppa")
 
 set(COMMON_PROJECT_DOMAIN ch.eyescale)
 set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
