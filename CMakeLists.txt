@@ -1,5 +1,5 @@
 
-# Copyright (c) 2011-2013 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
+# Copyright (c) 2011-2014 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(hwsd)
@@ -14,14 +14,13 @@ if(BUILDYARD_STOP)
   return()
 endif()
 
-set(VERSION_ABI 2)
+set(LAST_RELEASE 1.1.0)
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "0")
-set(LAST_RELEASE 1.1.0)
+set(VERSION_ABI 2)
 
 set(DPUT_HOST "ppa:bbp/ppa")
-
 set(COMMON_PROJECT_DOMAIN ch.eyescale)
 set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
 

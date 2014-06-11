@@ -9,7 +9,7 @@ Welcome to HWSD, a daemon and library for the discovery and announcement
 of hardware resources using ZeroConf. HWSD enables auto-configuration of
 ad-hoc GPU clusters and multi-GPU machines.
 
-HWSD 1.1 is a code cleanup release based on HWSD 1.0. It can be retrieved by
+HWSD 1.1 is an unofficial release based on HWSD 1.0. It can be retrieved by
 downloading the
 [source code](https://github.com/Eyescale/hwsd/archive/1.1.0.tar.gz)
 or one of the
@@ -52,7 +52,7 @@ documentation changes over the HWSD 1.0 release:
 
 ## Documentation {#Documentation}
 
-The following documentation has been upated since the last release:
+The following documentation has been updated since the last release:
 
 * Documentation for the public
   [hwsd API](http://eyescale.github.io/hwsd-1.1/index.html).
