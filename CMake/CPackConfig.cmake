@@ -40,3 +40,4 @@ set(CPACK_COMPONENT_EXAMPLES_DESCRIPTION "HW-SD Example Source Code")
 set(CPACK_COMPONENT_EXAMPLES_DEPENDS dev)
 
 include(CommonCPack)
+include(OSSCPack)
