@@ -15,8 +15,8 @@ add_executable(hw_sd_list ${SOURCES} ${HEADERS})
 target_link_libraries(hw_sd_list ${LINK_LIBRARIES})
 
 install(TARGETS hw_sd_list DESTINATION bin COMPONENT tools)
-install_symlink(bin/hw_sd_list bin/gpu_sd_list COMPONENT tools)
-install_symlink(bin/hw_sd_list bin/net_sd_list COMPONENT tools)
+install_symlink(FROM hw_sd_list TO gpu_sd_list WORKING_DIRECTORY bin COMPONENT tools)
+install_symlink(FROM hw_sd_list TO net_sd_list WORKING_DIRECTORY bin COMPONENT tools)
 install(FILES ${SOURCES} ${HEADERS} DESTINATION share/hwsd/examples
   COMPONENT examples)
 
