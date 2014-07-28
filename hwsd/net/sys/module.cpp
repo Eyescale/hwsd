@@ -31,7 +31,6 @@
 #elif defined USE_IOCTL
 #  include <arpa/inet.h>
 #  include <netdb.h>
-#  include <net/if.h>
 #  include <string.h>
 #  include <sys/ioctl.h>
 #  include <unistd.h>
@@ -44,7 +43,7 @@
 #  include <sys/types.h>
 #  include <sys/socket.h>
 #  include <map>
-#  ifdef __linux
+#  ifdef __linux__
 #    include <linux/if_arp.h>
 #  endif
 #  ifdef __APPLE__
