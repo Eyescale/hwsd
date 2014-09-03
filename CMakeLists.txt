@@ -4,8 +4,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(hwsd)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake
-                              ${CMAKE_CURRENT_SOURCE_DIR}/CMake/common)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
+  ${PROJECT_SOURCE_DIR}/CMake/common)
 
 include(GitExternal)
 include(Buildyard)
@@ -20,16 +20,13 @@ set(VERSION_MINOR "1")
 set(VERSION_PATCH "0")
 set(VERSION_ABI 2)
 
-# Tell 'make branch' to name the new branch "VERSION_MAJOR.VERSION_MINOR"
-set(GITTARGETS_RELEASE_BRANCH "minor")
+set(GITTARGETS_RELEASE_BRANCH minor)
 set(DPUT_HOST "ppa:bbp/ppa") # Target ppa used by 'make dput'
 
-set(COMMON_PROJECT_DOMAIN ch.eyescale)
 set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
+set(COMMON_PROJECT_DOMAIN ch.eyescale)
 
 include(Common)
-include(GitTargets)
-include(InstallSymlink)
 
 if(APPLE)
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
@@ -39,17 +36,16 @@ endif()
 include(FindPackages)
 set(HWSD_DEPENDENT_LIBRARIES Lunchbox)
 
-include_directories(BEFORE ${CMAKE_SOURCE_DIR}/libs)
 add_subdirectory(apps)
 add_subdirectory(hwsd)
 add_subdirectory(doc)
 
 include(DoxygenRule)
 include(CPackConfig)
+include(PackageConfig)
+include(GNUModules)
 
 set(CTEST_CUSTOM_WARNING_EXCEPTION ${CTEST_CUSTOM_WARNING_EXCEPTION}
   # http://public.kitware.com/Bug/view.php?id=10179
   "ld: warning: duplicate dylib")
 include(CTest)
-
-include(PackageConfig)
