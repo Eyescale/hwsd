@@ -33,9 +33,11 @@ before_install:
  - sudo apt-get install -qq libboost-regex-dev || /bin/true
  - sudo apt-get install -qq libboost-serialization-dev || /bin/true
  - sudo apt-get install -qq libboost-system-dev || /bin/true
+ - sudo apt-get install -qq libboost-thread-dev || /bin/true
  - sudo apt-get install -qq libgl1-mesa-dev || /bin/true
  - sudo apt-get install -qq libhwloc-dev || /bin/true
  - sudo apt-get install -qq libjpeg-turbo8-dev || /bin/true
+ - sudo apt-get install -qq libleveldb-dev || /bin/true
  - sudo apt-get install -qq libqt4-dev || /bin/true
  - sudo apt-get install -qq libturbojpeg || /bin/true
  - sudo apt-get install -qq libx11-dev || /bin/true
