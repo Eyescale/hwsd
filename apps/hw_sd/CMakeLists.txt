@@ -3,6 +3,8 @@ if(NOT LUNCHBOX_USE_DNSSD)
   return()
 endif()
 
+include(InstallSymlink)
+
 set(HEADERS)
 set(SOURCES hw_sd.cpp)
 
