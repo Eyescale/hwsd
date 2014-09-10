@@ -45,15 +45,15 @@ else()
 endif()
 
 if(PKG_CONFIG_EXECUTABLE)
-  find_package(Boost 1.41.0 COMPONENTS program_options regex)
+  find_package(Boost 1.41.0 COMPONENTS program_options regex system)
   if((NOT Boost_FOUND) AND (NOT BOOST_FOUND))
     pkg_check_modules(Boost Boost>=1.41.0)
   endif()
   if((NOT Boost_FOUND) AND (NOT BOOST_FOUND))
-    message(FATAL_ERROR "Could not find Boost COMPONENTS program_options regex")
+    message(FATAL_ERROR "Could not find Boost COMPONENTS program_options regex system")
   endif()
 else()
-  find_package(Boost 1.41.0  REQUIRED program_options regex)
+  find_package(Boost 1.41.0  REQUIRED program_options regex system)
 endif()
 
 
