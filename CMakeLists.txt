@@ -8,11 +8,6 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
                               ${PROJECT_SOURCE_DIR}/CMake/common)
 
 include(GitExternal)
-include(Buildyard)
-
-if(BUILDYARD_STOP)
-  return()
-endif()
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
@@ -25,6 +20,11 @@ set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware r
 set(COMMON_PROJECT_DOMAIN ch.eyescale)
 
 include(Common)
+include(Buildyard)
+
+if(BUILDYARD_STOP)
+  return()
+endif()
 
 if(APPLE)
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
