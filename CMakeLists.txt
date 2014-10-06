@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(hwsd)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
-  ${PROJECT_SOURCE_DIR}/CMake/common)
+                              ${PROJECT_SOURCE_DIR}/CMake/common)
 
 include(GitExternal)
 include(Buildyard)
@@ -14,13 +14,11 @@ if(BUILDYARD_STOP)
   return()
 endif()
 
-set(LAST_RELEASE 1.1.0)
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
-set(VERSION_PATCH "0")
+set(VERSION_PATCH "1")
 set(VERSION_ABI 2)
 
-set(GITTARGETS_RELEASE_BRANCH minor)
 set(DPUT_HOST "ppa:bbp/ppa") # Target ppa used by 'make dput'
 
 set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
