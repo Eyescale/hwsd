@@ -1,5 +1,6 @@
 
-if(NOT LUNCHBOX_USE_DNSSD)
+if(NOT LUNCHBOX_USE_DNSSD AND NOT LUNCHBOX_USE_AVAHI_CLIENT)
+  message(STATUS "Warning: Lunchbox does not provide ZEROCONF, not building: hw_sd_list")
   return()
 endif()
 
