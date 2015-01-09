@@ -157,7 +157,7 @@ if(Boost_name)
   endif()
 endif()
 
-set(HWSD_BUILD_DEBS autoconf;automake;avahi-daemon;cmake;doxygen;git;git-review;libavahi-client-dev;libboost-filesystem-dev;libboost-program-options-dev;libboost-regex-dev;libboost-serialization-dev;libboost-system-dev;libboost-test-dev;libboost-thread-dev;libgl1-mesa-dev;libhwloc-dev;libjpeg-turbo8-dev;libleveldb-dev;libopenmpi-dev;libqt4-dev;libturbojpeg;libx11-dev;openmpi-bin;pkg-config;subversion)
+set(HWSD_BUILD_DEBS autoconf;automake;avahi-daemon;cmake;doxygen;git;git-review;libavahi-client-dev;libboost-filesystem-dev;libboost-program-options-dev;libboost-regex-dev;libboost-serialization-dev;libboost-system-dev;libboost-test-dev;libboost-thread-dev;libgl1-mesa-dev;libhwloc-dev;libleveldb-dev;libopenmpi-dev;libqt4-dev;libx11-dev;openmpi-bin;pkg-config;subversion)
 
 set(HWSD_DEPENDS OpenGL;Qt4;X11;Lunchbox;Boost)
 
