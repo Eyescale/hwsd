@@ -100,8 +100,8 @@ inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )
            << info.pvp[2] << ' ' << info.pvp[3] << ']' << std::endl;
     if( info.flags != 0 )
         os << "  Flags     "
-           << (info.flags&GPUInfo::FLAG_VIRTUALGL ? "VirtualGL" : "")
-           << (info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY ? "Display" : "")
+           << ((info.flags&GPUInfo::FLAG_VIRTUALGL) ? "VirtualGL" : "")
+           << ((info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY) ? "Display" : "")
            << std::endl;
     return os;
 }
