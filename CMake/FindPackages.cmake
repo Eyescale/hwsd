@@ -53,7 +53,7 @@ macro(COMMON_PACKAGE Name)
 endmacro()
 
 common_package(OpenGL    )
-common_package(Qt4 4.6   COMPONENTS QtNetwork)
+common_package(Qt4 4.6   COMPONENTS QtNetwork QtCore)
 common_package(X11    )
 common_package(Lunchbox 1.10  REQUIRED )
 common_package(Boost 1.41.0  REQUIRED COMPONENTS program_options regex system)
