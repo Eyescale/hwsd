@@ -21,7 +21,7 @@
 
 #include <boost/regex.hpp>
 
-#ifdef HWSD_USE_QT4
+#ifdef HWSD_USE_QT5NETWORK
 #  include <QtNetwork/QHostAddress>
 #endif
 
@@ -244,7 +244,7 @@ bool NetFilter::operator() ( const hwsd::NetInfos& current,
     if( impl_->type != NetInfo::TYPE_ALL && !( impl_->type & candidate.type ))
         return false;
 
-#ifdef HWSD_USE_QT4
+#ifdef HWSD_USE_QT5NETWORK
     QHostAddress address4( QString::fromStdString( candidate.inetAddress ));
     QHostAddress address6( QString::fromStdString( candidate.inet6Address ));
     bool isInSubnet = impl_->prefixes.empty();
