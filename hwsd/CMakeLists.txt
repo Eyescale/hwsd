@@ -36,5 +36,6 @@ common_library(hwsd)
 set_target_properties(hwsd PROPERTIES
   COMPILE_DEFINITIONS "HWSD_SHARED;HWSD_SHARED_INL")
 
+add_definitions(-DHWSD_SHARED)
 add_subdirectory(gpu)
 add_subdirectory(net)

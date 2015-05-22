@@ -2,25 +2,9 @@ if(NOT WIN32 OR NOT OPENGL_FOUND)
   return()
 endif()
 
-set(HEADERS
-  module.h
-)
+set(HWSD_GPU_WGL_PUBLIC_HEADERS module.h)
+set(HWSD_GPU_WGL_SOURCES module.cpp)
+set(HWSD_GPU_WGL_LINK_LIBRARIES ${OPENGL_gl_LIBRARY} hwsd)
 
-set(SOURCES
-  module.cpp
-)
-
-set(LIBRARY hwsd_gpu_wgl)
-set(INCLUDE include/hwsd/gpu/wgl)
-
-source_group(\\ FILES CMakeLists.txt ${HEADERS} ${SOURCES})
-add_library(${LIBRARY} SHARED ${HEADERS} ${SOURCES})
-target_link_libraries(${LIBRARY} ${OPENGL_gl_LIBRARY} hwsd)
-set_target_properties(${LIBRARY} PROPERTIES
-  VERSION ${VERSION} SOVERSION ${VERSION_MAJOR}
-  PUBLIC_HEADER "${HEADERS}" COMPILE_DEFINITIONS "HWSD_SHARED")
-install(TARGETS ${LIBRARY}
-  PUBLIC_HEADER DESTINATION ${INCLUDE} COMPONENT dev
-  ARCHIVE DESTINATION lib COMPONENT dev
-  RUNTIME DESTINATION bin COMPONENT lib
-  LIBRARY DESTINATION lib COMPONENT lib)
+set(PROJECT_INCLUDE_NAME hwsd/gpu/wgl)
+common_library(hwsd_gpu_wgl)

@@ -1,26 +1,10 @@
-set(HEADERS
-  module.h
-)
 
-set(SOURCES
-  module.cpp
-)
-
-set(LIBRARY hwsd_net_sys)
-set(INCLUDE include/hwsd/net/sys)
-
-source_group(\\ FILES CMakeLists.txt ${HEADERS} ${SOURCES})
-add_library(${LIBRARY} SHARED ${HEADERS} ${SOURCES})
+set(HWSD_NET_SYS_PUBLIC_HEADERS module.h)
+set(HWSD_NET_SYS_SOURCES module.cpp)
+set(HWSD_NET_SYS_LINK_LIBRARIES hwsd ${LUNCHBOX_LIBRARIES})
 if(WIN32)
-  target_link_libraries(${LIBRARY} hwsd ${LUNCHBOX_LIBRARIES} iphlpapi ws2_32)
-else()
-  target_link_libraries(${LIBRARY} hwsd ${LUNCHBOX_LIBRARIES})
+  list(APPEND HWSD_NET_SYS_LINK_LIBRARIES iphlpapi ws2_32)
 endif()
-set_target_properties(${LIBRARY} PROPERTIES
-  VERSION ${VERSION} SOVERSION ${VERSION_MAJOR}
-  PUBLIC_HEADER "${HEADERS}" COMPILE_DEFINITIONS "HWSD_SHARED")
-install(TARGETS ${LIBRARY}
-  PUBLIC_HEADER DESTINATION ${INCLUDE} COMPONENT dev
-  ARCHIVE DESTINATION lib COMPONENT dev
-  RUNTIME DESTINATION bin COMPONENT lib
-  LIBRARY DESTINATION lib COMPONENT lib)
+
+set(PROJECT_INCLUDE_NAME hwsd/net/sys)
+common_library(hwsd_net_sys)
