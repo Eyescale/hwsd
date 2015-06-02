@@ -26,7 +26,7 @@ namespace hwsd
 template<> GPUModule* GPUModule::stack_ = 0;
 template<> NetModule* NetModule::stack_ = 0;
 
-lunchbox::uint128_t nodeID_ = lunchbox::make_UUID();
+servus::uint128_t nodeID_ = servus::make_UUID();
 
 bool announceGPUInfos( const std::string& session )
 {
@@ -80,7 +80,7 @@ NetInfos discoverNetInfos( FilterPtr filter )
     return result;
 }
 
-const lunchbox::uint128_t& getLocalNodeID()
+const servus::uint128_t& getLocalNodeID()
 {
     return nodeID_;
 }

@@ -17,7 +17,7 @@
 
 #include <hwsd/nodeInfo.h>
 
-#include <lunchbox/servus.h>
+#include <servus/servus.h>
 
 #include <string>
 
@@ -52,7 +52,7 @@ public:
     {
         info.nodeName = host;
         if( !getValue( host, NODEID, info.id, true ))
-            info.id = lunchbox::make_uint128( info.nodeName.c_str( ));
+            info.id = servus::make_uint128( info.nodeName.c_str( ));
         getValue( host, NODENAME, info.nodeName, true );
         getValue( host, SESSION, info.session, true );
     }
@@ -121,7 +121,7 @@ public:
         service.set( string, out.str( ));
     }
 
-    lunchbox::Servus service;
+    servus::Servus service;
 
 private:
     std::string _resource;

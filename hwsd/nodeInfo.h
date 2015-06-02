@@ -20,7 +20,7 @@
 #define HWSD_NODEINFO_H
 
 #include <hwsd/api.h>
-#include <lunchbox/uint128_t.h>
+#include <servus/uint128_t.h>
 
 #include <ostream>
 
@@ -49,7 +49,7 @@ struct NodeInfo
     static std::string getLocalSession() { return "local"; }
 
     /** Random unique ID identifing the origin node. @version 1.0 */
-    lunchbox::uint128_t id;
+    servus::uint128_t id;
 
     /** System hostname if remote, empty for local. @version 1.0 */
     std::string nodeName;

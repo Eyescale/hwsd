@@ -136,8 +136,8 @@ GPUInfos Module::discover() const
     if( _impl->announcing )
         return infos[0];
 
-    lunchbox::Servus::Interface interfaces[2] = { lunchbox::Servus::IF_ALL,
-                                                  lunchbox::Servus::IF_LOCAL };
+    servus::Servus::Interface interfaces[2] = { servus::Servus::IF_ALL,
+                                                servus::Servus::IF_LOCAL };
 
     for( unsigned i = 0; i < 2; ++i )
     {
