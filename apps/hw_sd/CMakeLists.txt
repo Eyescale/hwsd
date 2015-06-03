@@ -1,6 +1,6 @@
 
-if(NOT LUNCHBOX_USE_DNSSD AND NOT LUNCHBOX_USE_AVAHI_CLIENT)
-  message(STATUS "Warning: Lunchbox does not provide ZEROCONF, not building: hw_sd")
+if(NOT SERVUS_USE_DNSSD AND NOT SERVUS_USE_AVAHI_CLIENT)
+  message(STATUS "Warning: Servus does not provide ZEROCONF, not building: hw_sd")
   return()
 endif()
 
@@ -9,8 +9,8 @@ include(InstallSymlink)
 set(HEADERS)
 set(SOURCES hw_sd.cpp)
 
-include_directories(${LUNCHBOX_INCLUDE_DIRS})
-list(APPEND LINK_LIBRARIES ${LUNCHBOX_LIBRARIES}
+include_directories(${SERVUS_INCLUDE_DIRS})
+list(APPEND LINK_LIBRARIES ${SERVUS_LIBRARIES} ${LUNCHBOX_LIBRARIES}
   hwsd_gpu_dns_sd hwsd_net_dns_sd hwsd_net_sys)
 
 if(Boost_FOUND)

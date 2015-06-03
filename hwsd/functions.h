@@ -50,7 +50,7 @@ HWSD_API NetInfos discoverNetInfos( FilterPtr filter =
                                     FilterPtr( new DuplicateFilter ));
 
 /** @return the local node identifier. @version 1.0 */
-HWSD_API const lunchbox::uint128_t& getLocalNodeID();
+HWSD_API const servus::uint128_t& getLocalNodeID();
 }
 
 #endif // HWSD_HWSD_H

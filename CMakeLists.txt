@@ -28,7 +28,7 @@ if(APPLE)
 endif()
 
 include(FindPackages)
-set(HWSD_DEPENDENT_LIBRARIES Lunchbox)
+set(HWSD_DEPENDENT_LIBRARIES Lunchbox Servus)
 
 add_subdirectory(apps)
 add_subdirectory(hwsd)
