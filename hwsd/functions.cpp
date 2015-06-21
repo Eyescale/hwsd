@@ -26,8 +26,6 @@ namespace hwsd
 template<> GPUModule* GPUModule::stack_ = 0;
 template<> NetModule* NetModule::stack_ = 0;
 
-servus::uint128_t nodeID_ = servus::make_UUID();
-
 bool announceGPUInfos( const std::string& session )
 {
     for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
@@ -82,6 +80,7 @@ NetInfos discoverNetInfos( FilterPtr filter )
 
 const servus::uint128_t& getLocalNodeID()
 {
+    static servus::uint128_t nodeID_ = servus::make_UUID();
     return nodeID_;
 }
 
