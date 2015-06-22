@@ -13,5 +13,5 @@ set(HWSD_GPU_GLX_PUBLIC_HEADERS module.h)
 set(HWSD_GPU_GLX_SOURCES module.cpp)
 set(HWSD_GPU_GLX_LINK_LIBRARIES ${OPENGL_gl_LIBRARY} ${X11_LIBRARIES} hwsd)
 
-set(PROJECT_INCLUDE_NAME hwsd/gpu/glx)
+set(HWSD_GPU_GLX_INCLUDE_NAME hwsd/gpu/glx)
 common_library(hwsd_gpu_glx)

@@ -14,5 +14,5 @@ if(WIN32)
     ${SERVUS_LIBRARIES} ${LUNCHBOX_LIBRARIES} ws2_32)
 endif()
 
-set(PROJECT_INCLUDE_NAME hwsd/net/dns_sd)
+set(HWSD_NET_DNS_SD_INCLUDE_NAME hwsd/net/dns_sd)
 common_library(hwsd_net_dns_sd)
