@@ -51,41 +51,36 @@ void Module::dispose()
 
 GPUInfos Module::discover() const
 {
-    GPUInfos result;
     CGDirectDisplayID displayIDs[MAX_GPUS];
     CGDisplayCount    nDisplays = 0;
 
     if( CGGetOnlineDisplayList( MAX_GPUS, displayIDs, &nDisplays ) !=
         kCGErrorSuccess )
     {
-        return result;
+        return GPUInfos();
     }
 
     const CGDirectDisplayID mainDisplayID = CGMainDisplayID();
-    std::deque< GPUInfo > infos;
     for( CGDisplayCount i = 0; i < nDisplays; ++i )
     {
+        if( displayIDs[i] != mainDisplayID )
+            continue;
+
         GPUInfo info( "CGL" );
         const CGRect displayRect = CGDisplayBounds( displayIDs[i] );
 
         info.device = i;
-        info.pvp[0] = int32_t(displayRect.origin.x);
-        info.pvp[1] = int32_t(displayRect.origin.y);
-        info.pvp[2] = int32_t(displayRect.size.width);
-        info.pvp[3] = int32_t(displayRect.size.height);
+        info.pvp[0] = int32_t( displayRect.origin.x );
+        info.pvp[1] = int32_t( displayRect.origin.y );
+        info.pvp[2] = int32_t( displayRect.size.width );
+        info.pvp[3] = int32_t( displayRect.size.height );
 
-        if( mainDisplayID == displayIDs[i] )
-            infos.push_front( info );
-        else
-            infos.push_back( info );
+        return GPUInfos( 1, info );
     }
 
-    result.resize( infos.size( ));
-    std::copy( infos.begin(), infos.end(), result.begin( ));
-    return result;
+    return GPUInfos();
 }
 
 }
 }
 }
-
