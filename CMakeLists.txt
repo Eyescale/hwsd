@@ -10,8 +10,8 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
 include(GitExternal)
 
 set(VERSION_MAJOR "1")
-set(VERSION_MINOR "1")
-set(VERSION_PATCH "1")
+set(VERSION_MINOR "2")
+set(VERSION_PATCH "0")
 set(VERSION_ABI 2)
 
 include(Common)
@@ -34,5 +34,7 @@ add_subdirectory(apps)
 add_subdirectory(hwsd)
 add_subdirectory(doc)
 
+set(DOXYGEN_MAINPAGE_MD ${PROJECT_SOURCE_DIR}/README.md)
+set(DOXYGEN_EXTRA_INPUT ${DOXYGEN_MAINPAGE_MD})
 include(CPackConfig)
 include(DoxygenRule)
