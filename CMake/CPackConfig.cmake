@@ -1,11 +1,10 @@
-# Copyright (c) 2010 Daniel Pfeifer <daniel@pfeifer-mail.de>
-#               2010-2013 Stefan Eilemann <eile@eyescale.ch>
-# Info: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
+# Copyright (c) 2010-2015 Stefan Eilemann <eile@eyescale.ch>
+#                         Daniel Pfeifer <daniel@pfeifer-mail.de>
 
 set(CPACK_PACKAGE_VENDOR "www.eyescale.ch")
 set(CPACK_PACKAGE_CONTACT "Raphael Dumusc <raphael.dumusc@epfl.ch>")
-set(CPACK_PACKAGE_DESCRIPTION_FILE ${PROJECT_SOURCE_DIR}/doc/RelNotes.md)
-set(CPACK_RESOURCE_FILE_README ${PROJECT_SOURCE_DIR}/doc/RelNotes.md)
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${DOXYGEN_MAINPAGE_MD})
+set(CPACK_RESOURCE_FILE_README ${DOXYGEN_MAINPAGE_MD})
 set(CPACK_PACKAGE_LICENSE "LGPL")
 
 set(CPACK_DEBIAN_BUILD_DEPENDS
