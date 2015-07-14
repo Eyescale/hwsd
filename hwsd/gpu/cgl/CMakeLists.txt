@@ -8,5 +8,5 @@ set(HWSD_GPU_CGL_PUBLIC_HEADERS module.h)
 set(HWSD_GPU_CGL_SOURCES module.cpp)
 set(HWSD_GPU_CGL_LINK_LIBRARIES ${CARBON_LIBRARY} ${OPENGL_gl_LIBRARY} hwsd)
 
-set(PROJECT_INCLUDE_NAME hwsd/gpu/cgl)
+set(HWSD_GPU_CGL_INCLUDE_NAME hwsd/gpu/cgl)
 common_library(hwsd_gpu_cgl)

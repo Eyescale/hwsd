@@ -15,5 +15,5 @@ if(WIN32)
     ${SERVUS_LIBRARIES} ${LUNCHBOX_LIBRARIES} ws2_32)
 endif()
 
-set(PROJECT_INCLUDE_NAME hwsd/gpu/dns_sd)
+set(HWSD_GPU_DNS_SD_INCLUDE_NAME hwsd/gpu/dns_sd)
 common_library(hwsd_gpu_dns_sd)

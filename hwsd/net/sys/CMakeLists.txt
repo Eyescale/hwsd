@@ -6,5 +6,5 @@ if(WIN32)
   list(APPEND HWSD_NET_SYS_LINK_LIBRARIES iphlpapi ws2_32)
 endif()
 
-set(PROJECT_INCLUDE_NAME hwsd/net/sys)
+set(HWSD_NET_SYS_INCLUDE_NAME hwsd/net/sys)
 common_library(hwsd_net_sys)

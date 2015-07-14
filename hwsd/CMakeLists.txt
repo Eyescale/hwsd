@@ -2,7 +2,6 @@
 source_group(\\ FILES CMakeLists.txt)
 
 set(HWSD_PUBLIC_HEADERS # public, installed
-  ${COMMON_INCLUDES}
   filter.h
   functions.h
   module.h
@@ -18,7 +17,6 @@ set(HWSD__HEADERS # private, not installed
 )
 
 set(HWSD_SOURCES
-  ${COMMON_SOURCES}
   filter.cpp
   functions.cpp
   netInfo.cpp

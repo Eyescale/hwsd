@@ -21,13 +21,20 @@ set(DPUT_HOST "ppa:bbp/ppa") # Target ppa used by 'make dput'
 set(COMMON_PROJECT_DOMAIN ch.eyescale)
 set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
 
-
 if(APPLE)
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
   list(INSERT CMAKE_PREFIX_PATH 0 /usr/X11R6)
 endif()
 
-include(FindPackages)
+common_package(Boost REQUIRED COMPONENTS program_options regex system)
+common_package(Lunchbox REQUIRED)
+common_package(OpenGL)
+common_package(Qt5Core)
+common_package(Qt5Network)
+common_package(Servus REQUIRED)
+common_package(X11)
+common_package_post()
+
 set(HWSD_DEPENDENT_LIBRARIES Lunchbox Servus)
 
 add_subdirectory(apps)
