@@ -21,7 +21,6 @@ else()
     "boost::program_options missing, command line options not available")
 endif()
 
-source_group(\\ FILES ${SOURCES} ${HEADERS})
 add_executable(hw_sd ${SOURCES} ${HEADERS})
 target_link_libraries(hw_sd ${LINK_LIBRARIES})
 install(TARGETS hw_sd DESTINATION bin COMPONENT daemon)
