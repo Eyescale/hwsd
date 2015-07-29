@@ -140,6 +140,10 @@ to discard information. The following filters are provided:
 
 # Changes {#Changes}
 
+## git master {#master}
+
+* [43](https://github.com/Eyescale/hwsd/pull/43): OS X: Fix GLX detection
+
 ## Version 1.2 (7-Jun-2015) {#Changes12}
 
 * [38](https://github.com/Eyescale/hwsd/pull/38): OS X: only find main

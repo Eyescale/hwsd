@@ -125,12 +125,17 @@ GPUInfos Module::discover() const
         const std::string display( displayEnv );
         if( queryDisplay_( display, defaultInfo ))
         {
-            if( display[0] != ':' && display[0] != '/' /* OS X launchd */ )
+            if( display[0] != ':' )
             {
                 defaultInfo.port = GPUInfo::defaultValue;
                 defaultInfo.device = GPUInfo::defaultValue;
             }
             result.push_back( defaultInfo );
+#ifdef __APPLE__
+            // OS X only has one X server, but launchd magic makes duplicate
+            // detection hard
+            return result;
+#endif
         }
     }
 
