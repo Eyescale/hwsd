@@ -53,7 +53,7 @@ struct GPUInfo : public NodeInfo
      * @param name the type of the GPU.
      * @version 1.0
      */
-    HWSD_API GPUInfo( const std::string& name );
+    HWSD_API explicit GPUInfo( const std::string& name );
 
     /** Invalidate the pixel viewport. @version 1.0 */
     HWSD_API void invalidatePVP();
