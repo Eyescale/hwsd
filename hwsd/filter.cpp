@@ -133,7 +133,7 @@ namespace detail
 class SessionFilter
 {
 public:
-    SessionFilter( const std::string& name ) : name_( name ) {}
+    explicit SessionFilter( const std::string& name ) : name_( name ) {}
 
     const std::string& name_;
 };
@@ -168,7 +168,7 @@ namespace detail
 class GPUFilter
 {
 public:
-    GPUFilter( const std::string& regex_ )
+    explicit GPUFilter( const std::string& regex_ )
     {
 #ifdef HWSD_USE_BOOST
         if( !regex_.empty( ))
