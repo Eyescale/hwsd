@@ -6,11 +6,10 @@ endif()
 
 include(InstallSymlink)
 
-set(HEADERS)
 set(SOURCES hw_sd.cpp)
 
 include_directories(${SERVUS_INCLUDE_DIRS})
-list(APPEND LINK_LIBRARIES ${SERVUS_LIBRARIES} ${LUNCHBOX_LIBRARIES}
+list(APPEND LINK_LIBRARIES Servus Lunchbox
   hwsd_gpu_dns_sd hwsd_net_dns_sd hwsd_net_sys)
 
 if(Boost_FOUND)
@@ -21,7 +20,7 @@ else()
     "boost::program_options missing, command line options not available")
 endif()
 
-add_executable(hw_sd ${SOURCES} ${HEADERS})
+add_executable(hw_sd ${SOURCES})
 target_link_libraries(hw_sd ${LINK_LIBRARIES})
 install(TARGETS hw_sd DESTINATION bin COMPONENT daemon)
 install_symlink(FROM hw_sd TO gpu_sd WORKING_DIRECTORY bin COMPONENT daemon)
