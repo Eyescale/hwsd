@@ -24,10 +24,10 @@ set(HWSD_SOURCES
   gpuInfo.cpp
 )
 
-set(HWSD_LINK_LIBRARIES ${LUNCHBOX_LIBRARIES} ${Boost_REGEX_LIBRARY})
+set(HWSD_LINK_LIBRARIES PUBLIC Lunchbox Servus PRIVATE ${Boost_REGEX_LIBRARY})
 
 if(Qt5Network_FOUND)
-  list(APPEND HWSD_LINK_LIBRARIES ${Qt5Network_LIBRARIES})
+  list(APPEND HWSD_LINK_LIBRARIES Qt5::Network)
 endif()
 
 common_library(hwsd)

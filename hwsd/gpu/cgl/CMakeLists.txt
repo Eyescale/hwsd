@@ -6,7 +6,8 @@ find_library(CARBON_LIBRARY Carbon)
 
 set(HWSD_GPU_CGL_PUBLIC_HEADERS module.h)
 set(HWSD_GPU_CGL_SOURCES module.cpp)
-set(HWSD_GPU_CGL_LINK_LIBRARIES ${CARBON_LIBRARY} ${OPENGL_gl_LIBRARY} hwsd)
+set(HWSD_GPU_CGL_LINK_LIBRARIES
+  PUBLIC hwsd PRIVATE ${CARBON_LIBRARY} ${OPENGL_gl_LIBRARY})
 
 set(HWSD_GPU_CGL_INCLUDE_NAME hwsd/gpu/cgl)
 common_library(hwsd_gpu_cgl)
