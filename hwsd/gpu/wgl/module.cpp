@@ -37,7 +37,9 @@ static Module* instance = 0;
 DECLARE_HANDLE(HGPUNV);
 typedef struct _GPU_DEVICE {
   DWORD cb;
+  // cppcheck-suppress unusedStructMember
   CHAR DeviceName[32];
+  // cppcheck-suppress unusedStructMember
   CHAR DeviceString[128];
   DWORD Flags;
   RECT rcVirtualScreen;
