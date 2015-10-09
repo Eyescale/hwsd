@@ -79,6 +79,9 @@ static bool getGPUInfo_( Display* display, GPUInfo& info )
             info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
     }
 
+    if ( XQueryExtension( display, "VNC-EXTENSION", &major, &event, &error ))
+        info.flags |= GPUInfo::FLAG_VNC;
+
     return true;
 }
 

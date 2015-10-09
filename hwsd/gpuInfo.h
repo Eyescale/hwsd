@@ -41,6 +41,11 @@ struct GPUInfo : public NodeInfo
     /** VirtualGL redirect GPU. @version 1.1.2 */
     static const unsigned FLAG_VIRTUALGL_DISPLAY = 0x2;
 
+    /** Virtual device provided by a VNC X server.
+        Detection looks for the X extension VNC-EXTENSION
+	@version 1.2.1 */
+    static const unsigned FLAG_VNC = 0x4;
+
     /** Default constructor pointing to the default display. @version 1.0 */
     HWSD_API GPUInfo();
 
