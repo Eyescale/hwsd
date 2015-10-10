@@ -23,7 +23,7 @@ set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware r
 
 if(APPLE)
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
-  list(INSERT CMAKE_PREFIX_PATH 0 /usr/X11R6)
+  list(INSERT CMAKE_PREFIX_PATH 0 /usr/X11R6 /usr/X11)
 endif()
 
 common_package(Boost REQUIRED COMPONENTS program_options regex system)
