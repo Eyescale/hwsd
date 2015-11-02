@@ -10,16 +10,18 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
 include(GitExternal)
 
 set(VERSION_MAJOR "1")
-set(VERSION_MINOR "2")
-set(VERSION_PATCH "1")
-set(VERSION_ABI 2)
+set(VERSION_MINOR "3")
+set(VERSION_PATCH "0")
+set(VERSION_ABI 3)
 
 include(Common)
 
 set(DPUT_HOST "ppa:bbp/ppa") # Target ppa used by 'make dput'
 
 set(COMMON_PROJECT_DOMAIN ch.eyescale)
-set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
+set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources")
+set(HWSD_MAINTAINER "Stefan Eilemann <eile@eyescale.ch>")
+set(HWSD_LICENSE LGPL)
 
 if(APPLE)
   # WAR otherwise MacPorts X11 (/opt/local) is preferred
@@ -41,7 +43,7 @@ add_subdirectory(apps)
 add_subdirectory(hwsd)
 add_subdirectory(doc)
 
-set(DOXYGEN_MAINPAGE_MD ${PROJECT_SOURCE_DIR}/README.md)
-set(DOXYGEN_EXTRA_INPUT ${DOXYGEN_MAINPAGE_MD})
+set(DOXYGEN_MAINPAGE_MD README.md)
+set(DOXYGEN_EXTRA_INPUT ${PROJECT_SOURCE_DIR}/README.md)
+include(DoxygenRule) # must be after all targets
 include(CPackConfig)
-include(DoxygenRule)
