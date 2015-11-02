@@ -1,6 +1,6 @@
-# Hardware Service Discovery {#hwsd}
-
 [TOC]
+
+# Hardware Service Discovery {#hwsd}
 
 HW-SD is a library and daemon for the discovery and announcement of
 hardware resources using ZeroConf. It enables auto-configuration
@@ -10,12 +10,11 @@ The source code is hosted on
 [github](https://github.com/Eyescale/hwsd) and documented on
 [eyescale.github.io](https://eyescale.github.io/#hwsd).
 
-# Modules {#Modules}
+## Modules {#Modules}
 
-The HW-SD library uses modules which implement discovery using
-different protocols. Each module is a separate library, which can be
-selectively linked by applications, which limits dependencies. Currently
-available are:
+The HW-SD library uses modules which implement discovery using different
+protocols. Each module is a separate library, which can be selectively
+linked by applications to limit dependencies. Currently available are:
 
 - gpu_dns_sd: Remote ZeroConf (Bonjour) discovery for GPUs announced by
   the daemon
@@ -35,11 +34,11 @@ FLAG\_VIRTUALGL\_DISPLAY on the GPU used by VirtualGL for
 redirection. This is only implemented for GLX so far
 ([more info](https://github.com/Eyescale/Equalizer/issues/67)).
 
-# Announcement Daemon {#Daemon}
+## Announcement Daemon {#Daemon}
 
 The daemon uses all available local modules to query local GPUs and
 network interfaces to announce them using ZeroConf to the local
-network. The service type name is "_gpu-sd" and "_net_sd". The dns_sd
+network. The service type name is "_gpu-sd" and "_net-sd". The dns_sd
 discovery module gathers the information announced by all daemons on the
 local network. The following protocol is used by the daemon:
 
@@ -68,7 +67,7 @@ local network. The following protocol is used by the daemon:
 * Net&lt;integer&gt; Linkspeed=&lt;integer&gt; // in Megabits per second
 * Net&lt;integer&gt; Up=&lt;bool&gt;
 
-# Building from Source {#Build}
+## Building from Source {#Build}
 
 HWSD is a cross-platform library, designed to run on any modern
 operating system, including all Unix variants and the Windows operating
@@ -76,16 +75,15 @@ system.  Zeroconf support in Lunchbox is required for the DNS_SD module
 and applications. The following platforms and build environments are
 tested:
 
-* Linux: Ubuntu 14.04, RHEL 6.5 (Makefile, i386, x64)
+* Linux: Ubuntu 14.04, RHEL 6.6 (Makefile, i386, x64)
 * Windows: 7 (Visual Studio 2008, i386, x64)
 * Mac OS X: 10.8 (Makefile, i386, x64)
 
 The build system is using CMake, with the standard CMake build process:
 
     git clone https://github.com/Eyescale/hwsd.git
-    cd hwsd
-    mkdir build
-    cd build
+    mkdir hwsd/build
+    cd hwsd/build
     cmake ..
     make
 
@@ -97,13 +95,12 @@ Ubuntu), on Windows use the
 If no ZeroConf implementation is found, HW-SD is only compiled with
 local discovery modules.
 
-# Bugs {#Bugs}
+## Bugs {#Bugs}
 
-No bugs were known at release time. Please file a
-[Bug Report](https://github.com/Eyescale/hwsd/issues)
-if you find any issue with this release.
+Please file a [Bug Report](https://github.com/Eyescale/hwsd/issues) if
+you find any issue with this software.
 
-# Usage {#Usage}
+## Usage {#Usage}
 
 An application can use the discovery by linking the relevant module
 libraries, instantiating the modules in the code and then quering the
@@ -127,32 +124,3 @@ to discard information. The following filters are provided:
 * MirrorFilter eliminates the same GPU with a different type, e.g., when
   enabling both the cgl and glx module on Mac OS X.
 * SessionFilter discards all resources not belonging to a given session
-
-# Projects using HW-SD {#Projects}
-
-* [Equalizer](http://www.equalizergraphics.com) parallel rendering
-  framework. ([source](https://github.com/Eyescale/Equalizer/blob/master/libs/eq/server/config/resources.cpp#L61))
-
-# Further Links {#Links}
-
-* [Unimplemented Features](https://github.com/Eyescale/hwsd/issues?labels=Feature)
-* [Known Bugs](https://github.com/Eyescale/hwsd/issues?labels=Bug)
-
-# Changes {#Changes}
-
-## git master {#master}
-
-* [43](https://github.com/Eyescale/hwsd/pull/43): OS X: Fix GLX detection
-
-## Version 1.2 (7-Jun-2015) {#Changes12}
-
-* [38](https://github.com/Eyescale/hwsd/pull/38): OS X: only find main
-  display in hwsd_gpu_cgl module
-* [37](https://github.com/Eyescale/hwsd/pull/37): MSVC: Fix static init deadlock
-* [33](https://github.com/Eyescale/hwsd/pull/33): Port to Qt5
-
-## Version 1.1 (7-Oct-2014) {#Changes11}
-
-* Allow filtering of unknown connections
-* Adapted to latest Lunchbox code base
-* Reduce mdns browse time to 50ms
