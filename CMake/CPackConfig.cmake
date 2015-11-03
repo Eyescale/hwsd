@@ -13,7 +13,7 @@ set(CPACK_MACPORTS_CATEGORY graphics)
 set(CPACK_MACPORTS_DEPENDS boost qt4-mac-devel Lunchbox)
 
 # components
-set(CPACK_COMPONENTS_ALL dev lib tools daemon examples)
+set(CPACK_COMPONENTS_ALL dev lib apps examples)
 
 set(CPACK_COMPONENT_LIB_DISPLAY_NAME "HW-SD libraries")
 set(CPACK_COMPONENT_LIB_DESCRIPTION
@@ -24,13 +24,9 @@ set(CPACK_COMPONENT_DEV_DESCRIPTION
   "HW-SD header and library files for development")
 set(CPACK_COMPONENT_DEV_DEPENDS lib)
 
-set(CPACK_COMPONENT_DAEMON_DISPLAY_NAME "HW-SD ZeroConf daemon")
-set(CPACK_COMPONENT_DAEMON_DESCRIPTION "HW-SD ZeroConf announcement daemon")
-set(CPACK_COMPONENT_DAEMON_DEPENDS lib)
-
-set(CPACK_COMPONENT_TOOLS_DISPLAY_NAME "HW-SD helper applications")
-set(CPACK_COMPONENT_TOOLS_DESCRIPTION "HW-SD Helper applications")
-set(CPACK_COMPONENT_TOOLS_DEPENDS lib)
+set(CPACK_COMPONENT_APPS_DISPLAY_NAME "HW-SD ZeroConf applications")
+set(CPACK_COMPONENT_APPS_DESCRIPTION "HW-SD ZeroConf applications")
+set(CPACK_COMPONENT_APPS_DEPENDS lib)
 
 set(CPACK_COMPONENT_EXAMPLES_DISPLAY_NAME "HW-SD Examples")
 set(CPACK_COMPONENT_EXAMPLES_DESCRIPTION "HW-SD Example Source Code")
