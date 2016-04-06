@@ -1,6 +1,4 @@
 
-source_group(\\ FILES CMakeLists.txt)
-
 set(HWSD_PUBLIC_HEADERS # public, installed
   filter.h
   functions.h

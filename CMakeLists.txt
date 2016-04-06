@@ -1,18 +1,19 @@
 
 # Copyright (c) 2011-2015 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
 
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(hwsd)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+project(hwsd VERSION 1.3.0)
+set(hwsd_VERSION_ABI 3)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
   ${CMAKE_SOURCE_DIR}/CMake/common)
 
 include(GitExternal)
 
-set(VERSION_MAJOR "1")
-set(VERSION_MINOR "3")
-set(VERSION_PATCH "0")
-set(VERSION_ABI 3)
+set(HWSD_DEB_DEPENDS libx11-dev libgl1-mesa-dev qtbase5-dev
+  libboost-program-options-dev libboost-regex-dev
+  libboost-system-dev)
+set(HWSD_PORT_DEPENDS boost qt5)
 
 include(Common)
 
@@ -28,19 +29,20 @@ if(APPLE)
   list(INSERT CMAKE_PREFIX_PATH 0 /usr/X11R6 /usr/X11)
 endif()
 
-common_package(Boost REQUIRED COMPONENTS program_options regex system)
-common_package(Lunchbox REQUIRED)
-common_package(OpenGL)
-common_package(Qt5Core)
-common_package(Qt5Network)
-common_package(Servus REQUIRED)
-common_package(X11)
-common_package_post()
+common_find_package(Boost REQUIRED COMPONENTS program_options regex system)
+common_find_package(Lunchbox REQUIRED)
+common_find_package(OpenGL)
+common_find_package(Qt5Core)
+common_find_package(Qt5Network)
+common_find_package(Servus REQUIRED)
+common_find_package(X11)
+common_find_package_post()
 
 set(HWSD_DEPENDENT_LIBRARIES Lunchbox Servus)
 
 add_subdirectory(apps)
 add_subdirectory(hwsd)
+add_subdirectory(tests)
 add_subdirectory(doc)
 
 set(DOXYGEN_MAINPAGE_MD README.md)
