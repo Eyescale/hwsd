@@ -223,7 +223,7 @@ public:
         , type( type_ )
     {}
 
-    const lunchbox::Strings& prefixes;
+    const lunchbox::Strings prefixes;
     const uint32_t type;
 };
 }
