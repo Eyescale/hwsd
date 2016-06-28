@@ -22,6 +22,7 @@
 #include <hwsd/gpuInfo.h>
 #include <hwsd/gpu/dns_sd/module.h>
 #include <hwsd/netInfo.h>
+#include <hwsd/version.h>
 #include <hwsd/net/dns_sd/module.h>
 #include <hwsd/net/sys/module.h>
 #ifdef HWSD_GPU_CGL
@@ -36,8 +37,60 @@
 
 #include <lunchbox/file.h>
 
-int main (int, const char * argv[])
+#ifdef HWSD_USE_BOOST
+#  pragma warning( disable: 4275 )
+#  include <boost/program_options/options_description.hpp>
+#  include <boost/program_options/parsers.hpp>
+#  include <boost/program_options/variables_map.hpp>
+#  pragma warning( default: 4275 )
+   namespace arg = boost::program_options;
+#endif
+
+int main( int argc, const char * argv[] )
 {
+    std::string session;
+
+#ifdef HWSD_USE_BOOST
+    const std::string applicationName = "Hardware service discovery browser";
+    arg::variables_map vm;
+
+    arg::options_description desc( applicationName );
+    desc.add_options()
+        ( "help", "output this help message" )
+        ( "version,v", "print version" )
+        ( "session,s", arg::value< std::string >()->default_value( session ),
+          "filter results by session name" );
+    try
+    {
+        arg::store( arg::parse_command_line( argc, argv, desc ), vm );
+        arg::notify( vm );
+    }
+    catch( ... )
+    {
+        std::cout << desc << std::endl;
+        return EXIT_FAILURE;
+    }
+    if( vm.count( "help" ))
+    {
+        std::cout << desc << std::endl;
+        return EXIT_SUCCESS;
+    }
+    if( vm.count( "version" ))
+    {
+        std::cout << applicationName << " " << hwsd::Version::getString()
+                  << "\n" << std::endl;
+        return EXIT_SUCCESS;
+    }
+
+    if( vm.count( "session" ))
+        session = vm["session"].as< std::string >();
+
+#else
+    if( argc > 1 )
+        std::cerr << "Ignoring command line options, compiled without "
+                  << "boost::program_options support" << std::endl;
+#endif
+
     const std::string& executable = lunchbox::getFilename( argv[0] );
 
     if( executable != "net_sd_list" && executable != "gpu_sd_list" )
@@ -54,10 +107,14 @@ int main (int, const char * argv[])
         hwsd::net::sys::Module::use();
     }
 
+    hwsd::FilterPtr filter( new hwsd::DuplicateFilter );
+    if( !session.empty( ))
+        filter = *filter | new hwsd::SessionFilter( session );
+
     if( executable != "net_sd_list" )
     {
         hwsd::gpu::dns_sd::Module::use();
-        const hwsd::GPUInfos& gpus = hwsd::discoverGPUInfos();
+        const hwsd::GPUInfos& gpus = hwsd::discoverGPUInfos( filter );
         for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
             std::cout << *i << std::endl;
     }
@@ -65,7 +122,7 @@ int main (int, const char * argv[])
     if( executable != "gpu_sd_list" )
     {
         hwsd::net::dns_sd::Module::use();
-        const hwsd::NetInfos& nets = hwsd::discoverNetInfos();
+        const hwsd::NetInfos& nets = hwsd::discoverNetInfos( filter );
         for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
             std::cout << *i << std::endl;
     }

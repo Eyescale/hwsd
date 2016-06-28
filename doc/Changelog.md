@@ -2,6 +2,9 @@
 
 # git master
 
+* [49](https://github.com/Eyescale/hwsd/pull/47): Added a command line options
+  to hw_sd_list. Now results can be filtered by session name.
+
 # Version 1.3 (2-Nov-2015)
 
 * [47](https://github.com/Eyescale/hwsd/pull/47): Added a flag to GPU
