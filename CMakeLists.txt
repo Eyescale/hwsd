@@ -2,7 +2,7 @@
 # Copyright (c) 2011-2015 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-project(hwsd VERSION 1.3.1)
+project(hwsd VERSION 1.4.0)
 set(hwsd_VERSION_ABI 3)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
