@@ -85,9 +85,9 @@ struct NetInfo : public NodeInfo
 
 inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
 {
-    os << "NetInfo\n" << static_cast< const NodeInfo& >( info );
-        os << "  Type      " << info.getType() << std::endl;
-        os << "  Status    " << (info.up ? "UP" : "DOWN") << std::endl;
+    os << "NetInfo\n" << static_cast< const NodeInfo& >( info )
+       << "  Type      " << info.getType() << std::endl
+       << "  Status    " << (info.up ? "UP" : "DOWN") << std::endl;
     if( !info.name.empty( ))
         os << "  Name      " << info.name << std::endl;
     if( !info.hostname.empty( ))
@@ -100,7 +100,6 @@ inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
         os << "  IPv6      " << info.inet6Address << std::endl;
     if( info.linkspeed != NetInfo::defaultValue )
         os << "  Linkspeed " << info.linkspeed << "Mbps" << std::endl;
-
     return os;
 }
 }
