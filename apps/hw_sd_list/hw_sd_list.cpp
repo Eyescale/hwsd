@@ -109,7 +109,7 @@ int main( int argc, const char * argv[] )
 
     hwsd::FilterPtr filter( new hwsd::DuplicateFilter );
     if( !session.empty( ))
-        filter = *filter | new hwsd::SessionFilter( session );
+        filter = filter | new hwsd::SessionFilter( session );
 
     if( executable != "net_sd_list" )
     {
