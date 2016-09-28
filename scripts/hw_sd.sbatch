@@ -37,7 +37,7 @@ def launch( command ):
 
 nodes = getNodelist()
 arguments = sys.argv
-arguments[0] = 'gpu_sd'
+arguments[0] = 'hw_sd'
 command = ' '.join( arguments )
 
 threads = []
@@ -49,4 +49,3 @@ for node in nodes:
 
 for thread in threads:
     thread.join()
-
