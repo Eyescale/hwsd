@@ -135,7 +135,7 @@ class SessionFilter
 public:
     explicit SessionFilter( const std::string& name ) : name_( name ) {}
 
-    const std::string& name_;
+    const std::string name_;
 };
 }
 

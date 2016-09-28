@@ -1,7 +1,10 @@
 # Changelog {#Changelog}
 
+
 # git master
 
+* [55](https://github.com/Eyescale/hwsd/pull/55): Fix memory corruption
+  with SessionFilter
 * [49](https://github.com/Eyescale/hwsd/pull/47): Added a command line options
   to hw_sd_list. Now results can be filtered by session name.
 
