@@ -107,13 +107,11 @@ bool Module::announce( const std::string& session ) const
         // GPU<integer> Type=GLX | WGL | WGLn | CGL
         _impl->setValue( index, GPUTYPE, info.getName( ));
 
-        if( info.port != GPUInfo::defaultValue )
-            // GPU<integer> Port=<integer> // X11 display number, 0 otherwise
-            _impl->setValue( index, GPUPORT, info.port );
+        // GPU<integer> Port=<integer> // X11 display number, 0 otherwise
+        _impl->setValue( index, GPUPORT, info.port );
 
-        if( info.device != GPUInfo::defaultValue )
-            // GPU<integer> Device=<integer> // X11 display number, 0 otherwise
-            _impl->setValue( index, GPUDEVICE, info.device );
+        // GPU<integer> Device=<integer> // X11 display number, 0 otherwise
+        _impl->setValue( index, GPUDEVICE, info.device );
 
         if( info.pvp[2] > 0 && info.pvp[3] > 0 )
         {
