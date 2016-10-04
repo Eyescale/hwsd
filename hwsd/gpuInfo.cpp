@@ -21,8 +21,8 @@ namespace hwsd
 {
     GPUInfo::GPUInfo()
         : type( 0 )
-        , port( defaultValue )
-        , device( defaultValue )
+        , port( 0 )
+        , device( 0 )
         , flags( 0 )
         , unused( 0 )
     {
@@ -31,8 +31,8 @@ namespace hwsd
 
     GPUInfo::GPUInfo( const std::string& name )
         : type( 0 )
-        , port( defaultValue )
-        , device( defaultValue )
+        , port( 0 )
+        , device( 0 )
         , flags( 0 )
         , unused( 0 )
     {

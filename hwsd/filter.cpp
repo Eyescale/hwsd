@@ -116,6 +116,7 @@ bool MirrorFilter::operator() ( const GPUInfos& current,
         const GPUInfo& info = *i;
         if( info.id == candidate.id &&
             info.session == candidate.session &&
+            info.port == candidate.port &&
             info.device == candidate.device &&
             info.pvp[0] == candidate.pvp[0] && info.pvp[1] == candidate.pvp[1] )
         {

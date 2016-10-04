@@ -32,9 +32,6 @@ namespace hwsd
 /** A structure containing GPU-specific information. */
 struct GPUInfo : public NodeInfo
 {
-    /** A non-enumerated port or device. @version 1.0 */
-    static const unsigned defaultValue = UINT_MAX;
-
     /** Process runs under VirtualGL. @version 1.1.2 */
     static const unsigned FLAG_VIRTUALGL = 0x1;
 
@@ -46,14 +43,23 @@ struct GPUInfo : public NodeInfo
 	@version 1.2.1 */
     static const unsigned FLAG_VNC = 0x4;
 
-    /** Default constructor pointing to the default display. @version 1.0 */
+    /** Default GPU pointed by the DISPLAY variable (GLX only). */
+    static const unsigned FLAG_DEFAULT = 0x8;
+
+
+    /** Default constructor.
+
+        Port and device have undefined values in the initial state.
+        @version 2.0 */
     HWSD_API GPUInfo();
 
     /**
-     * Constructor pointing to default display of a specific GPU type.
+     * Constructor taking a specific GPU type.
      *
      * The information name is a type code of four characters. The passed string
      * is formatted accordingly.
+     *
+     * Port and device have undefined values in the initial state.
      *
      * @param name the type of the GPU.
      * @version 1.0
@@ -96,10 +102,8 @@ inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )
     os << "GPUInfo\n" << static_cast< const NodeInfo& >( info );
     if( !info.getName().empty( ))
         os << "  Type      " << info.getName() << std::endl;
-    if( info.port != GPUInfo::defaultValue )
-        os << "  Port      " << info.port << std::endl;
-    if( info.device != GPUInfo::defaultValue )
-        os << "  Device    " << info.device << std::endl;
+    os << "  Port      " << info.port << std::endl;
+    os << "  Device    " << info.device << std::endl;
     if( info.pvp[2] >0 && info.pvp[3] > 0 )
         os << "  Viewport  [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
            << info.pvp[2] << ' ' << info.pvp[3] << ']' << std::endl;

@@ -128,11 +128,7 @@ GPUInfos Module::discover() const
         const std::string display( displayEnv );
         if( queryDisplay_( display, defaultInfo ))
         {
-            if( display[0] != ':' )
-            {
-                defaultInfo.port = GPUInfo::defaultValue;
-                defaultInfo.device = GPUInfo::defaultValue;
-            }
+            defaultInfo.flags = GPUInfo::FLAG_DEFAULT;
             result.push_back( defaultInfo );
 #ifdef __APPLE__
             // OS X only has one X server, but launchd magic makes duplicate
@@ -156,7 +152,7 @@ GPUInfos Module::discover() const
                 if( info != defaultInfo )
                     result.push_back( info );
             }
-            else if( j == 0 && i >= TRY_PORTS )
+            else if( j == 0 && i > TRY_PORTS )
                 // X Server does not exist, stop query
                 return result;
             else // X Screen does not exist, try next server
