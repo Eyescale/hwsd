@@ -1,9 +1,11 @@
-# Changelog {#Changelog}
-
+Changelog {#Changelog}
+=========
 
 # git master
 
-* [56](https://github.com/Eyescale/hwsd/pull/55):
+# Release 2.0 (09-12-2016)
+
+* [56](https://github.com/Eyescale/hwsd/pull/56):
   - Added a new flag to GPUInfo to identify which is the default display under X.
   - Removed GPUInfo::defaultValue.
   - GPU filter fixed to also consider the port numbers.
@@ -11,7 +13,7 @@
     virtual displays.
 * [55](https://github.com/Eyescale/hwsd/pull/55): Fix memory corruption
   with SessionFilter
-* [49](https://github.com/Eyescale/hwsd/pull/47): Added a command line options
+* [54](https://github.com/Eyescale/hwsd/pull/54): Added a command line options
   to hw_sd_list. Now results can be filtered by session name.
 
 # Version 1.3 (2-Nov-2015)
