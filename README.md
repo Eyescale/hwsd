@@ -1,6 +1,4 @@
-[TOC]
-
-# Hardware Service Discovery {#hwsd}
+# Hardware Service Discovery
 
 HW-SD is a library and daemon for the discovery and announcement of
 hardware resources using ZeroConf. It enables auto-configuration
@@ -10,7 +8,7 @@ The source code is hosted on
 [github](https://github.com/Eyescale/hwsd) and documented on
 [eyescale.github.io](https://eyescale.github.io/#hwsd).
 
-## Modules {#Modules}
+## Modules
 
 The HW-SD library uses modules which implement discovery using different
 protocols. Each module is a separate library, which can be selectively
@@ -26,7 +24,7 @@ linked by applications to limit dependencies. Currently available are:
   announced by the daemon
 - net_sys: Local discovery of network interfaces
 
-## VirtualGL {#VirtualGL}
+## VirtualGL
 
 When an application is run through VirtualGL, hwsd detects this and
 sets the FLAG\_VIRTUALGL on all local GPUs, and additionally
@@ -34,7 +32,7 @@ FLAG\_VIRTUALGL\_DISPLAY on the GPU used by VirtualGL for
 redirection. This is only implemented for GLX so far
 ([more info](https://github.com/Eyescale/Equalizer/issues/67)).
 
-## Announcement Daemon {#Daemon}
+## Announcement Daemon
 
 The daemon uses all available local modules to query local GPUs and
 network interfaces to announce them using ZeroConf to the local
@@ -67,7 +65,7 @@ local network. The following protocol is used by the daemon:
 * Net&lt;integer&gt; Linkspeed=&lt;integer&gt; // in Megabits per second
 * Net&lt;integer&gt; Up=&lt;bool&gt;
 
-## Building from Source {#Build}
+## Building from Source
 
 HWSD is a cross-platform library, designed to run on any modern
 operating system, including all Unix variants and the Windows operating
@@ -75,17 +73,17 @@ system.  Zeroconf support in Lunchbox is required for the DNS_SD module
 and applications. The following platforms and build environments are
 tested:
 
-* Linux: Ubuntu 14.04, RHEL 6.6 (Makefile, i386, x64)
-* Windows: 7 (Visual Studio 2008, i386, x64)
-* Mac OS X: 10.8 (Makefile, i386, x64)
+* Linux: Ubuntu 16.04, RHEL 6.8 (Makefile, Ninja)
+* Windows: 7 (Visual Studio 2012)
+* Mac OS X: 10.9 (Makefile, Ninja)
 
 The build system is using CMake, with the standard CMake build process:
 
     git clone https://github.com/Eyescale/hwsd.git
     mkdir hwsd/build
     cd hwsd/build
-    cmake ..
-    make
+    cmake -GNinja ..
+    ninja
 
 A ZeroConf implementation is required for the dns_sd module and the
 daemon. On Mac OS X it is part of the operating system, on Linux AVAHI
@@ -95,12 +93,12 @@ Ubuntu), on Windows use the
 If no ZeroConf implementation is found, HW-SD is only compiled with
 local discovery modules.
 
-## Bugs {#Bugs}
+## Bugs
 
 Please file a [Bug Report](https://github.com/Eyescale/hwsd/issues) if
 you find any issue with this software.
 
-## Usage {#Usage}
+## Usage
 
 An application can use the discovery by linking the relevant module
 libraries, instantiating the modules in the code and then quering the
