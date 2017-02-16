@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011-2012, Stefan Eilemann <eile@eyescale.ch>
+/* Copyright (c) 2011-2017, Stefan Eilemann <eile@eyescale.ch>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -25,7 +25,7 @@
 #include <limits>
 #include <sstream>
 
-#define TRY_PORTS 9
+#define TRY_PORTS 10
 
 namespace hwsd
 {
@@ -152,7 +152,7 @@ GPUInfos Module::discover() const
                 if( info != defaultInfo )
                     result.push_back( info );
             }
-            else if( j == 0 && i > TRY_PORTS )
+            else if( j == 0 && i >= TRY_PORTS )
                 // X Server does not exist, stop query
                 return result;
             else // X Screen does not exist, try next server
