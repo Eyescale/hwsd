@@ -3,6 +3,10 @@ Changelog {#Changelog}
 
 # git master
 
+* [57](https://github.com/Eyescale/hwsd/pull/57):
+  Only try X Server ports up to 9. On some distributions the first port number
+  used by forwarded displays is 10 instead of 11.
+
 # Release 2.0 (09-12-2016)
 
 * [56](https://github.com/Eyescale/hwsd/pull/56):

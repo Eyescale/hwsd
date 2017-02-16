@@ -25,7 +25,7 @@
 #include <limits>
 #include <sstream>
 
-#define TRY_PORTS 10
+#define TRY_PORTS 9
 
 namespace hwsd
 {
