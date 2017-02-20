@@ -24,7 +24,6 @@
 
 #include <ostream>
 
-
 namespace hwsd
 {
 /** A structure containing node-specific information. */
@@ -34,20 +33,19 @@ struct NodeInfo
     HWSD_API NodeInfo();
 
     /** @return true if both informations are identical. @version 1.0 */
-    HWSD_API bool operator == ( const NodeInfo& rhs ) const;
+    HWSD_API bool operator==(const NodeInfo& rhs) const;
 
     /** @return true if both infos are not identical. @version 1.0 */
-    HWSD_API bool operator != ( const NodeInfo& rhs ) const;
+    HWSD_API bool operator!=(const NodeInfo& rhs) const;
 
     /** @return true if this resource was discovered locally. @version 1.1.1 */
     HWSD_API bool isLocal() const;
 
     /** @return true if this resource was discovered locally. @version 1.1.1 */
-    HWSD_API static bool isLocal( const std::string& name );
+    HWSD_API static bool isLocal(const std::string& name);
 
     /** @return the session name for local resources. @version 1.1.1 */
     static std::string getLocalSession() { return "local"; }
-
     /** Random unique ID identifing the origin node. @version 1.0 */
     servus::uint128_t id;
 
@@ -58,8 +56,7 @@ struct NodeInfo
     std::string session;
 };
 
-HWSD_API std::ostream& operator << ( std::ostream& os,
-                                     const NodeInfo& info );
+HWSD_API std::ostream& operator<<(std::ostream& os, const NodeInfo& info);
 }
 
 #endif // HWSD_NODEINFO_H

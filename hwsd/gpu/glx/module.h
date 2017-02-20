@@ -28,29 +28,32 @@ namespace gpu
 {
 namespace glx
 {
-    /**
-     * The GLX implementation for local GPU discovery.
-     *
-     * The GLX module tries to open X server :0 to :9. For each server which can
-     * be opened, all available screens on the server are added as a separate
-     * GPUInfo.
-     */
-    class Module : public GPUModule
+/**
+ * The GLX implementation for local GPU discovery.
+ *
+ * The GLX module tries to open X server :0 to :9. For each server which can
+ * be opened, all available screens on the server are added as a separate
+ * GPUInfo.
+ */
+class Module : public GPUModule
+{
+public:
+    /** Instantiate an GLX discovery module for the process. */
+    static HWSD_API void use();
+
+    /** Unload the GLX discovery module for the process. */
+    static HWSD_API void dispose();
+
+protected:
+    virtual GPUInfos discover() const;
+
+private:
+    Module()
+        : GPUModule()
     {
-    public:
-        /** Instantiate an GLX discovery module for the process. */
-        static HWSD_API void use();
-
-        /** Unload the GLX discovery module for the process. */
-        static HWSD_API void dispose();
-
-    protected:
-        virtual GPUInfos discover() const;
-
-    private:
-        Module() : GPUModule() {}
-        virtual ~Module() {}
-    };
+    }
+    virtual ~Module() {}
+};
 }
 }
 }

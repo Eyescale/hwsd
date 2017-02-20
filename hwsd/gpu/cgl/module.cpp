@@ -39,7 +39,7 @@ static Module* instance = 0;
 
 void Module::use()
 {
-    if( !instance )
+    if (!instance)
         instance = new Module;
 }
 
@@ -52,35 +52,34 @@ void Module::dispose()
 GPUInfos Module::discover() const
 {
     CGDirectDisplayID displayIDs[MAX_GPUS];
-    CGDisplayCount    nDisplays = 0;
+    CGDisplayCount nDisplays = 0;
 
-    if( CGGetOnlineDisplayList( MAX_GPUS, displayIDs, &nDisplays ) !=
-        kCGErrorSuccess )
+    if (CGGetOnlineDisplayList(MAX_GPUS, displayIDs, &nDisplays) !=
+        kCGErrorSuccess)
     {
         return GPUInfos();
     }
 
     const CGDirectDisplayID mainDisplayID = CGMainDisplayID();
-    for( CGDisplayCount i = 0; i < nDisplays; ++i )
+    for (CGDisplayCount i = 0; i < nDisplays; ++i)
     {
-        if( displayIDs[i] != mainDisplayID )
+        if (displayIDs[i] != mainDisplayID)
             continue;
 
-        GPUInfo info( "CGL" );
-        const CGRect displayRect = CGDisplayBounds( displayIDs[i] );
+        GPUInfo info("CGL");
+        const CGRect displayRect = CGDisplayBounds(displayIDs[i]);
 
         info.device = i;
-        info.pvp[0] = int32_t( displayRect.origin.x );
-        info.pvp[1] = int32_t( displayRect.origin.y );
-        info.pvp[2] = int32_t( displayRect.size.width );
-        info.pvp[3] = int32_t( displayRect.size.height );
+        info.pvp[0] = int32_t(displayRect.origin.x);
+        info.pvp[1] = int32_t(displayRect.origin.y);
+        info.pvp[2] = int32_t(displayRect.size.width);
+        info.pvp[3] = int32_t(displayRect.size.height);
 
-        return GPUInfos( 1, info );
+        return GPUInfos(1, info);
     }
 
     return GPUInfos();
 }
-
 }
 }
 }

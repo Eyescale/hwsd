@@ -26,33 +26,34 @@ namespace hwsd
 {
 namespace detail
 {
-    class Module;
+class Module;
 }
-    /** Base class for runtime-attached DSOs of a query implementation. */
-    template< typename T > class Module
-    {
-    public:
-        /** Register and construct a new module. @version 1.0 */
-        Module();
+/** Base class for runtime-attached DSOs of a query implementation. */
+template <typename T>
+class Module
+{
+public:
+    /** Register and construct a new module. @version 1.0 */
+    Module();
 
-        /** Destruct this module. @version 1.0 */
-        virtual ~Module();
+    /** Destruct this module. @version 1.0 */
+    virtual ~Module();
 
-        /**
-         * Announce the information about all found resources. The default
-         * announcement goes to std::cout.
-         *
-         * @return true if announcement was successful
-         * @version 1.0
-         */
-        virtual bool announce( const std::string& session ) const;
+    /**
+     * Announce the information about all found resources. The default
+     * announcement goes to std::cout.
+     *
+     * @return true if announcement was successful
+     * @version 1.0
+     */
+    virtual bool announce(const std::string& session) const;
 
-        /** @return information about all found resources. @version 1.0 */
-        virtual T discover() const = 0;
+    /** @return information about all found resources. @version 1.0 */
+    virtual T discover() const = 0;
 
-        HWSD_INL static Module< T >* stack_; //!< @internal
-        Module< T >* next_; //!< @internal
-    };
+    HWSD_INL static Module<T>* stack_; //!< @internal
+    Module<T>* next_;                  //!< @internal
+};
 }
 
 #include "module.ipp" // template implementation

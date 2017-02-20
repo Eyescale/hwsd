@@ -28,30 +28,32 @@ namespace gpu
 {
 namespace dns_sd
 {
-namespace detail { class Module; }
+namespace detail
+{
+class Module;
+}
 
-    /** The DNS_SD implementation for remote GPU discovery. */
-    class Module : public GPUModule
-    {
-    public:
-        /** Instantiate the dns_sd discovery module for the process. */
-        static HWSD_API void use();
+/** The DNS_SD implementation for remote GPU discovery. */
+class Module : public GPUModule
+{
+public:
+    /** Instantiate the dns_sd discovery module for the process. */
+    static HWSD_API void use();
 
-        /** Unload the dns_sd discovery module for the process. */
-        static HWSD_API void dispose();
+    /** Unload the dns_sd discovery module for the process. */
+    static HWSD_API void dispose();
 
-    protected:
-        virtual bool announce( const std::string& session ) const;
-        virtual GPUInfos discover() const;
+protected:
+    virtual bool announce(const std::string& session) const;
+    virtual GPUInfos discover() const;
 
-    private:
-        Module();
-        virtual ~Module();
+private:
+    Module();
+    virtual ~Module();
 
-        detail::Module* const _impl;
-    };
+    detail::Module* const _impl;
+};
 }
 }
 }
 #endif // HWSD_GPU_DNS_SD_MODULE_H
-

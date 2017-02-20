@@ -17,9 +17,9 @@
 
 #include "module.h"
 
+#include <hwsd/detail/dns_sd_module.h>
 #include <hwsd/functions.h>
 #include <hwsd/netInfo.h>
-#include <hwsd/detail/dns_sd_module.h>
 
 #include <algorithm>
 #include <sstream>
@@ -36,18 +36,18 @@ namespace
 {
 static Module* instance = 0;
 
-std::string NETSERVICE   = "_net-sd._tcp";
-std::string NET          = "Net";
-std::string NETCOUNT     = "Count";
+std::string NETSERVICE = "_net-sd._tcp";
+std::string NET = "Net";
+std::string NETCOUNT = "Count";
 
-std::string NETTYPE      = "Type";
-std::string NETNAME      = "Name";
-std::string NETHOSTNAME  = "Hostname";
-std::string NETHWADDR    = "MAC";
-std::string NETINETADDR  = "IPv4";
+std::string NETTYPE = "Type";
+std::string NETNAME = "Name";
+std::string NETHOSTNAME = "Hostname";
+std::string NETHWADDR = "MAC";
+std::string NETINETADDR = "IPv4";
 std::string NETINET6ADDR = "IPv6";
 std::string NETLINKSPEED = "Linkspeed";
-std::string NETUP        = "Up";
+std::string NETUP = "Up";
 }
 
 namespace detail
@@ -56,9 +56,10 @@ class Module : public hwsd::detail::dns_sd::Module
 {
 public:
     Module()
-        : hwsd::detail::dns_sd::Module( NETSERVICE, NET )
-        , announcing( false )
-    {}
+        : hwsd::detail::dns_sd::Module(NETSERVICE, NET)
+        , announcing(false)
+    {
+    }
 
     bool announcing;
 };
@@ -66,8 +67,9 @@ public:
 
 Module::Module()
     : NetModule()
-    , _impl( new detail::Module )
-{}
+    , _impl(new detail::Module)
+{
+}
 
 Module::~Module()
 {
@@ -76,7 +78,7 @@ Module::~Module()
 
 void Module::use()
 {
-    if( !instance )
+    if (!instance)
         instance = new Module;
 }
 
@@ -86,111 +88,110 @@ void Module::dispose()
     instance = 0;
 }
 
-bool Module::announce( const std::string& session ) const
+bool Module::announce(const std::string& session) const
 {
     _impl->announcing = true;
     NetInfos nets = hwsd::discoverNetInfos();
     _impl->announcing = false;
-    if( nets.empty( ))
+    if (nets.empty())
         return true;
 
-    for( hwsd::NetInfosIter i = nets.begin(); i != nets.end(); ++i )
+    for (hwsd::NetInfosIter i = nets.begin(); i != nets.end(); ++i)
     {
-        if( (*i).type == NetInfo::TYPE_LOOPBACK )
+        if ((*i).type == NetInfo::TYPE_LOOPBACK)
         {
-            nets.erase( i );
+            nets.erase(i);
             break;
         }
     }
 
     NodeInfo nodeInfo;
     nodeInfo.session = session;
-    _impl->announce( nodeInfo );
+    _impl->announce(nodeInfo);
 
-    _impl->setValue( NETCOUNT, nets.size( ));
-    for( hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i )
+    _impl->setValue(NETCOUNT, nets.size());
+    for (hwsd::NetInfosCIter i = nets.begin(); i != nets.end(); ++i)
     {
         const NetInfo& info = *i;
         const size_t index = i - nets.begin();
 
-        _impl->setValue( index, NETTYPE, info.getType( ));
+        _impl->setValue(index, NETTYPE, info.getType());
 
-        if( !info.name.empty( ))
-            _impl->setValue( index, NETNAME, info.name );
+        if (!info.name.empty())
+            _impl->setValue(index, NETNAME, info.name);
 
-        if( !info.hostname.empty( ))
-            _impl->setValue( index, NETHOSTNAME, info.hostname );
+        if (!info.hostname.empty())
+            _impl->setValue(index, NETHOSTNAME, info.hostname);
 
-        if( !info.hwAddress.empty( ))
-            _impl->setValue( index, NETHWADDR, info.hwAddress );
+        if (!info.hwAddress.empty())
+            _impl->setValue(index, NETHWADDR, info.hwAddress);
 
-        if( !info.inetAddress.empty( ))
-            _impl->setValue( index, NETINETADDR, info.inetAddress );
+        if (!info.inetAddress.empty())
+            _impl->setValue(index, NETINETADDR, info.inetAddress);
 
-        if( !info.inet6Address.empty( ))
-            _impl->setValue( index, NETINET6ADDR, info.inet6Address );
+        if (!info.inet6Address.empty())
+            _impl->setValue(index, NETINET6ADDR, info.inet6Address);
 
-        if( info.linkspeed != NetInfo::defaultValue )
-            _impl->setValue( index, NETLINKSPEED, info.linkspeed );
+        if (info.linkspeed != NetInfo::defaultValue)
+            _impl->setValue(index, NETLINKSPEED, info.linkspeed);
 
-        _impl->setValue( index, NETUP, info.up );
+        _impl->setValue(index, NETUP, info.up);
     }
 
-    return _impl->service.announce( 4242, "" );
+    return _impl->service.announce(4242, "");
 }
 
 NetInfos Module::discover() const
 {
     NetInfos infos[2];
-    if( _impl->announcing )
+    if (_impl->announcing)
         return infos[0];
 
-    servus::Servus::Interface interfaces[2] = { servus::Servus::IF_ALL,
-                                                servus::Servus::IF_LOCAL };
+    servus::Servus::Interface interfaces[2] = {servus::Servus::IF_ALL,
+                                               servus::Servus::IF_LOCAL};
 
-    for( unsigned i = 0; i < 2; ++i )
+    for (unsigned i = 0; i < 2; ++i)
     {
-        const lunchbox::Strings& hosts = _impl->service.discover( interfaces[i],
-                                                                  WAIT_TIME );
-        for( lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j )
+        const lunchbox::Strings& hosts =
+            _impl->service.discover(interfaces[i], WAIT_TIME);
+        for (lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j)
         {
             const std::string& host = *j;
 
             unsigned nNets = 0;
-            _impl->getValue( host, NETCOUNT, nNets );
+            _impl->getValue(host, NETCOUNT, nNets);
 
-            for( unsigned k = 0; k < nNets; ++k )
+            for (unsigned k = 0; k < nNets; ++k)
             {
                 NetInfo info;
-                _impl->discover( host, info );
+                _impl->discover(host, info);
 
                 std::string type;
-                _impl->getValue( host, k, NETTYPE, type );
-                info.setType( type );
-                _impl->getValue( host, k, NETNAME, info.name );
-                _impl->getValue( host, k, NETHOSTNAME, info.hostname );
-                _impl->getValue( host, k, NETHWADDR, info.hwAddress );
-                _impl->getValue( host, k, NETINETADDR, info.inetAddress );
-                _impl->getValue( host, k, NETINET6ADDR, info.inet6Address );
-                _impl->getValue( host, k, NETLINKSPEED, info.linkspeed );
-                _impl->getValue( host, k, NETUP, info.up );
+                _impl->getValue(host, k, NETTYPE, type);
+                info.setType(type);
+                _impl->getValue(host, k, NETNAME, info.name);
+                _impl->getValue(host, k, NETHOSTNAME, info.hostname);
+                _impl->getValue(host, k, NETHWADDR, info.hwAddress);
+                _impl->getValue(host, k, NETINETADDR, info.inetAddress);
+                _impl->getValue(host, k, NETINET6ADDR, info.inet6Address);
+                _impl->getValue(host, k, NETLINKSPEED, info.linkspeed);
+                _impl->getValue(host, k, NETUP, info.up);
 
-                infos[i].push_back( info );
+                infos[i].push_back(info);
             }
         }
     }
 
     // set localhost records to localhost
     const NetInfosIter localEnd = infos[1].end();
-    for( NetInfosIter i = infos[0].begin(); i != infos[0].end(); ++i )
+    for (NetInfosIter i = infos[0].begin(); i != infos[0].end(); ++i)
     {
         NetInfo& info = *i;
-        if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
+        if (std::find(infos[1].begin(), localEnd, info) != localEnd)
             info.nodeName.clear();
     }
     return infos[0];
 }
-
 }
 }
 }
