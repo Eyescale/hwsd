@@ -29,23 +29,26 @@ namespace gpu
 {
 namespace wgl
 {
-    /** The WGL implementation for local GPU discovery. */
-    class Module : public GPUModule
+/** The WGL implementation for local GPU discovery. */
+class Module : public GPUModule
+{
+public:
+    /** Instantiate an WGL discovery module for the process. */
+    static HWSD_API void use();
+
+    /** Unload the GLX discovery module for the process. */
+    static HWSD_API void dispose();
+
+protected:
+    virtual GPUInfos discover() const;
+
+private:
+    Module()
+        : GPUModule()
     {
-    public:
-        /** Instantiate an WGL discovery module for the process. */
-        static HWSD_API void use();
-
-        /** Unload the GLX discovery module for the process. */
-        static HWSD_API void dispose();
-
-    protected:
-        virtual GPUInfos discover() const;
-
-    private:
-        Module() : GPUModule() {}
-        virtual ~Module() {}
-    };
+    }
+    virtual ~Module() {}
+};
 }
 }
 }

@@ -19,13 +19,12 @@
 #define HWSD_GPUINFO_H
 
 #include <hwsd/api.h>
-#include <hwsd/nodeInfo.h>  // base class
+#include <hwsd/nodeInfo.h> // base class
 
 #include <climits>
 #include <cstring>
 #include <iostream>
 #include <string>
-
 
 namespace hwsd
 {
@@ -40,12 +39,11 @@ struct GPUInfo : public NodeInfo
 
     /** Virtual device provided by a VNC X server.
         Detection looks for the X extension VNC-EXTENSION
-	@version 1.2.1 */
+    @version 1.2.1 */
     static const unsigned FLAG_VNC = 0x4;
 
     /** Default GPU pointed by the DISPLAY variable (GLX only). */
     static const unsigned FLAG_DEFAULT = 0x8;
-
 
     /** Default constructor.
 
@@ -64,16 +62,16 @@ struct GPUInfo : public NodeInfo
      * @param name the type of the GPU.
      * @version 1.0
      */
-    HWSD_API explicit GPUInfo( const std::string& name );
+    HWSD_API explicit GPUInfo(const std::string& name);
 
     /** Invalidate the pixel viewport. @version 1.0 */
     HWSD_API void invalidatePVP();
 
     /** @return true if both informations are identical. @version 1.0 */
-    HWSD_API bool operator == ( const GPUInfo& rhs ) const;
+    HWSD_API bool operator==(const GPUInfo& rhs) const;
 
     /** @return true if both infos are not identical. @version 1.0 */
-    HWSD_API bool operator != ( const GPUInfo& rhs ) const;
+    HWSD_API bool operator!=(const GPUInfo& rhs) const;
 
     /** @return the type name string of this information. @version 1.0 */
     HWSD_API std::string getName() const;
@@ -93,24 +91,24 @@ struct GPUInfo : public NodeInfo
     /** The size and location of the GPU (x,y,w,h). @version 1.0 */
     int pvp[4];
 
-    unsigned flags; //!< bitmask of additional GPU capabilities
+    unsigned flags;  //!< bitmask of additional GPU capabilities
     unsigned unused; //!< @internal
 };
 
-inline std::ostream& operator << ( std::ostream& os, const GPUInfo& info )
+inline std::ostream& operator<<(std::ostream& os, const GPUInfo& info)
 {
-    os << "GPUInfo\n" << static_cast< const NodeInfo& >( info );
-    if( !info.getName().empty( ))
+    os << "GPUInfo\n" << static_cast<const NodeInfo&>(info);
+    if (!info.getName().empty())
         os << "  Type      " << info.getName() << std::endl;
     os << "  Port      " << info.port << std::endl;
     os << "  Device    " << info.device << std::endl;
-    if( info.pvp[2] >0 && info.pvp[3] > 0 )
+    if (info.pvp[2] > 0 && info.pvp[3] > 0)
         os << "  Viewport  [" << info.pvp[0] << ' ' << info.pvp[1] << ' '
            << info.pvp[2] << ' ' << info.pvp[3] << ']' << std::endl;
-    if( info.flags != 0 )
+    if (info.flags != 0)
         os << "  Flags     "
-           << ((info.flags&GPUInfo::FLAG_VIRTUALGL) ? "VirtualGL" : "")
-           << ((info.flags&GPUInfo::FLAG_VIRTUALGL_DISPLAY) ? "Display" : "")
+           << ((info.flags & GPUInfo::FLAG_VIRTUALGL) ? "VirtualGL" : "")
+           << ((info.flags & GPUInfo::FLAG_VIRTUALGL_DISPLAY) ? "Display" : "")
            << std::endl;
     return os;
 }

@@ -25,24 +25,22 @@
 
 namespace hwsd
 {
-
 struct GPUInfo;
-typedef std::vector< GPUInfo > GPUInfos; //!< A vector of GPUInfo structs
+typedef std::vector<GPUInfo> GPUInfos;   //!< A vector of GPUInfo structs
 typedef GPUInfos::iterator GPUInfosIter; //!< An iterator over GPUInfos
 /** A const iterator over GPUInfos. */
 typedef GPUInfos::const_iterator GPUInfosCIter;
 
 struct NetInfo;
-typedef std::vector< NetInfo > NetInfos;
+typedef std::vector<NetInfo> NetInfos;
 typedef NetInfos::iterator NetInfosIter;
 typedef NetInfos::const_iterator NetInfosCIter;
 
 class Filter;
-typedef lunchbox::RefPtr< Filter > FilterPtr; //!< A shared Filter pointer
+typedef lunchbox::RefPtr<Filter> FilterPtr; //!< A shared Filter pointer
 
-typedef Module< GPUInfos > GPUModule;
-typedef Module< NetInfos > NetModule;
-
+typedef Module<GPUInfos> GPUModule;
+typedef Module<NetInfos> NetModule;
 }
 
 #endif // HWSD_TYPES_H

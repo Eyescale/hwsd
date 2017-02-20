@@ -22,7 +22,6 @@
 #include <hwsd/filter.h>
 #include <hwsd/types.h>
 
-
 namespace hwsd
 {
 /**
@@ -31,11 +30,11 @@ namespace hwsd
  * @return true if announcement was successful
  * @version 1.0
  */
-HWSD_API bool announceGPUInfos( const std::string& session );
+HWSD_API bool announceGPUInfos(const std::string& session);
 
 /** @return information about all found GPUs. @version 1.0 */
-HWSD_API GPUInfos discoverGPUInfos( FilterPtr filter =
-                                    FilterPtr( new DuplicateFilter ));
+HWSD_API GPUInfos
+    discoverGPUInfos(FilterPtr filter = FilterPtr(new DuplicateFilter));
 
 /**
  * Announce the information about all found network interfaces.
@@ -43,11 +42,11 @@ HWSD_API GPUInfos discoverGPUInfos( FilterPtr filter =
  * @return true if announcement was successful
  * @version 1.0
  */
-HWSD_API bool announceNetInfos( const std::string& session );
+HWSD_API bool announceNetInfos(const std::string& session);
 
 /** @return information about all found network interfaces. @version 1.0 */
-HWSD_API NetInfos discoverNetInfos( FilterPtr filter =
-                                    FilterPtr( new DuplicateFilter ));
+HWSD_API NetInfos
+    discoverNetInfos(FilterPtr filter = FilterPtr(new DuplicateFilter));
 
 /** @return the local node identifier. @version 1.0 */
 HWSD_API const servus::uint128_t& getLocalNodeID();

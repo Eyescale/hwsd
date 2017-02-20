@@ -19,25 +19,25 @@
 #define HWSD_API_H
 
 #if defined(_MSC_VER) || defined(__declspec)
-#  define HWSD_DLLEXPORT __declspec(dllexport)
-#  define HWSD_DLLIMPORT __declspec(dllimport)
+#define HWSD_DLLEXPORT __declspec(dllexport)
+#define HWSD_DLLIMPORT __declspec(dllimport)
 #else
-#  define HWSD_DLLEXPORT
-#  define HWSD_DLLIMPORT
+#define HWSD_DLLEXPORT
+#define HWSD_DLLIMPORT
 #endif
 
 #if defined(HWSD_STATIC)
-#  define HWSD_API
+#define HWSD_API
 #elif defined(HWSD_SHARED)
-#  define HWSD_API HWSD_DLLEXPORT
+#define HWSD_API HWSD_DLLEXPORT
 #else
-#  define HWSD_API HWSD_DLLIMPORT
+#define HWSD_API HWSD_DLLIMPORT
 #endif
 
 #if defined(HWSD_SHARED_INL)
-#  define HWSD_INL HWSD_DLLEXPORT
+#define HWSD_INL HWSD_DLLEXPORT
 #else
-#  define HWSD_INL HWSD_DLLIMPORT
+#define HWSD_INL HWSD_DLLIMPORT
 #endif
 
-#endif //HWSD_API_H
+#endif // HWSD_API_H

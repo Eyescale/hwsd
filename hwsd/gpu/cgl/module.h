@@ -28,23 +28,26 @@ namespace gpu
 {
 namespace cgl
 {
-    /** The CGL implementation for local GPU discovery. */
-    class Module : public GPUModule
+/** The CGL implementation for local GPU discovery. */
+class Module : public GPUModule
+{
+public:
+    /** Instantiate an CGL discovery module for the process. */
+    static HWSD_API void use();
+
+    /** Unload the CGL discovery module for the process. */
+    static HWSD_API void dispose();
+
+protected:
+    virtual GPUInfos discover() const;
+
+private:
+    Module()
+        : GPUModule()
     {
-    public:
-        /** Instantiate an CGL discovery module for the process. */
-        static HWSD_API void use();
-
-        /** Unload the CGL discovery module for the process. */
-        static HWSD_API void dispose();
-
-    protected:
-        virtual GPUInfos discover() const;
-
-    private:
-        Module() : GPUModule() {}
-        virtual ~Module() {}
-    };
+    }
+    virtual ~Module() {}
+};
 }
 }
 }

@@ -21,40 +21,39 @@
 
 namespace hwsd
 {
-
 NodeInfo::NodeInfo()
-    : id( getLocalNodeID( ))
-    , session( getLocalSession( ))
-{}
+    : id(getLocalNodeID())
+    , session(getLocalSession())
+{
+}
 
-bool NodeInfo::operator == ( const NodeInfo& rhs ) const
+bool NodeInfo::operator==(const NodeInfo& rhs) const
 {
     return nodeName == rhs.nodeName && session == rhs.session;
 }
 
-bool NodeInfo::operator != ( const NodeInfo& rhs ) const
+bool NodeInfo::operator!=(const NodeInfo& rhs) const
 {
-    return !(*this == rhs );
+    return !(*this == rhs);
 }
 
 bool NodeInfo::isLocal() const
 {
-    return isLocal( session );
+    return isLocal(session);
 }
 
-bool NodeInfo::isLocal( const std::string& name )
+bool NodeInfo::isLocal(const std::string& name)
 {
     return name == getLocalSession();
 }
 
-std::ostream& operator << ( std::ostream& os, const NodeInfo& info )
+std::ostream& operator<<(std::ostream& os, const NodeInfo& info)
 {
     os << "  NodeID    " << info.id << std::endl;
-    if( !info.nodeName.empty( ))
+    if (!info.nodeName.empty())
         os << "  Nodename  " << info.nodeName << std::endl;
-    if( !info.session.empty() && !info.isLocal( ))
+    if (!info.session.empty() && !info.isLocal())
         os << "  Session   " << info.session << std::endl;
     return os;
 }
-
 }

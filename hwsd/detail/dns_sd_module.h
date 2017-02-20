@@ -21,81 +21,80 @@
 
 #include <string>
 
-
 namespace hwsd
 {
 namespace detail
 {
 namespace dns_sd
 {
-
-static std::string NODEID   = "NodeID";
+static std::string NODEID = "NodeID";
 static std::string NODENAME = "Hostname";
-static std::string SESSION  = "Session";
+static std::string SESSION = "Session";
 
 class Module
 {
 public:
-    Module( const std::string& serviceName, const std::string& resource )
-        : service( serviceName )
-        , _resource( resource )
-    {}
-
-    void announce( const NodeInfo& info )
+    Module(const std::string& serviceName, const std::string& resource)
+        : service(serviceName)
+        , _resource(resource)
     {
-        setValue( NODEID, info.id, true );
-        setValue( NODENAME, info.nodeName, true );
-        setValue( SESSION, info.session, true );
     }
 
-    void discover( const std::string& host, NodeInfo& info )
+    void announce(const NodeInfo& info)
+    {
+        setValue(NODEID, info.id, true);
+        setValue(NODENAME, info.nodeName, true);
+        setValue(SESSION, info.session, true);
+    }
+
+    void discover(const std::string& host, NodeInfo& info)
     {
         info.nodeName = host;
-        if( !getValue( host, NODEID, info.id, true ))
-            info.id = servus::make_uint128( info.nodeName.c_str( ));
-        getValue( host, NODENAME, info.nodeName, true );
-        getValue( host, SESSION, info.session, true );
+        if (!getValue(host, NODEID, info.id, true))
+            info.id = servus::make_uint128(info.nodeName.c_str());
+        getValue(host, NODENAME, info.nodeName, true);
+        getValue(host, SESSION, info.session, true);
     }
 
-    template< class T >
-    bool getValue( const std::string& host, const size_t index,
-                   const std::string& key, T& value )
+    template <class T>
+    bool getValue(const std::string& host, const size_t index,
+                  const std::string& key, T& value)
     {
         std::ostringstream out;
         out << _resource << index << " " << key;
         const std::string string = out.str();
 
-        const std::string& data = service.get( host, string );
-        if( data.empty( ))
+        const std::string& data = service.get(host, string);
+        if (data.empty())
             return false;
 
-        std::istringstream in( data );
+        std::istringstream in(data);
         in >> value;
         return true;
     }
 
-    template< class T >
-    bool getValue( const std::string& host, const std::string& key, T& value,
-                   bool global = false )
+    template <class T>
+    bool getValue(const std::string& host, const std::string& key, T& value,
+                  bool global = false)
     {
         std::ostringstream out;
-        if( global )
+        if (global)
             out << key;
         else
             out << _resource << " " << key;
         const std::string string = out.str();
 
-        const std::string& data = service.get( host, string );
-        if( data.empty( ))
+        const std::string& data = service.get(host, string);
+        if (data.empty())
             return false;
 
-        std::istringstream in( data );
+        std::istringstream in(data);
         in >> value;
         return true;
     }
 
-    template< class T >
-    void setValue( const size_t index, const std::string& key, const T& value )
+    template <class T>
+    void setValue(const size_t index, const std::string& key, const T& value)
     {
         std::ostringstream out;
         out << _resource << index << " " << key;
@@ -103,14 +102,14 @@ public:
 
         out.str("");
         out << value;
-        service.set( string, out.str( ));
+        service.set(string, out.str());
     }
 
-    template< class T >
-    void setValue( const std::string& key, const T& value, bool global = false )
+    template <class T>
+    void setValue(const std::string& key, const T& value, bool global = false)
     {
         std::ostringstream out;
-        if( global )
+        if (global)
             out << key;
         else
             out << _resource << " " << key;
@@ -118,7 +117,7 @@ public:
 
         out.str("");
         out << value;
-        service.set( string, out.str( ));
+        service.set(string, out.str());
     }
 
     servus::Servus service;
@@ -127,7 +126,5 @@ private:
     std::string _resource;
 };
 }
-
-
 }
 }

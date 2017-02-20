@@ -17,9 +17,9 @@
 
 #include "module.h"
 
-#include <hwsd/gpuInfo.h>
-#include <hwsd/functions.h>
 #include <hwsd/detail/dns_sd_module.h>
+#include <hwsd/functions.h>
+#include <hwsd/gpuInfo.h>
 
 #include <algorithm>
 #include <sstream>
@@ -36,18 +36,18 @@ namespace
 {
 static Module* instance = 0;
 
-std::string GPUSERVICE  = "_gpu-sd._tcp";
-std::string GPU         = "GPU";
-std::string GPUCOUNT    = "Count";
+std::string GPUSERVICE = "_gpu-sd._tcp";
+std::string GPU = "GPU";
+std::string GPUCOUNT = "Count";
 
-std::string GPUTYPE     = "Type";
-std::string GPUPORT     = "Port";
-std::string GPUDEVICE   = "Device";
-std::string GPUX        = "X";
-std::string GPUY        = "Y";
-std::string GPUWIDTH    = "Width";
-std::string GPUHEIGHT   = "Height";
-std::string GPUFLAGS    = "Flags";
+std::string GPUTYPE = "Type";
+std::string GPUPORT = "Port";
+std::string GPUDEVICE = "Device";
+std::string GPUX = "X";
+std::string GPUY = "Y";
+std::string GPUWIDTH = "Width";
+std::string GPUHEIGHT = "Height";
+std::string GPUFLAGS = "Flags";
 }
 
 namespace detail
@@ -56,9 +56,10 @@ class Module : public hwsd::detail::dns_sd::Module
 {
 public:
     Module()
-        : hwsd::detail::dns_sd::Module( GPUSERVICE, GPU )
-        , announcing( false )
-    {}
+        : hwsd::detail::dns_sd::Module(GPUSERVICE, GPU)
+        , announcing(false)
+    {
+    }
 
     bool announcing;
 };
@@ -66,8 +67,9 @@ public:
 
 Module::Module()
     : GPUModule()
-    , _impl( new detail::Module )
-{}
+    , _impl(new detail::Module)
+{
+}
 
 Module::~Module()
 {
@@ -76,7 +78,7 @@ Module::~Module()
 
 void Module::use()
 {
-    if( !instance )
+    if (!instance)
         instance = new Module;
 }
 
@@ -86,100 +88,99 @@ void Module::dispose()
     instance = 0;
 }
 
-bool Module::announce( const std::string& session ) const
+bool Module::announce(const std::string& session) const
 {
     _impl->announcing = true;
     const GPUInfos& gpus = hwsd::discoverGPUInfos();
     _impl->announcing = false;
-    if( gpus.empty( ))
+    if (gpus.empty())
         return true;
 
     NodeInfo nodeInfo;
     nodeInfo.session = session;
-    _impl->announce( nodeInfo );
+    _impl->announce(nodeInfo);
 
-    _impl->setValue( GPUCOUNT, gpus.size( ));
-    for( hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i )
+    _impl->setValue(GPUCOUNT, gpus.size());
+    for (hwsd::GPUInfosCIter i = gpus.begin(); i != gpus.end(); ++i)
     {
         const GPUInfo& info = *i;
         const size_t index = i - gpus.begin();
 
         // GPU<integer> Type=GLX | WGL | WGLn | CGL
-        _impl->setValue( index, GPUTYPE, info.getName( ));
+        _impl->setValue(index, GPUTYPE, info.getName());
 
         // GPU<integer> Port=<integer> // X11 display number, 0 otherwise
-        _impl->setValue( index, GPUPORT, info.port );
+        _impl->setValue(index, GPUPORT, info.port);
 
         // GPU<integer> Device=<integer> // X11 display number, 0 otherwise
-        _impl->setValue( index, GPUDEVICE, info.device );
+        _impl->setValue(index, GPUDEVICE, info.device);
 
-        if( info.pvp[2] > 0 && info.pvp[3] > 0 )
+        if (info.pvp[2] > 0 && info.pvp[3] > 0)
         {
-            _impl->setValue( index, GPUX, info.pvp[0] );
-            _impl->setValue( index, GPUY, info.pvp[1] );
-            _impl->setValue( index, GPUWIDTH, info.pvp[2] );
-            _impl->setValue( index, GPUHEIGHT, info.pvp[3] );
+            _impl->setValue(index, GPUX, info.pvp[0]);
+            _impl->setValue(index, GPUY, info.pvp[1]);
+            _impl->setValue(index, GPUWIDTH, info.pvp[2]);
+            _impl->setValue(index, GPUHEIGHT, info.pvp[3]);
         }
 
-        if( info.flags != 0 )
-            _impl->setValue( index, GPUFLAGS, info.flags );
+        if (info.flags != 0)
+            _impl->setValue(index, GPUFLAGS, info.flags);
     }
 
-    return _impl->service.announce( 4242, "" );
+    return _impl->service.announce(4242, "");
 }
 
 GPUInfos Module::discover() const
 {
     GPUInfos infos[2];
-    if( _impl->announcing )
+    if (_impl->announcing)
         return infos[0];
 
-    servus::Servus::Interface interfaces[2] = { servus::Servus::IF_ALL,
-                                                servus::Servus::IF_LOCAL };
+    servus::Servus::Interface interfaces[2] = {servus::Servus::IF_ALL,
+                                               servus::Servus::IF_LOCAL};
 
-    for( unsigned i = 0; i < 2; ++i )
+    for (unsigned i = 0; i < 2; ++i)
     {
-        const lunchbox::Strings& hosts = _impl->service.discover( interfaces[i],
-                                                                  WAIT_TIME );
-        for( lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j )
+        const lunchbox::Strings& hosts =
+            _impl->service.discover(interfaces[i], WAIT_TIME);
+        for (lunchbox::StringsCIter j = hosts.begin(); j != hosts.end(); ++j)
         {
             const std::string& host = *j;
 
             unsigned nGPUs = 0;
-            _impl->getValue( host, GPUCOUNT, nGPUs );
-            for( unsigned k = 0; k < nGPUs; ++k )
+            _impl->getValue(host, GPUCOUNT, nGPUs);
+            for (unsigned k = 0; k < nGPUs; ++k)
             {
                 std::string type;
-                if( !_impl->getValue( host, k, GPUTYPE, type ))
+                if (!_impl->getValue(host, k, GPUTYPE, type))
                     continue;
 
-                GPUInfo info( type );
-                _impl->discover( host, info );
+                GPUInfo info(type);
+                _impl->discover(host, info);
 
-                _impl->getValue( host, k, GPUPORT, info.port );
-                _impl->getValue( host, k, GPUDEVICE, info.device );
-                _impl->getValue( host, k, GPUX, info.pvp[0] );
-                _impl->getValue( host, k, GPUY, info.pvp[1] );
-                _impl->getValue( host, k, GPUWIDTH, info.pvp[2] );
-                _impl->getValue( host, k, GPUHEIGHT, info.pvp[3] );
-                _impl->getValue( host, k, GPUFLAGS, info.flags );
+                _impl->getValue(host, k, GPUPORT, info.port);
+                _impl->getValue(host, k, GPUDEVICE, info.device);
+                _impl->getValue(host, k, GPUX, info.pvp[0]);
+                _impl->getValue(host, k, GPUY, info.pvp[1]);
+                _impl->getValue(host, k, GPUWIDTH, info.pvp[2]);
+                _impl->getValue(host, k, GPUHEIGHT, info.pvp[3]);
+                _impl->getValue(host, k, GPUFLAGS, info.flags);
 
-                infos[i].push_back( info );
+                infos[i].push_back(info);
             }
         }
     }
 
     // set localhost records to localhost
     const GPUInfosIter localEnd = infos[1].end();
-    for( GPUInfosIter i = infos[0].begin(); i != infos[0].end(); ++i )
+    for (GPUInfosIter i = infos[0].begin(); i != infos[0].end(); ++i)
     {
         GPUInfo& info = *i;
-        if( std::find( infos[1].begin(), localEnd, info ) != localEnd )
+        if (std::find(infos[1].begin(), localEnd, info) != localEnd)
             info.nodeName.clear();
     }
     return infos[0];
 }
-
 }
 }
 }

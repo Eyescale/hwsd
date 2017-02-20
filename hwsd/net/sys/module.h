@@ -29,25 +29,28 @@ namespace net
 {
 namespace sys
 {
-    /**
-     * The low-level implementation for local network interface discovery.
-     */
-    class Module : public hwsd::Module< NetInfos >
+/**
+ * The low-level implementation for local network interface discovery.
+ */
+class Module : public hwsd::Module<NetInfos>
+{
+public:
+    /** Instantiate the sys network discovery module for the process. */
+    static HWSD_API void use();
+
+    /** Unload the sys network discovery module for the process. */
+    static HWSD_API void dispose();
+
+protected:
+    virtual NetInfos discover() const;
+
+private:
+    Module()
+        : NetModule()
     {
-    public:
-        /** Instantiate the sys network discovery module for the process. */
-        static HWSD_API void use();
-
-        /** Unload the sys network discovery module for the process. */
-        static HWSD_API void dispose();
-
-    protected:
-        virtual NetInfos discover() const;
-
-    private:
-        Module() : NetModule() {}
-        virtual ~Module() {}
-    };
+    }
+    virtual ~Module() {}
+};
 }
 }
 }

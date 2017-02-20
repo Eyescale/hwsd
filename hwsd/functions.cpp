@@ -17,62 +17,63 @@
 
 #include "functions.h"
 #include "gpuInfo.h"
-#include "netInfo.h"
 #include "module.h"
+#include "netInfo.h"
 
 namespace hwsd
 {
+template <>
+GPUModule* GPUModule::stack_ = 0;
+template <>
+NetModule* NetModule::stack_ = 0;
 
-template<> GPUModule* GPUModule::stack_ = 0;
-template<> NetModule* NetModule::stack_ = 0;
-
-bool announceGPUInfos( const std::string& session )
+bool announceGPUInfos(const std::string& session)
 {
-    for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
+    for (GPUModule* module = GPUModule::stack_; module; module = module->next_)
     {
-        if( !module->announce( session ))
+        if (!module->announce(session))
             return false;
     }
     return true;
 }
 
-GPUInfos discoverGPUInfos( FilterPtr filter )
+GPUInfos discoverGPUInfos(FilterPtr filter)
 {
     GPUInfos result;
-    for( GPUModule* module = GPUModule::stack_; module; module = module->next_ )
+    for (GPUModule* module = GPUModule::stack_; module; module = module->next_)
     {
         const GPUInfos& infos = module->discover();
-        for( GPUInfosCIter i = infos.begin(); i != infos.end(); ++i )
+        for (GPUInfosCIter i = infos.begin(); i != infos.end(); ++i)
         {
             const GPUInfo& info = *i;
-            if( !filter || (*filter)( result, info ))
-                result.push_back( info );
+            if (!filter || (*filter)(result, info))
+                result.push_back(info);
         }
     }
     return result;
 }
 
-bool announceNetInfos( const std::string& session )
+bool announceNetInfos(const std::string& session)
 {
-    for( NetModule* module = NetModule::stack_; module; module = module->next_ )
+    for (NetModule* module = NetModule::stack_; module; module = module->next_)
     {
-        if( !module->announce( session ))
+        if (!module->announce(session))
             return false;
     }
     return true;
 }
 
-NetInfos discoverNetInfos( FilterPtr filter )
+NetInfos discoverNetInfos(FilterPtr filter)
 {
     NetInfos result;
-    for( NetModule* module = NetModule::stack_; module; module = module->next_ )
+    for (NetModule* module = NetModule::stack_; module; module = module->next_)
     {
         const NetInfos& infos = module->discover();
-        for( NetInfosCIter i = infos.begin(); i != infos.end(); ++i )
+        for (NetInfosCIter i = infos.begin(); i != infos.end(); ++i)
         {
             const NetInfo& info = *i;
-            if( !filter || (*filter)( result, info ))
-                result.push_back( info );
+            if (!filter || (*filter)(result, info))
+                result.push_back(info);
         }
     }
     return result;
@@ -83,5 +84,4 @@ const servus::uint128_t& getLocalNodeID()
     static servus::uint128_t nodeID_ = servus::make_UUID();
     return nodeID_;
 }
-
 }

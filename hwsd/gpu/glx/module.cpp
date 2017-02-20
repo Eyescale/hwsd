@@ -19,8 +19,8 @@
 
 #include <hwsd/gpuInfo.h>
 
-#include <X11/Xlib.h>
 #include <GL/glx.h>
+#include <X11/Xlib.h>
 #include <cstdlib>
 #include <limits>
 #include <sstream>
@@ -37,77 +37,76 @@ namespace
 {
 static Module* instance = 0;
 
-static bool getGPUInfo_( Display* display, GPUInfo& info )
+static bool getGPUInfo_(Display* display, GPUInfo& info)
 {
     int major, event, error;
-    if( !display || !XQueryExtension( display, "GLX", &major, &event, &error ))
+    if (!display || !XQueryExtension(display, "GLX", &major, &event, &error))
         return false;
 
-    std::string displayString = DisplayString( display );
-    const size_t colonPos = displayString.find( ':' );
-    if( colonPos != std::string::npos )
+    std::string displayString = DisplayString(display);
+    const size_t colonPos = displayString.find(':');
+    if (colonPos != std::string::npos)
     {
-        const std::string displayNumber = displayString.substr( colonPos+1 );
-        info.port = atoi( displayNumber.c_str( ));
-        info.device = DefaultScreen( display );
+        const std::string displayNumber = displayString.substr(colonPos + 1);
+        info.port = atoi(displayNumber.c_str());
+        info.device = DefaultScreen(display);
     }
 
     info.pvp[0] = 0;
     info.pvp[1] = 0;
-    info.pvp[2] = DisplayWidth(  display, DefaultScreen( display ));
-    info.pvp[3] = DisplayHeight( display, DefaultScreen( display ));
+    info.pvp[2] = DisplayWidth(display, DefaultScreen(display));
+    info.pvp[3] = DisplayHeight(display, DefaultScreen(display));
 
-    const char* vendor = glXGetClientString( display, GLX_VENDOR );
-    if( vendor && std::string( vendor ) == "VirtualGL" )
+    const char* vendor = glXGetClientString(display, GLX_VENDOR);
+    if (vendor && std::string(vendor) == "VirtualGL")
     {
         info.flags |= GPUInfo::FLAG_VIRTUALGL;
-        const char* vglDisplayEnv = getenv( "VGL_DISPLAY" );
-        std::string vglDisplay( vglDisplayEnv ? vglDisplayEnv : ":0" );
-        const bool vglHasScreen = vglDisplay[ vglDisplay.size() - 2 ] == '.';
+        const char* vglDisplayEnv = getenv("VGL_DISPLAY");
+        std::string vglDisplay(vglDisplayEnv ? vglDisplayEnv : ":0");
+        const bool vglHasScreen = vglDisplay[vglDisplay.size() - 2] == '.';
 
         std::stringstream xDisplay;
-        xDisplay << DisplayString( display );
-        if( xDisplay.str() == ":0" && vglHasScreen )
-            xDisplay << "." << DefaultScreen( display );
+        xDisplay << DisplayString(display);
+        if (xDisplay.str() == ":0" && vglHasScreen)
+            xDisplay << "." << DefaultScreen(display);
 
         const std::string& xDisplayStr = xDisplay.str();
-        const bool xHasScreen = xDisplayStr[ xDisplayStr.size() - 2 ] == '.';
-        if( xHasScreen && !vglHasScreen )
+        const bool xHasScreen = xDisplayStr[xDisplayStr.size() - 2] == '.';
+        if (xHasScreen && !vglHasScreen)
             vglDisplay += ".0";
 
-        if( vglDisplay == xDisplayStr )
+        if (vglDisplay == xDisplayStr)
             info.flags |= GPUInfo::FLAG_VIRTUALGL_DISPLAY;
     }
 
-    if ( XQueryExtension( display, "VNC-EXTENSION", &major, &event, &error ))
+    if (XQueryExtension(display, "VNC-EXTENSION", &major, &event, &error))
         info.flags |= GPUInfo::FLAG_VNC;
 
     return true;
 }
 
-static bool queryDisplay_( const std::string& display, GPUInfo& info )
+static bool queryDisplay_(const std::string& display, GPUInfo& info)
 {
-    ::Display* xDisplay = XOpenDisplay( display.c_str( ));
-    if( !xDisplay )
+    ::Display* xDisplay = XOpenDisplay(display.c_str());
+    if (!xDisplay)
         return false;
 
     int major, event, error;
-    if( !XQueryExtension( xDisplay, "GLX", &major, &event, &error ))
+    if (!XQueryExtension(xDisplay, "GLX", &major, &event, &error))
     {
-        XCloseDisplay( xDisplay );
+        XCloseDisplay(xDisplay);
         return false;
     }
 
-    getGPUInfo_( xDisplay, info );
-    XCloseDisplay( xDisplay );
+    getGPUInfo_(xDisplay, info);
+    XCloseDisplay(xDisplay);
     return true;
 }
-
 }
 
 void Module::use()
 {
-    if( !instance )
+    if (!instance)
         instance = new Module;
 }
 
@@ -120,16 +119,16 @@ void Module::dispose()
 GPUInfos Module::discover() const
 {
     GPUInfos result;
-    GPUInfo defaultInfo( "GLX" );
+    GPUInfo defaultInfo("GLX");
 
-    const char* displayEnv = getenv( "DISPLAY" );
-    if( displayEnv && displayEnv[0] != '\0' )
+    const char* displayEnv = getenv("DISPLAY");
+    if (displayEnv && displayEnv[0] != '\0')
     {
-        const std::string display( displayEnv );
-        if( queryDisplay_( display, defaultInfo ))
+        const std::string display(displayEnv);
+        if (queryDisplay_(display, defaultInfo))
         {
             defaultInfo.flags = GPUInfo::FLAG_DEFAULT;
-            result.push_back( defaultInfo );
+            result.push_back(defaultInfo);
 #ifdef __APPLE__
             // OS X only has one X server, but launchd magic makes duplicate
             // detection hard
@@ -139,20 +138,20 @@ GPUInfos Module::discover() const
     }
 
     // try x servers :0 - :n
-    for( unsigned i = 0; i < std::numeric_limits< unsigned >::max() ; ++i )
+    for (unsigned i = 0; i < std::numeric_limits<unsigned>::max(); ++i)
         // x screens :n.0 - :n.m
-        for( unsigned j = 0; j < std::numeric_limits< unsigned >::max(); ++j )
+        for (unsigned j = 0; j < std::numeric_limits<unsigned>::max(); ++j)
         {
             std::stringstream stream;
-            stream <<  ':' << i << '.' << j;
+            stream << ':' << i << '.' << j;
 
-            GPUInfo info( "GLX" );
-            if( queryDisplay_( stream.str(), info ))
+            GPUInfo info("GLX");
+            if (queryDisplay_(stream.str(), info))
             {
-                if( info != defaultInfo )
-                    result.push_back( info );
+                if (info != defaultInfo)
+                    result.push_back(info);
             }
-            else if( j == 0 && i >= TRY_PORTS )
+            else if (j == 0 && i >= TRY_PORTS)
                 // X Server does not exist, stop query
                 return result;
             else // X Screen does not exist, try next server
@@ -160,7 +159,6 @@ GPUInfos Module::discover() const
         }
     return result;
 }
-
 }
 }
 }

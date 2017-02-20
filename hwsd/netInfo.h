@@ -20,10 +20,10 @@
 #define HWSD_NETINFO_H
 
 #include <hwsd/api.h>
-#include <hwsd/nodeInfo.h>  // base class
+#include <hwsd/nodeInfo.h> // base class
 
-#include <lunchbox/debug.h>
 #include <climits>
+#include <lunchbox/debug.h>
 #include <ostream>
 
 namespace hwsd
@@ -37,7 +37,7 @@ struct NetInfo : public NodeInfo
         TYPE_INFINIBAND = LB_BIT2,
         TYPE_LOOPBACK = LB_BIT3,
         TYPE_TUNNEL_ETHERNET = LB_BIT4, //!< gif interface on Darwin
-        TYPE_TUNNEL_6TO4 = LB_BIT5, //!< stf interface on Darwin
+        TYPE_TUNNEL_6TO4 = LB_BIT5,     //!< stf interface on Darwin
         TYPE_UNKNOWN = LB_BIT31,
         TYPE_ALL = LB_BIT_ALL_32
     };
@@ -49,14 +49,14 @@ struct NetInfo : public NodeInfo
     HWSD_API NetInfo();
 
     /** @return true if both informations are identical. @version 1.0 */
-    HWSD_API bool operator == ( const NetInfo& rhs ) const;
+    HWSD_API bool operator==(const NetInfo& rhs) const;
 
     /** @return true if both infos are not identical. @version 1.0 */
-    HWSD_API bool operator != ( const NetInfo& rhs ) const;
+    HWSD_API bool operator!=(const NetInfo& rhs) const;
 
     HWSD_API std::string getType() const;
 
-    HWSD_API void setType( const std::string& strType );
+    HWSD_API void setType(const std::string& strType);
 
     /** The type of the network interface. @version 1.0 */
     Type type;
@@ -83,22 +83,23 @@ struct NetInfo : public NodeInfo
     bool up;
 };
 
-inline std::ostream& operator << ( std::ostream& os, const NetInfo& info )
+inline std::ostream& operator<<(std::ostream& os, const NetInfo& info)
 {
-    os << "NetInfo\n" << static_cast< const NodeInfo& >( info )
-       << "  Type      " << info.getType() << std::endl
+    os << "NetInfo\n"
+       << static_cast<const NodeInfo&>(info) << "  Type      " << info.getType()
+       << std::endl
        << "  Status    " << (info.up ? "UP" : "DOWN") << std::endl;
-    if( !info.name.empty( ))
+    if (!info.name.empty())
         os << "  Name      " << info.name << std::endl;
-    if( !info.hostname.empty( ))
+    if (!info.hostname.empty())
         os << "  Hostname  " << info.hostname << std::endl;
-    if( !info.hwAddress.empty( ))
+    if (!info.hwAddress.empty())
         os << "  HWaddr    " << info.hwAddress << std::endl;
-    if( !info.inetAddress.empty( ))
+    if (!info.inetAddress.empty())
         os << "  IPv4      " << info.inetAddress << std::endl;
-    if( !info.inet6Address.empty( ))
+    if (!info.inet6Address.empty())
         os << "  IPv6      " << info.inet6Address << std::endl;
-    if( info.linkspeed != NetInfo::defaultValue )
+    if (info.linkspeed != NetInfo::defaultValue)
         os << "  Linkspeed " << info.linkspeed << "Mbps" << std::endl;
     return os;
 }

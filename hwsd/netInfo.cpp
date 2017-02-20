@@ -20,58 +20,57 @@
 
 namespace hwsd
 {
-    NetInfo::NetInfo()
-        : type( TYPE_UNKNOWN )
-        , linkspeed( defaultValue )
-        , up( false )
-    {}
+NetInfo::NetInfo()
+    : type(TYPE_UNKNOWN)
+    , linkspeed(defaultValue)
+    , up(false)
+{
+}
 
-    bool NetInfo::operator == ( const NetInfo& rhs ) const
-    {
-        return NodeInfo::operator==( rhs ) && type == rhs.type &&
-               name == rhs.name && hostname == rhs.hostname &&
-               hwAddress == rhs.hwAddress &&
-               inetAddress == rhs.inetAddress &&
-               inet6Address == rhs.inet6Address &&
-               linkspeed == rhs.linkspeed && up == rhs.up;
-    }
+bool NetInfo::operator==(const NetInfo& rhs) const
+{
+    return NodeInfo::operator==(rhs) && type == rhs.type && name == rhs.name &&
+           hostname == rhs.hostname && hwAddress == rhs.hwAddress &&
+           inetAddress == rhs.inetAddress && inet6Address == rhs.inet6Address &&
+           linkspeed == rhs.linkspeed && up == rhs.up;
+}
 
-    bool NetInfo::operator != ( const NetInfo& rhs ) const
-    {
-        return !(*this == rhs );
-    }
+bool NetInfo::operator!=(const NetInfo& rhs) const
+{
+    return !(*this == rhs);
+}
 
-    std::string NetInfo::getType() const
+std::string NetInfo::getType() const
+{
+    switch (type)
     {
-        switch( type )
-        {
-        case NetInfo::TYPE_ETHERNET:
-            return "ETHERNET";
-        case NetInfo::TYPE_INFINIBAND:
-            return "INFINIBAND";
-        case NetInfo::TYPE_LOOPBACK:
-            return "LOOPBACK";
-        case NetInfo::TYPE_TUNNEL_ETHERNET:
-            return "TUNNEL_ETHERNET";
-        case NetInfo::TYPE_TUNNEL_6TO4:
-            return "TUNNEL_6TO4";
-        case NetInfo::TYPE_UNKNOWN:
-            return "UNKNOWN";
-        default:
-            LBUNREACHABLE;
-            return "ERROR";
-        }
+    case NetInfo::TYPE_ETHERNET:
+        return "ETHERNET";
+    case NetInfo::TYPE_INFINIBAND:
+        return "INFINIBAND";
+    case NetInfo::TYPE_LOOPBACK:
+        return "LOOPBACK";
+    case NetInfo::TYPE_TUNNEL_ETHERNET:
+        return "TUNNEL_ETHERNET";
+    case NetInfo::TYPE_TUNNEL_6TO4:
+        return "TUNNEL_6TO4";
+    case NetInfo::TYPE_UNKNOWN:
+        return "UNKNOWN";
+    default:
+        LBUNREACHABLE;
+        return "ERROR";
     }
+}
 
-    void NetInfo::setType( const std::string& strType )
-    {
-        if( strType == "ETHERNET" )
-            type = NetInfo::TYPE_ETHERNET;
-        else if( strType == "INFINIBAND" )
-            type = NetInfo::TYPE_INFINIBAND;
-        else if( strType == "LOOPBACK" )
-            type = NetInfo::TYPE_LOOPBACK;
-        else
-            type = NetInfo::TYPE_UNKNOWN;
-    }
+void NetInfo::setType(const std::string& strType)
+{
+    if (strType == "ETHERNET")
+        type = NetInfo::TYPE_ETHERNET;
+    else if (strType == "INFINIBAND")
+        type = NetInfo::TYPE_INFINIBAND;
+    else if (strType == "LOOPBACK")
+        type = NetInfo::TYPE_LOOPBACK;
+    else
+        type = NetInfo::TYPE_UNKNOWN;
+}
 }
