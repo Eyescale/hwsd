@@ -18,6 +18,6 @@ else()
 endif()
 
 common_application(hw_sd_list)
+common_smoke_test(hw_sd_list)
 install(FILES ${HW_SD_LIST_SOURCES} DESTINATION share/hwsd/examples
   COMPONENT examples)
-
