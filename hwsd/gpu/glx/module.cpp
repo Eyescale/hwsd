@@ -138,7 +138,7 @@ GPUInfos Module::discover() const
     }
 
     // try x servers :0 - :n
-    for (unsigned i = 0; i < std::numeric_limits<unsigned>::max(); ++i)
+    for (unsigned i = 0; i < TRY_PORTS; ++i)
         // x screens :n.0 - :n.m
         for (unsigned j = 0; j < std::numeric_limits<unsigned>::max(); ++j)
         {
@@ -151,9 +151,6 @@ GPUInfos Module::discover() const
                 if (info != defaultInfo)
                     result.push_back(info);
             }
-            else if (j == 0 && i >= TRY_PORTS)
-                // X Server does not exist, stop query
-                return result;
             else // X Screen does not exist, try next server
                 break;
         }
