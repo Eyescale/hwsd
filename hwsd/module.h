@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2011, Stefan Eilemann <eile@eyescale.ch>
+/* Copyright (c) 2011-2017, Stefan Eilemann <eile@eyescale.ch>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -24,10 +24,6 @@
 
 namespace hwsd
 {
-namespace detail
-{
-class Module;
-}
 /** Base class for runtime-attached DSOs of a query implementation. */
 template <typename T>
 class Module
@@ -51,8 +47,8 @@ public:
     /** @return information about all found resources. @version 1.0 */
     virtual T discover() const = 0;
 
-    HWSD_INL static Module<T>* stack_; //!< @internal
-    Module<T>* next_;                  //!< @internal
+    static Module<T>*& stack(); //!< @internal
+    Module<T>* next_;           //!< @internal
 };
 }
 
