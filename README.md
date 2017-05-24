@@ -79,10 +79,10 @@ tested:
 
 The build system is using CMake, with the standard CMake build process:
 
-    git clone https://github.com/Eyescale/hwsd.git
+    git clone --recursive https://github.com/Eyescale/hwsd.git
     mkdir hwsd/build
     cd hwsd/build
-    cmake -GNinja ..
+    cmake -GNinja .. -DCLONE_SUBPROJECTS=ON
     ninja
 
 A ZeroConf implementation is required for the dns_sd module and the
