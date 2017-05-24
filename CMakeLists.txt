@@ -11,8 +11,6 @@ if(NOT EXISTS ${CMAKE_SOURCE_DIR}/CMake/common/Common.cmake)
   message(FATAL_ERROR "CMake/common missing, run: git submodule update --init")
 endif()
 
-include(GitExternal)
-
 set(HWSD_DEB_DEPENDS libx11-dev libgl1-mesa-dev qtbase5-dev
   libboost-program-options-dev libboost-regex-dev
   libboost-system-dev)
