@@ -1,12 +1,15 @@
 
-# Copyright (c) 2011-2015 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
+# Copyright (c) 2011-2017 Stefan Eilemann <Stefan.Eilemann@epfl.ch>
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-project(hwsd VERSION 2.0.0)
+project(hwsd VERSION 2.0.1)
 set(hwsd_VERSION_ABI 4)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
-  ${CMAKE_SOURCE_DIR}/CMake/common)
+                              ${CMAKE_SOURCE_DIR}/CMake/common)
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/CMake/common/Common.cmake)
+  message(FATAL_ERROR "CMake/common missing, run: git submodule update --init")
+endif()
 
 include(GitExternal)
 

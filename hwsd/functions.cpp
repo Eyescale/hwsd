@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2012, Daniel Nachbaur <danielnachbaur@gmail.com>
+/* Copyright (c) 2012-2017, Daniel Nachbaur <danielnachbaur@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -22,14 +22,9 @@
 
 namespace hwsd
 {
-template <>
-GPUModule* GPUModule::stack_ = 0;
-template <>
-NetModule* NetModule::stack_ = 0;
-
 bool announceGPUInfos(const std::string& session)
 {
-    for (GPUModule* module = GPUModule::stack_; module; module = module->next_)
+    for (GPUModule* module = GPUModule::stack(); module; module = module->next_)
     {
         if (!module->announce(session))
             return false;
@@ -40,7 +35,7 @@ bool announceGPUInfos(const std::string& session)
 GPUInfos discoverGPUInfos(FilterPtr filter)
 {
     GPUInfos result;
-    for (GPUModule* module = GPUModule::stack_; module; module = module->next_)
+    for (GPUModule* module = GPUModule::stack(); module; module = module->next_)
     {
         const GPUInfos& infos = module->discover();
         for (GPUInfosCIter i = infos.begin(); i != infos.end(); ++i)
@@ -55,7 +50,7 @@ GPUInfos discoverGPUInfos(FilterPtr filter)
 
 bool announceNetInfos(const std::string& session)
 {
-    for (NetModule* module = NetModule::stack_; module; module = module->next_)
+    for (NetModule* module = NetModule::stack(); module; module = module->next_)
     {
         if (!module->announce(session))
             return false;
@@ -66,7 +61,7 @@ bool announceNetInfos(const std::string& session)
 NetInfos discoverNetInfos(FilterPtr filter)
 {
     NetInfos result;
-    for (NetModule* module = NetModule::stack_; module; module = module->next_)
+    for (NetModule* module = NetModule::stack(); module; module = module->next_)
     {
         const NetInfos& infos = module->discover();
         for (NetInfosCIter i = infos.begin(); i != infos.end(); ++i)

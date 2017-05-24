@@ -5,5 +5,5 @@ valgrind.out
 ___*
 CMakeLists.txt.user*
 Makefile
-CMake/common/
 Lunchbox/
+Servus/

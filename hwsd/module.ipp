@@ -1,5 +1,5 @@
 
-/* Copyright (c) 2012, Daniel Nachbaur <danielnachbaur@gmail.com>
+/* Copyright (c) 2012-2017, Daniel Nachbaur <danielnachbaur@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -19,19 +19,19 @@
 
 namespace hwsd
 {
-
-template< typename T > Module< T >::Module()
-    : next_( 0 )
+template <typename T>
+Module<T>::Module()
+    : next_(0)
 {
-    if( !stack_ )
+    if (!stack())
     {
-        stack_ = this;
+        stack() = this;
         return;
     }
 
-    for( Module* module = stack_; module; module = module->next_ )
+    for (Module* module = stack(); module; module = module->next_)
     {
-        if( !module->next_ )
+        if (!module->next_)
         {
             module->next_ = this;
             return;
@@ -39,29 +39,37 @@ template< typename T > Module< T >::Module()
     }
 }
 
-template< typename T > Module< T >::~Module()
+template <typename T>
+Module<T>::~Module()
 {
     Module* previous = 0;
-    for( Module* module = stack_; module; module = module->next_ )
+    for (Module* module = stack(); module; module = module->next_)
     {
-        if( module == this )
+        if (module == this)
         {
-            if( previous )
+            if (previous)
                 previous->next_ = next_;
             else
-                stack_ = next_;
+                stack() = next_;
             break;
         }
         previous = module;
     }
 }
 
-template< typename T >
-bool Module< T >::announce( const std::string& session ) const
+template <typename T>
+Module<T>*& Module<T>::stack()
+{
+    static Module<T>* stack_ = nullptr;
+    return stack_;
+}
+
+template <typename T>
+bool Module<T>::announce(const std::string& session) const
 {
     const T& resources = discover();
-    for( typename T::const_iterator i = resources.begin();
-         i != resources.end(); ++i )
+    for (typename T::const_iterator i = resources.begin(); i != resources.end();
+         ++i)
     {
         typename T::value_type info = *i;
         info.session = session;
@@ -69,5 +77,4 @@ bool Module< T >::announce( const std::string& session ) const
     }
     return true;
 }
-
 }
