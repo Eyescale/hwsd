@@ -37,7 +37,8 @@ GPUInfo::GPUInfo(const std::string& name)
     , unused(0)
 {
     invalidatePVP();
-    strncpy(reinterpret_cast<char*>(&type), name.c_str(), 4);
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
+    strncpy((char*)(&type), name.c_str(), 4);
 }
 
 void GPUInfo::invalidatePVP()
@@ -65,4 +66,4 @@ std::string GPUInfo::getName() const
 {
     return std::string(reinterpret_cast<const char*>(&type), 4);
 }
-}
+} // namespace hwsd
